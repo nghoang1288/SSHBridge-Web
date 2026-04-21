@@ -277,6 +277,17 @@ class UserCrypto {
     return this.getUserDataKey(userId) !== null;
   }
 
+  restoreDEK(userId: string, dek: Buffer, sessionDurationMs: number): void {
+    const oldSession = this.userSessions.get(userId);
+    if (oldSession) {
+      oldSession.dataKey.fill(0);
+    }
+    this.userSessions.set(userId, {
+      dataKey: Buffer.from(dek),
+      expiresAt: Date.now() + sessionDurationMs,
+    });
+  }
+
   async changeUserPassword(
     userId: string,
     oldPassword: string,

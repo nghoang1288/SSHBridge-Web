@@ -27,6 +27,7 @@ interface JWTPayload {
   pendingTOTP?: boolean;
   iat?: number;
   exp?: number;
+  rDek?: string;
 }
 
 interface AuthenticatedRequest extends Request {
@@ -220,6 +221,29 @@ class AuthManager {
     const payload: JWTPayload = { userId };
     if (options.pendingTOTP) {
       payload.pendingTOTP = true;
+    }
+
+    if (options.rememberMe && !options.pendingTOTP) {
+      const dataKey = this.userCrypto.getUserDataKey(userId);
+      if (dataKey) {
+        try {
+          const { createHash, randomBytes, createCipheriv } = await import("crypto");
+          const jwtSecretHex = await this.systemCrypto.getJWTSecret();
+          const serverKey = createHash("sha256").update(jwtSecretHex).digest();
+          const iv = randomBytes(16);
+          const cipher = createCipheriv("aes-256-gcm", serverKey, iv);
+          let encrypted = cipher.update(dataKey);
+          encrypted = Buffer.concat([encrypted, cipher.final()]);
+          const tag = cipher.getAuthTag();
+          payload.rDek = JSON.stringify({
+            d: encrypted.toString("base64"),
+            i: iv.toString("base64"),
+            t: tag.toString("base64"),
+          });
+        } catch (e) {
+          databaseLogger.error("Failed to encrypt rDek for rememberMe", e as Error, { userId });
+        }
+      }
     }
 
     if (!options.pendingTOTP && options.deviceType && options.deviceInfo) {
@@ -669,6 +693,25 @@ class AuthManager {
 
       authReq.userId = payload.userId;
       authReq.pendingTOTP = payload.pendingTOTP;
+
+      if (payload.rDek && !this.userCrypto.isUserUnlocked(payload.userId)) {
+        try {
+          const rDekObj = JSON.parse(payload.rDek);
+          const { createHash, createDecipheriv } = await import("crypto");
+          const jwtSecretHex = await this.systemCrypto.getJWTSecret();
+          const serverKey = createHash("sha256").update(jwtSecretHex).digest();
+          const decipher = createDecipheriv("aes-256-gcm", serverKey, Buffer.from(rDekObj.i, "base64"));
+          decipher.setAuthTag(Buffer.from(rDekObj.t, "base64"));
+          let decrypted = decipher.update(Buffer.from(rDekObj.d, "base64"));
+          decrypted = Buffer.concat([decrypted, decipher.final()]);
+          
+          this.userCrypto.restoreDEK(payload.userId, decrypted, 30 * 24 * 60 * 60 * 1000);
+          databaseLogger.info("Restored user DEK from rememberMe token", { operation: "restore_dek_jwt", userId: payload.userId });
+        } catch (e) {
+          databaseLogger.warn("Failed to decrypt rDek", { operation: "restore_dek_jwt_failed", userId: payload.userId, error: e instanceof Error ? e.message : "Unknown" });
+        }
+      }
+
       next();
     };
   }
