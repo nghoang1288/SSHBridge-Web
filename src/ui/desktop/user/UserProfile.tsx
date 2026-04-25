@@ -43,6 +43,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/ui/desktop/user/LanguageSwitcher.tsx";
 import { useSidebar } from "@/components/ui/sidebar.tsx";
 import { toast } from "sonner";
+import { isCommandAutocompleteEnabled } from "@/lib/terminal-autocomplete.ts";
 
 interface UserProfileProps {
   isTopbarOpen?: boolean;
@@ -119,7 +120,7 @@ export function UserProfile({
     localStorage.getItem("fileColorCoding") !== "false",
   );
   const [commandAutocomplete, setCommandAutocomplete] = useState<boolean>(
-    localStorage.getItem("commandAutocomplete") === "true",
+    () => isCommandAutocompleteEnabled(true),
   );
   const [commandHistoryTracking, setCommandHistoryTracking] = useState<boolean>(
     () => localStorage.getItem("commandHistoryTracking") === "true",
@@ -215,6 +216,7 @@ export function UserProfile({
   const handleCommandAutocompleteToggle = (enabled: boolean) => {
     setCommandAutocomplete(enabled);
     localStorage.setItem("commandAutocomplete", enabled.toString());
+    window.dispatchEvent(new Event("commandAutocompleteChanged"));
   };
 
   const handleCommandHistoryTrackingToggle = (enabled: boolean) => {

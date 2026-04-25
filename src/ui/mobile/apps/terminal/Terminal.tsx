@@ -19,6 +19,7 @@ import {
   isEmbeddedMode,
   getCookie,
   getSnippets,
+  getCommandHistory,
 } from "@/ui/main-axios.ts";
 import { getBasePath } from "@/lib/base-path";
 import { useTheme } from "@/components/theme-provider";
@@ -37,6 +38,16 @@ import {
 } from "@/ui/desktop/navigation/connection-log/ConnectionLogContext.tsx";
 import { ConnectionLog } from "@/ui/desktop/navigation/connection-log/ConnectionLog.tsx";
 import { SimpleLoader } from "@/ui/desktop/navigation/animations/SimpleLoader.tsx";
+import { CommandAutocomplete } from "@/ui/desktop/apps/features/terminal/command-history/CommandAutocomplete.tsx";
+import { useCommandTracker } from "@/ui/hooks/useCommandTracker.ts";
+import {
+  buildCommandAutocompleteSuggestions,
+  getAutocompleteInsertText,
+  isCommandAutocompleteEnabled,
+  shouldRefreshAutocompleteForInput,
+  type CommandAutocompleteSuggestion,
+  type SnippetAutocompleteSource,
+} from "@/lib/terminal-autocomplete.ts";
 
 interface HostConfig {
   id?: number;
@@ -141,6 +152,32 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
     const pendingSizeRef = useRef<{ cols: number; rows: number } | null>(null);
     const notifyTimerRef = useRef<NodeJS.Timeout | null>(null);
     const DEBOUNCE_MS = 140;
+    const [commandHistoryTrackingEnabled, setCommandHistoryTrackingEnabled] =
+      useState<boolean>(
+        () => localStorage.getItem("commandHistoryTracking") === "true",
+      );
+    const [commandAutocompleteEnabled, setCommandAutocompleteEnabled] =
+      useState<boolean>(() => isCommandAutocompleteEnabled(true));
+    const commandAutocompleteEnabledRef = useRef(commandAutocompleteEnabled);
+    const autocompleteHistory = useRef<string[]>([]);
+    const autocompleteSnippets = useRef<SnippetAutocompleteSource[]>([]);
+    const autocompleteRefreshTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const currentAutocompleteCommand = useRef<string>("");
+    const [showAutocomplete, setShowAutocomplete] = useState(false);
+    const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<
+      CommandAutocompleteSuggestion[]
+    >([]);
+    const [autocompleteSelectedIndex, setAutocompleteSelectedIndex] =
+      useState(0);
+    const [autocompletePosition, setAutocompletePosition] = useState({
+      top: 0,
+      left: 0,
+    });
+    const showAutocompleteRef = useRef(false);
+    const autocompleteSuggestionsRef = useRef<CommandAutocompleteSuggestion[]>(
+      [],
+    );
+    const autocompleteSelectedIndexRef = useRef(0);
 
     useEffect(() => {
       isUnmountingRef.current = false;
@@ -155,6 +192,107 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
     useEffect(() => {
       isVisibleRef.current = isVisible;
     }, [isVisible]);
+
+    useEffect(() => {
+      commandAutocompleteEnabledRef.current = commandAutocompleteEnabled;
+    }, [commandAutocompleteEnabled]);
+
+    useEffect(() => {
+      showAutocompleteRef.current = showAutocomplete;
+    }, [showAutocomplete]);
+
+    useEffect(() => {
+      autocompleteSuggestionsRef.current = autocompleteSuggestions;
+    }, [autocompleteSuggestions]);
+
+    useEffect(() => {
+      autocompleteSelectedIndexRef.current = autocompleteSelectedIndex;
+    }, [autocompleteSelectedIndex]);
+
+    useEffect(() => {
+      const handleCommandHistoryTrackingChanged = () => {
+        setCommandHistoryTrackingEnabled(
+          localStorage.getItem("commandHistoryTracking") === "true",
+        );
+      };
+      const handleCommandAutocompleteChanged = () => {
+        setCommandAutocompleteEnabled(isCommandAutocompleteEnabled(true));
+      };
+
+      window.addEventListener(
+        "commandHistoryTrackingChanged",
+        handleCommandHistoryTrackingChanged,
+      );
+      window.addEventListener(
+        "commandAutocompleteChanged",
+        handleCommandAutocompleteChanged,
+      );
+      window.addEventListener("storage", handleCommandAutocompleteChanged);
+
+      return () => {
+        window.removeEventListener(
+          "commandHistoryTrackingChanged",
+          handleCommandHistoryTrackingChanged,
+        );
+        window.removeEventListener(
+          "commandAutocompleteChanged",
+          handleCommandAutocompleteChanged,
+        );
+        window.removeEventListener("storage", handleCommandAutocompleteChanged);
+      };
+    }, []);
+
+    const { trackInput, getCurrentCommand, updateCurrentCommand } =
+      useCommandTracker({
+        hostId: hostConfig.id,
+        enabled: commandHistoryTrackingEnabled,
+        onCommandExecuted: (command) => {
+          if (!autocompleteHistory.current.includes(command)) {
+            autocompleteHistory.current = [
+              command,
+              ...autocompleteHistory.current,
+            ];
+          }
+        },
+      });
+
+    const getCurrentCommandRef = useRef(getCurrentCommand);
+    const updateCurrentCommandRef = useRef(updateCurrentCommand);
+
+    useEffect(() => {
+      getCurrentCommandRef.current = getCurrentCommand;
+      updateCurrentCommandRef.current = updateCurrentCommand;
+    }, [getCurrentCommand, updateCurrentCommand]);
+
+    useEffect(() => {
+      if (!commandAutocompleteEnabled) {
+        autocompleteHistory.current = [];
+        autocompleteSnippets.current = [];
+        return;
+      }
+
+      getSnippets()
+        .then((snippets) => {
+          autocompleteSnippets.current = Array.isArray(snippets)
+            ? (snippets as SnippetAutocompleteSource[])
+            : [];
+        })
+        .catch((error) => {
+          console.error("Failed to load autocomplete snippets:", error);
+          autocompleteSnippets.current = [];
+        });
+
+      if (hostConfig.id) {
+        getCommandHistory(hostConfig.id)
+          .then((history) => {
+            autocompleteHistory.current = history;
+          })
+          .catch((error) => {
+            console.error("Failed to load autocomplete history:", error);
+            autocompleteHistory.current = [];
+          });
+      }
+    }, [hostConfig.id, commandAutocompleteEnabled]);
 
     useEffect(() => {
       const checkAuth = () => {
@@ -234,6 +372,183 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
           lastSentSizeRef.current = next;
         }
       }, DEBOUNCE_MS);
+    }
+
+    function writeInputToTerminal(data: string) {
+      if (webSocketRef.current?.readyState !== WebSocket.OPEN) return;
+      webSocketRef.current.send(JSON.stringify({ type: "input", data }));
+    }
+
+    function hideAutocomplete() {
+      if (autocompleteRefreshTimerRef.current) {
+        clearTimeout(autocompleteRefreshTimerRef.current);
+        autocompleteRefreshTimerRef.current = null;
+      }
+      setShowAutocomplete(false);
+      setAutocompleteSuggestions([]);
+      currentAutocompleteCommand.current = "";
+    }
+
+    function updateAutocompletePosition(suggestionCount: number) {
+      if (!terminal) return;
+
+      const cursorY = terminal.buffer.active.cursorY;
+      const cursorX = terminal.buffer.active.cursorX;
+      const rect = xtermRef.current?.getBoundingClientRect();
+
+      if (!rect) return;
+
+      const cellHeight = terminal.rows > 0 ? rect.height / terminal.rows : 20;
+      const cellWidth = terminal.cols > 0 ? rect.width / terminal.cols : 10;
+      const itemHeight = 42;
+      const footerHeight = 32;
+      const maxMenuHeight = 240;
+      const estimatedMenuHeight = Math.min(
+        suggestionCount * itemHeight + footerHeight,
+        maxMenuHeight,
+      );
+      const cursorBottomY = rect.top + (cursorY + 1) * cellHeight;
+      const cursorTopY = rect.top + cursorY * cellHeight;
+      const spaceBelow = window.innerHeight - cursorBottomY;
+      const spaceAbove = cursorTopY;
+      const showAbove =
+        spaceBelow < estimatedMenuHeight && spaceAbove > spaceBelow;
+
+      setAutocompletePosition({
+        top: showAbove
+          ? Math.max(0, cursorTopY - estimatedMenuHeight)
+          : cursorBottomY,
+        left: Math.max(0, rect.left + cursorX * cellWidth),
+      });
+    }
+
+    function showAutocompleteForCurrentCommand() {
+      if (!commandAutocompleteEnabledRef.current) {
+        hideAutocomplete();
+        return [];
+      }
+
+      const currentCommand = getCurrentCommandRef.current().trim();
+      if (currentCommand.length === 0) {
+        hideAutocomplete();
+        return [];
+      }
+
+      const matches = buildCommandAutocompleteSuggestions(currentCommand, {
+        history: autocompleteHistory.current,
+        snippets: autocompleteSnippets.current,
+        limit: 8,
+      });
+
+      if (matches.length === 0) {
+        hideAutocomplete();
+        return [];
+      }
+
+      currentAutocompleteCommand.current = currentCommand;
+      setAutocompleteSuggestions(matches);
+      setAutocompleteSelectedIndex(0);
+      updateAutocompletePosition(matches.length);
+      setShowAutocomplete(true);
+      return matches;
+    }
+
+    function scheduleAutocompleteRefresh(data: string) {
+      if (!commandAutocompleteEnabledRef.current) return;
+
+      if (data.includes("\r") || data.includes("\n")) {
+        hideAutocomplete();
+        return;
+      }
+
+      if (!shouldRefreshAutocompleteForInput(data)) {
+        if (data.includes("\x1b")) hideAutocomplete();
+        return;
+      }
+
+      if (autocompleteRefreshTimerRef.current) {
+        clearTimeout(autocompleteRefreshTimerRef.current);
+      }
+
+      autocompleteRefreshTimerRef.current = setTimeout(() => {
+        showAutocompleteForCurrentCommand();
+      }, 80);
+    }
+
+    function applyAutocompleteSuggestion(
+      suggestion: CommandAutocompleteSuggestion,
+    ) {
+      const currentCommand = currentAutocompleteCommand.current;
+      const insertText = getAutocompleteInsertText(
+        currentCommand,
+        suggestion.value,
+      );
+
+      writeInputToTerminal(insertText);
+      updateCurrentCommandRef.current(suggestion.value);
+      hideAutocomplete();
+
+      setTimeout(() => {
+        terminal?.focus();
+      }, 50);
+    }
+
+    function cycleAutocompleteSelection(direction: 1 | -1) {
+      const suggestionsLength = autocompleteSuggestionsRef.current.length;
+      if (suggestionsLength === 0) return;
+
+      const currentIndex = autocompleteSelectedIndexRef.current;
+      const newIndex =
+        direction === 1
+          ? currentIndex < suggestionsLength - 1
+            ? currentIndex + 1
+            : 0
+          : currentIndex > 0
+            ? currentIndex - 1
+            : suggestionsLength - 1;
+
+      setAutocompleteSelectedIndex(newIndex);
+    }
+
+    function handleAutocompleteInput(data: string): boolean {
+      if (!commandAutocompleteEnabledRef.current) return false;
+
+      if (showAutocompleteRef.current) {
+        if (data === "\x1b") {
+          hideAutocomplete();
+          return true;
+        }
+
+        if (data === "\x1b[B" || data === "\x1b[A") {
+          cycleAutocompleteSelection(data === "\x1b[B" ? 1 : -1);
+          return true;
+        }
+
+        if (data === "\t") {
+          cycleAutocompleteSelection(1);
+          return true;
+        }
+
+        if (data === "\r") {
+          const selectedSuggestion =
+            autocompleteSuggestionsRef.current[
+              autocompleteSelectedIndexRef.current
+            ];
+          if (selectedSuggestion) {
+            applyAutocompleteSuggestion(selectedSuggestion);
+            return true;
+          }
+        }
+      }
+
+      if (data === "\t") {
+        const matches = showAutocompleteForCurrentCommand();
+        if (matches.length === 0) return false;
+        if (matches.length === 1) applyAutocompleteSuggestion(matches[0]);
+        return true;
+      }
+
+      return false;
     }
 
     function handleTotpSubmit(code: string) {
@@ -368,7 +683,10 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
           hardRefresh();
         },
         sendInput: (data: string) => {
+          if (handleAutocompleteInput(data)) return;
           if (webSocketRef.current?.readyState === 1) {
+            trackInput(data);
+            scheduleAutocompleteRefresh(data);
             webSocketRef.current.send(JSON.stringify({ type: "input", data }));
           }
         },
@@ -598,6 +916,8 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
           }),
         );
         terminal.onData((data) => {
+          trackInput(data);
+          scheduleAutocompleteRefresh(data);
           ws.send(JSON.stringify({ type: "input", data }));
         });
 
@@ -1113,6 +1433,8 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
         clipboardProvider.dispose();
         currentElement?.removeEventListener("paste", handlePaste);
         if (notifyTimerRef.current) clearTimeout(notifyTimerRef.current);
+        if (autocompleteRefreshTimerRef.current)
+          clearTimeout(autocompleteRefreshTimerRef.current);
         if (resizeTimeout.current) clearTimeout(resizeTimeout.current);
         if (pingIntervalRef.current) {
           clearInterval(pingIntervalRef.current);
@@ -1124,6 +1446,88 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
         isFittingRef.current = false;
       };
     }, [xtermRef, terminal, hostConfig, isAuthenticated, isDarkMode]);
+
+    useEffect(() => {
+      if (!terminal) return;
+
+      const handleCustomKey = (e: KeyboardEvent): boolean => {
+        if (e.type !== "keydown") return true;
+
+        if (showAutocompleteRef.current) {
+          if (e.key === "Escape") {
+            e.preventDefault();
+            e.stopPropagation();
+            hideAutocomplete();
+            return false;
+          }
+
+          if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();
+            e.stopPropagation();
+            cycleAutocompleteSelection(e.key === "ArrowDown" ? 1 : -1);
+            return false;
+          }
+
+          if (
+            e.key === "Enter" &&
+            autocompleteSuggestionsRef.current.length > 0
+          ) {
+            e.preventDefault();
+            e.stopPropagation();
+            const selectedSuggestion =
+              autocompleteSuggestionsRef.current[
+                autocompleteSelectedIndexRef.current
+              ];
+            applyAutocompleteSuggestion(selectedSuggestion);
+            return false;
+          }
+
+          if (
+            e.key === "Tab" &&
+            !e.ctrlKey &&
+            !e.altKey &&
+            !e.metaKey &&
+            !e.shiftKey
+          ) {
+            e.preventDefault();
+            e.stopPropagation();
+            cycleAutocompleteSelection(1);
+            return false;
+          }
+
+          hideAutocomplete();
+          return true;
+        }
+
+        if (
+          e.key === "Tab" &&
+          !e.ctrlKey &&
+          !e.altKey &&
+          !e.metaKey &&
+          !e.shiftKey
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          if (!commandAutocompleteEnabledRef.current) {
+            writeInputToTerminal("\t");
+            return false;
+          }
+
+          const matches = showAutocompleteForCurrentCommand();
+          if (matches.length === 0) {
+            writeInputToTerminal("\t");
+          } else if (matches.length === 1) {
+            applyAutocompleteSuggestion(matches[0]);
+          }
+          return false;
+        }
+
+        return true;
+      };
+
+      terminal.attachCustomKeyEventHandler(handleCustomKey);
+    }, [terminal]);
 
     useEffect(() => {
       return () => {
@@ -1138,6 +1542,8 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
         if (totpTimeoutRef.current) clearTimeout(totpTimeoutRef.current);
         if (warpgateTimeoutRef.current)
           clearTimeout(warpgateTimeoutRef.current);
+        if (autocompleteRefreshTimerRef.current)
+          clearTimeout(autocompleteRefreshTimerRef.current);
         if (pingIntervalRef.current) {
           clearInterval(pingIntervalRef.current);
           pingIntervalRef.current = null;
@@ -1182,6 +1588,14 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
           isConnected={isConnected}
           hasConnectionError={hasConnectionError}
           position={hasConnectionError ? "top" : "bottom"}
+        />
+
+        <CommandAutocomplete
+          visible={showAutocomplete}
+          suggestions={autocompleteSuggestions}
+          selectedIndex={autocompleteSelectedIndex}
+          position={autocompletePosition}
+          onSelect={applyAutocompleteSuggestion}
         />
 
         <TOTPDialog
