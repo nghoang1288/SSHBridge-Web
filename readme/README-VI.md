@@ -17,9 +17,9 @@
   <a href="README-IT.md"><img src="https://flagcdn.com/it.svg" alt="Italiano" width="24" height="16"> Italiano</a>
 </p>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/Termix?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/nghoang1288/Termix?style=flat&label=Forks)
-![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/Termix?style=flat&label=Release)
+![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/SSHBridge-Web?style=flat&label=Stars)
+![GitHub forks](https://img.shields.io/github/forks/nghoang1288/SSHBridge-Web?style=flat&label=Forks)
+![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/SSHBridge-Web?style=flat&label=Release)
 <a href="https://discord.gg/jVQGdvHDrf"><img alt="Discord" src="https://img.shields.io/discord/1347374268253470720"></a>
 
 <p align="center">
@@ -30,7 +30,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
 </p>
 
@@ -40,7 +40,7 @@ Nếu bạn muốn, bạn có thể hỗ trợ dự án tại đây!\
 # Tổng Quan
 
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../public/icon.svg style="width: 250px; height: 250px;">  </a>
 </p>
 
@@ -74,7 +74,7 @@ SSHBridge là nền tảng quản lý máy chủ tất cả trong một, mã ngu
 
 # Tính Năng Dự Kiến
 
-Xem [Dự Án](https://github.com/nghoang1288/Termix) để biết tất cả các tính năng dự kiến. Nếu bạn muốn đóng góp, xem [Đóng Góp](https://github.com/nghoang1288/Termix/blob/main/CONTRIBUTING.md).
+Xem [Dự Án](https://github.com/nghoang1288/SSHBridge-Web) để biết tất cả các tính năng dự kiến. Nếu bạn muốn đóng góp, xem [Đóng Góp](https://github.com/nghoang1288/SSHBridge-Web/blob/main/CONTRIBUTING.md).
 
 # Cài Đặt
 
@@ -173,7 +173,7 @@ networks:
 
 # Hỗ Trợ
 
-Nếu bạn cần trợ giúp hoặc muốn yêu cầu tính năng với SSHBridge, hãy truy cập trang [Vấn Đề](https://github.com/nghoang1288/Termix/issues), đăng nhập và nhấn `New Issue`.
+Nếu bạn cần trợ giúp hoặc muốn yêu cầu tính năng với SSHBridge, hãy truy cập trang [Vấn Đề](https://github.com/nghoang1288/SSHBridge-Web/issues), đăng nhập và nhấn `New Issue`.
 Vui lòng mô tả vấn đề càng chi tiết càng tốt, ưu tiên viết bằng tiếng Anh. Bạn cũng có thể tham gia máy chủ [Discord](https://discord.gg/jVQGdvHDrf) và truy cập kênh hỗ trợ, tuy nhiên thời gian phản hồi có thể lâu hơn.
 
 # Ảnh Chụp Màn Hình

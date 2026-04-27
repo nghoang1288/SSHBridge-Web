@@ -17,9 +17,9 @@
   <a href="README-IT.md"><img src="https://flagcdn.com/it.svg" alt="Italiano" width="24" height="16"> Italiano</a>
 </p>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/Termix?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/nghoang1288/Termix?style=flat&label=Forks)
-![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/Termix?style=flat&label=Release)
+![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/SSHBridge-Web?style=flat&label=Stars)
+![GitHub forks](https://img.shields.io/github/forks/nghoang1288/SSHBridge-Web?style=flat&label=Forks)
+![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/SSHBridge-Web?style=flat&label=Release)
 <a href="https://discord.gg/jVQGdvHDrf"><img alt="Discord" src="https://img.shields.io/discord/1347374268253470720"></a>
 
 <p align="center">
@@ -30,7 +30,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
 </p>
 
@@ -40,7 +40,7 @@
 # 개요
 
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../public/icon.svg style="width: 250px; height: 250px;">  </a>
 </p>
 
@@ -74,7 +74,7 @@ SSHBridge는 오픈 소스이며 영구 무료인 셀프 호스팅 올인원 서
 
 # 계획된 기능
 
-모든 계획된 기능은 [Projects](https://github.com/nghoang1288/Termix)를 참조하세요. 기여를 원하시면 [Contributing](https://github.com/nghoang1288/Termix/blob/main/CONTRIBUTING.md)을 참조하세요.
+모든 계획된 기능은 [Projects](https://github.com/nghoang1288/SSHBridge-Web)를 참조하세요. 기여를 원하시면 [Contributing](https://github.com/nghoang1288/SSHBridge-Web/blob/main/CONTRIBUTING.md)을 참조하세요.
 
 # 설치
 
@@ -173,7 +173,7 @@ networks:
 
 # 지원
 
-SSHBridge에 대한 도움이 필요하거나 기능을 요청하려면 [Issues](https://github.com/nghoang1288/Termix/issues) 페이지를 방문하여 로그인하고 `New Issue`를 누르세요. 이슈는 가능한 한 상세하게 작성하고, 영어로 작성하는 것이 좋습니다. [Discord](https://discord.gg/jVQGdvHDrf) 서버에 참여하여 지원 채널을 이용할 수도 있지만, 응답 시간이 더 길 수 있습니다.
+SSHBridge에 대한 도움이 필요하거나 기능을 요청하려면 [Issues](https://github.com/nghoang1288/SSHBridge-Web/issues) 페이지를 방문하여 로그인하고 `New Issue`를 누르세요. 이슈는 가능한 한 상세하게 작성하고, 영어로 작성하는 것이 좋습니다. [Discord](https://discord.gg/jVQGdvHDrf) 서버에 참여하여 지원 채널을 이용할 수도 있지만, 응답 시간이 더 길 수 있습니다.
 
 # 스크린샷
 

@@ -2415,6 +2415,6 @@ wss.on("connection", async (ws: WebSocket, req) => {
   // keepaliveCountMax, tcpKeepAlive), which handles connection health monitoring
   // without producing visible output on the terminal.
   //
-  // See: https://github.com/nghoang1288/Termix/issues/232
-  // See: https://github.com/nghoang1288/Termix/issues/309
+  // See: https://github.com/nghoang1288/SSHBridge-Web/issues/232
+  // See: https://github.com/nghoang1288/SSHBridge-Web/issues/309
 });

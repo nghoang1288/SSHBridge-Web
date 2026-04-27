@@ -29,15 +29,15 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/nghoang1288/Termix/main/public/screenshots/terminal.png</image>
+      <image>https://raw.githubusercontent.com/nghoang1288/SSHBridge-Web/main/public/screenshots/terminal.png</image>
       <caption>SSH Terminal Interface</caption>
     </screenshot>
   </screenshots>
 
-  <url type="homepage">https://github.com/nghoang1288/Termix</url>
-  <url type="bugtracker">https://github.com/nghoang1288/Termix/issues</url>
+  <url type="homepage">https://github.com/nghoang1288/SSHBridge-Web</url>
+  <url type="bugtracker">https://github.com/nghoang1288/SSHBridge-Web/issues</url>
   <url type="help">https://docs.termix.site</url>
-  <url type="vcs-browser">https://github.com/nghoang1288/Termix</url>
+  <url type="vcs-browser">https://github.com/nghoang1288/SSHBridge-Web</url>
 
   <content_rating type="oars-1.1">
     <content_attribute id="social-info">moderate</content_attribute>
@@ -48,7 +48,7 @@
       <description>
         <p>Latest release of SSHBridge</p>
       </description>
-      <url>https://github.com/nghoang1288/Termix/releases</url>
+      <url>https://github.com/nghoang1288/SSHBridge-Web/releases</url>
     </release>
   </releases>
 

@@ -58,14 +58,14 @@ modules:
 
     sources:
       - type: file
-        url: https://github.com/nghoang1288/Termix/releases/download/release-VERSION_PLACEHOLDER-tag/sshbridge_linux_x64_appimage.AppImage
+        url: https://github.com/nghoang1288/SSHBridge-Web/releases/download/release-VERSION_PLACEHOLDER-tag/sshbridge_linux_x64_appimage.AppImage
         sha256: CHECKSUM_X64_PLACEHOLDER
         dest-filename: sshbridge.AppImage
         only-arches:
           - x86_64
 
       - type: file
-        url: https://github.com/nghoang1288/Termix/releases/download/release-VERSION_PLACEHOLDER-tag/sshbridge_linux_arm64_appimage.AppImage
+        url: https://github.com/nghoang1288/SSHBridge-Web/releases/download/release-VERSION_PLACEHOLDER-tag/sshbridge_linux_arm64_appimage.AppImage
         sha256: CHECKSUM_ARM64_PLACEHOLDER
         dest-filename: sshbridge.AppImage
         only-arches:

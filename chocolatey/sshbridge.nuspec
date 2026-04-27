@@ -3,17 +3,17 @@
   <metadata>
     <id>sshbridge</id>
     <version>VERSION_PLACEHOLDER</version>
-    <packageSourceUrl>https://github.com/nghoang1288/Termix</packageSourceUrl>
+    <packageSourceUrl>https://github.com/nghoang1288/SSHBridge-Web</packageSourceUrl>
     <owners>nghoang1288</owners>
     <title>SSHBridge</title>
     <authors>nghoang1288</authors>
-    <projectUrl>https://github.com/nghoang1288/Termix</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/nghoang1288/Termix/main/public/icon.png</iconUrl>
-    <licenseUrl>https://raw.githubusercontent.com/nghoang1288/Termix/refs/heads/main/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/nghoang1288/SSHBridge-Web</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/nghoang1288/SSHBridge-Web/main/public/icon.png</iconUrl>
+    <licenseUrl>https://raw.githubusercontent.com/nghoang1288/SSHBridge-Web/refs/heads/main/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <projectSourceUrl>https://github.com/nghoang1288/Termix</projectSourceUrl>
+    <projectSourceUrl>https://github.com/nghoang1288/SSHBridge-Web</projectSourceUrl>
     <docsUrl>https://docs.termix.site/install</docsUrl>
-    <bugTrackerUrl>https://github.com/nghoang1288/Termix/issues</bugTrackerUrl>
+    <bugTrackerUrl>https://github.com/nghoang1288/SSHBridge-Web/issues</bugTrackerUrl>
     <tags>docker ssh self-hosted file-management ssh-tunnel sshbridge server-management terminal</tags>
     <summary>SSHBridge is a web-based server management platform with SSH terminal, tunneling, and file editing capabilities.</summary>
     <description>
@@ -27,7 +27,7 @@ SSHBridge offers:
 
 This package installs the desktop application version of SSHBridge.
     </description>
-    <releaseNotes>https://github.com/nghoang1288/Termix/releases</releaseNotes>
+    <releaseNotes>https://github.com/nghoang1288/SSHBridge-Web/releases</releaseNotes>
   </metadata>
   <files>
     <file src="tools\**" target="tools" />

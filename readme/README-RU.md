@@ -17,9 +17,9 @@
   <a href="README-IT.md"><img src="https://flagcdn.com/it.svg" alt="Italiano" width="24" height="16"> Italiano</a>
 </p>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/Termix?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/nghoang1288/Termix?style=flat&label=Forks)
-![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/Termix?style=flat&label=Release)
+![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/SSHBridge-Web?style=flat&label=Stars)
+![GitHub forks](https://img.shields.io/github/forks/nghoang1288/SSHBridge-Web?style=flat&label=Forks)
+![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/SSHBridge-Web?style=flat&label=Release)
 <a href="https://discord.gg/jVQGdvHDrf"><img alt="Discord" src="https://img.shields.io/discord/1347374268253470720"></a>
 
 <p align="center">
@@ -30,7 +30,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
 </p>
 
@@ -40,7 +40,7 @@
 # Обзор
 
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../public/icon.svg style="width: 250px; height: 250px;">  </a>
 </p>
 
@@ -74,7 +74,7 @@ SSHBridge — это платформа для управления сервер
 
 # Запланированные функции
 
-Смотрите [Проекты](https://github.com/nghoang1288/Termix) для просмотра всех запланированных функций. Если вы хотите внести вклад, смотрите [Участие в разработке](https://github.com/nghoang1288/Termix/blob/main/CONTRIBUTING.md).
+Смотрите [Проекты](https://github.com/nghoang1288/SSHBridge-Web) для просмотра всех запланированных функций. Если вы хотите внести вклад, смотрите [Участие в разработке](https://github.com/nghoang1288/SSHBridge-Web/blob/main/CONTRIBUTING.md).
 
 # Установка
 
@@ -173,7 +173,7 @@ networks:
 
 # Поддержка
 
-Если вам нужна помощь или вы хотите запросить новую функцию для SSHBridge, посетите страницу [Проблемы](https://github.com/nghoang1288/Termix/issues), войдите в систему и нажмите `New Issue`.
+Если вам нужна помощь или вы хотите запросить новую функцию для SSHBridge, посетите страницу [Проблемы](https://github.com/nghoang1288/SSHBridge-Web/issues), войдите в систему и нажмите `New Issue`.
 Пожалуйста, опишите вашу проблему как можно подробнее, предпочтительно на английском языке. Вы также можете присоединиться к серверу [Discord](https://discord.gg/jVQGdvHDrf) и обратиться в канал поддержки, однако время ответа может быть дольше.
 
 # Скриншоты

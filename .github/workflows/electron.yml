@@ -307,8 +307,8 @@ jobs:
           convert public/icon.png -resize 128x128 flatpak-build/icon-128.png
 
           cd flatpak-build
-          sed -i "s|https://github.com/nghoang1288/Termix/releases/download/release-VERSION_PLACEHOLDER-tag/sshbridge_linux_x64_appimage.AppImage|file://$(realpath ../release/sshbridge_linux_x64_appimage.AppImage)|g" com.nghoang.sshbridge.yml
-          sed -i "s|https://github.com/nghoang1288/Termix/releases/download/release-VERSION_PLACEHOLDER-tag/sshbridge_linux_arm64_appimage.AppImage|file://$(realpath ../release/sshbridge_linux_arm64_appimage.AppImage)|g" com.nghoang.sshbridge.yml
+          sed -i "s|https://github.com/nghoang1288/SSHBridge-Web/releases/download/release-VERSION_PLACEHOLDER-tag/sshbridge_linux_x64_appimage.AppImage|file://$(realpath ../release/sshbridge_linux_x64_appimage.AppImage)|g" com.nghoang.sshbridge.yml
+          sed -i "s|https://github.com/nghoang1288/SSHBridge-Web/releases/download/release-VERSION_PLACEHOLDER-tag/sshbridge_linux_arm64_appimage.AppImage|file://$(realpath ../release/sshbridge_linux_arm64_appimage.AppImage)|g" com.nghoang.sshbridge.yml
           sed -i "s/CHECKSUM_X64_PLACEHOLDER/$CHECKSUM_X64/g" com.nghoang.sshbridge.yml
           sed -i "s/CHECKSUM_ARM64_PLACEHOLDER/$CHECKSUM_ARM64/g" com.nghoang.sshbridge.yml
           sed -i "s/VERSION_PLACEHOLDER/$VERSION/g" com.nghoang.sshbridge.metainfo.xml
@@ -605,7 +605,7 @@ jobs:
         run: |
           $VERSION = "${{ steps.package-version.outputs.version }}"
           $MSI_NAME = "sshbridge_windows_x64_msi.msi"
-          $DOWNLOAD_URL = "https://github.com/nghoang1288/Termix/releases/download/release-$($VERSION)-tag/$($MSI_NAME)"
+          $DOWNLOAD_URL = "https://github.com/nghoang1288/SSHBridge-Web/releases/download/release-$($VERSION)-tag/$($MSI_NAME)"
 
           Write-Host "Downloading from $DOWNLOAD_URL"
           New-Item -ItemType Directory -Force -Path "release_asset"
@@ -628,7 +628,7 @@ jobs:
           $CHECKSUM = "${{ steps.msi-info.outputs.checksum }}"
           $MSI_NAME = "${{ steps.msi-info.outputs.msi_name }}"
 
-          $DOWNLOAD_URL = "https://github.com/nghoang1288/Termix/releases/download/release-$VERSION-tag/$MSI_NAME"
+          $DOWNLOAD_URL = "https://github.com/nghoang1288/SSHBridge-Web/releases/download/release-$VERSION-tag/$MSI_NAME"
 
           New-Item -ItemType Directory -Force -Path "choco-build"
           Copy-Item -Path "chocolatey\*" -Destination "choco-build" -Recurse -Force
@@ -715,7 +715,7 @@ jobs:
           mkdir -p release_assets
 
           APPIMAGE_X64_NAME="sshbridge_linux_x64_appimage.AppImage"
-          URL_X64="https://github.com/nghoang1288/Termix/releases/download/release-$VERSION-tag/$APPIMAGE_X64_NAME"
+          URL_X64="https://github.com/nghoang1288/SSHBridge-Web/releases/download/release-$VERSION-tag/$APPIMAGE_X64_NAME"
           PATH_X64="release_assets/$APPIMAGE_X64_NAME"
           echo "Downloading x64 AppImage from $URL_X64"
           curl -L -o "$PATH_X64" "$URL_X64"
@@ -723,7 +723,7 @@ jobs:
           CHECKSUM_X64=$(sha256sum "$PATH_X64" | awk '{print $1}')
 
           APPIMAGE_ARM64_NAME="sshbridge_linux_arm64_appimage.AppImage"
-          URL_ARM64="https://github.com/nghoang1288/Termix/releases/download/release-$VERSION-tag/$APPIMAGE_ARM64_NAME"
+          URL_ARM64="https://github.com/nghoang1288/SSHBridge-Web/releases/download/release-$VERSION-tag/$APPIMAGE_ARM64_NAME"
           PATH_ARM64="release_assets/$APPIMAGE_ARM64_NAME"
           echo "Downloading arm64 AppImage from $URL_ARM64"
           curl -L -o "$PATH_ARM64" "$URL_ARM64"
@@ -798,7 +798,7 @@ jobs:
         run: |
           VERSION="${{ steps.package-version.outputs.version }}"
           DMG_NAME="sshbridge_macos_universal_dmg.dmg"
-          URL="https://github.com/nghoang1288/Termix/releases/download/release-$VERSION-tag/$DMG_NAME"
+          URL="https://github.com/nghoang1288/SSHBridge-Web/releases/download/release-$VERSION-tag/$DMG_NAME"
 
           mkdir -p release_asset
           DOWNLOAD_PATH="release_asset/$DMG_NAME"

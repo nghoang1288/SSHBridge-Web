@@ -4,9 +4,9 @@
 🇺🇸 English · <a href="readme/README-CN.md">🇨🇳 中文</a> · <a href="readme/README-JA.md">🇯🇵 日本語</a> · <a href="readme/README-KO.md">🇰🇷 한국어</a> · <a href="readme/README-FR.md">🇫🇷 Français</a> · <a href="readme/README-DE.md">🇩🇪 Deutsch</a> · <a href="readme/README-ES.md">🇪🇸 Español</a> · <a href="readme/README-PT.md">🇧🇷 Português</a> · <a href="readme/README-RU.md">🇷🇺 Русский</a> · <a href="readme/README-AR.md">🇸🇦 العربية</a> · <a href="readme/README-HI.md">🇮🇳 हिन्दी</a> · <a href="readme/README-TR.md">🇹🇷 Türkçe</a> · <a href="readme/README-VI.md">🇻🇳 Tiếng Việt</a> · <a href="readme/README-IT.md">🇮🇹 Italiano</a>
 </p>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/Termix?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/nghoang1288/Termix?style=flat&label=Forks)
-![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/Termix?style=flat&label=Release)
+![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/SSHBridge-Web?style=flat&label=Stars)
+![GitHub forks](https://img.shields.io/github/forks/nghoang1288/SSHBridge-Web?style=flat&label=Forks)
+![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/SSHBridge-Web?style=flat&label=Release)
 <a href="https://discord.gg/jVQGdvHDrf"><img alt="Discord" src="https://img.shields.io/discord/1347374268253470720"></a>
 
 <p align="center">
@@ -17,14 +17,14 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=./repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
 </p>
 
 # Overview
 
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=./public/icon.svg style="width: 250px; height: 250px;">  </a>
 </p>
 
@@ -61,7 +61,7 @@ free and self-hosted alternative to Termius available for all platforms.
 
 # Planned Features
 
-See [Projects](https://github.com/nghoang1288/Termix) for all planned features. If you are looking to contribute, see [Contributing](https://github.com/nghoang1288/Termix/blob/main/CONTRIBUTING.md).
+See [Projects](https://github.com/nghoang1288/SSHBridge-Web) for all planned features. If you are looking to contribute, see [Contributing](https://github.com/nghoang1288/SSHBridge-Web/blob/main/CONTRIBUTING.md).
 
 # Installation
 
@@ -161,7 +161,7 @@ networks:
 
 # Support
 
-If you need help or want to request a feature with SSHBridge, visit the [Issues](https://github.com/nghoang1288/Termix/issues) page, log in, and press `New Issue`.
+If you need help or want to request a feature with SSHBridge, visit the [Issues](https://github.com/nghoang1288/SSHBridge-Web/issues) page, log in, and press `New Issue`.
 Please be as detailed as possible in your issue, preferably written in English. You can also join the [Discord](https://discord.gg/jVQGdvHDrf) server and visit the support
 channel, however, response times may be longer.
 

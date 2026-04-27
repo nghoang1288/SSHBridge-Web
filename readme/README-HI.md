@@ -17,9 +17,9 @@
   <a href="README-IT.md"><img src="https://flagcdn.com/it.svg" alt="Italiano" width="24" height="16"> Italiano</a>
 </p>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/Termix?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/nghoang1288/Termix?style=flat&label=Forks)
-![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/Termix?style=flat&label=Release)
+![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/SSHBridge-Web?style=flat&label=Stars)
+![GitHub forks](https://img.shields.io/github/forks/nghoang1288/SSHBridge-Web?style=flat&label=Forks)
+![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/SSHBridge-Web?style=flat&label=Release)
 <a href="https://discord.gg/jVQGdvHDrf"><img alt="Discord" src="https://img.shields.io/discord/1347374268253470720"></a>
 
 <p align="center">
@@ -30,7 +30,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
 </p>
 
@@ -40,7 +40,7 @@
 # अवलोकन
 
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../public/icon.svg style="width: 250px; height: 250px;">  </a>
 </p>
 
@@ -74,7 +74,7 @@ SSHBridge एक ओपन-सोर्स, हमेशा के लिए म
 
 # नियोजित विशेषताएँ
 
-सभी नियोजित विशेषताओं के लिए [प्रोजेक्ट्स](https://github.com/nghoang1288/Termix) देखें। यदि आप योगदान देना चाहते हैं, तो [योगदान](https://github.com/nghoang1288/Termix/blob/main/CONTRIBUTING.md) देखें।
+सभी नियोजित विशेषताओं के लिए [प्रोजेक्ट्स](https://github.com/nghoang1288/SSHBridge-Web) देखें। यदि आप योगदान देना चाहते हैं, तो [योगदान](https://github.com/nghoang1288/SSHBridge-Web/blob/main/CONTRIBUTING.md) देखें।
 
 # इंस्टॉलेशन
 
@@ -173,7 +173,7 @@ networks:
 
 # सहायता
 
-यदि आपको सहायता चाहिए या SSHBridge के लिए किसी विशेषता का अनुरोध करना चाहते हैं, तो [इश्यूज़](https://github.com/nghoang1288/Termix/issues) पेज पर जाएँ, लॉग इन करें, और `New Issue` दबाएँ।
+यदि आपको सहायता चाहिए या SSHBridge के लिए किसी विशेषता का अनुरोध करना चाहते हैं, तो [इश्यूज़](https://github.com/nghoang1288/SSHBridge-Web/issues) पेज पर जाएँ, लॉग इन करें, और `New Issue` दबाएँ।
 कृपया अपने इश्यू में यथासंभव विस्तृत विवरण दें, अधिमानतः अंग्रेज़ी में लिखें। आप [Discord](https://discord.gg/jVQGdvHDrf) सर्वर में भी शामिल हो सकते हैं और सहायता चैनल पर जा सकते हैं, हालाँकि, प्रतिक्रिया समय अधिक हो सकता है।
 
 # स्क्रीनशॉट

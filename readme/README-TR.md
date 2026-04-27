@@ -17,9 +17,9 @@
   <a href="README-IT.md"><img src="https://flagcdn.com/it.svg" alt="Italiano" width="24" height="16"> Italiano</a>
 </p>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/Termix?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/nghoang1288/Termix?style=flat&label=Forks)
-![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/Termix?style=flat&label=Release)
+![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/SSHBridge-Web?style=flat&label=Stars)
+![GitHub forks](https://img.shields.io/github/forks/nghoang1288/SSHBridge-Web?style=flat&label=Forks)
+![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/SSHBridge-Web?style=flat&label=Release)
 <a href="https://discord.gg/jVQGdvHDrf"><img alt="Discord" src="https://img.shields.io/discord/1347374268253470720"></a>
 
 <p align="center">
@@ -30,7 +30,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
 </p>
 
@@ -40,7 +40,7 @@ Projeyi desteklemek isterseniz, buradan destek olabilirsiniz!\
 # Genel Bakış
 
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../public/icon.svg style="width: 250px; height: 250px;">  </a>
 </p>
 
@@ -74,7 +74,7 @@ SSHBridge, açık kaynaklı, sonsuza kadar ücretsiz, kendi sunucunuzda barınd�
 
 # Planlanan Özellikler
 
-Tüm planlanan özellikler için [Projeler](https://github.com/nghoang1288/Termix) sayfasına bakın. Katkıda bulunmak istiyorsanız, [Katkıda Bulunma](https://github.com/nghoang1288/Termix/blob/main/CONTRIBUTING.md) sayfasına bakın.
+Tüm planlanan özellikler için [Projeler](https://github.com/nghoang1288/SSHBridge-Web) sayfasına bakın. Katkıda bulunmak istiyorsanız, [Katkıda Bulunma](https://github.com/nghoang1288/SSHBridge-Web/blob/main/CONTRIBUTING.md) sayfasına bakın.
 
 # Kurulum
 
@@ -173,7 +173,7 @@ networks:
 
 # Destek
 
-SSHBridge ile ilgili yardıma ihtiyacınız varsa veya bir özellik talep etmek istiyorsanız, [Sorunlar](https://github.com/nghoang1288/Termix/issues) sayfasını ziyaret edin, giriş yapın ve `New Issue` butonuna basın.
+SSHBridge ile ilgili yardıma ihtiyacınız varsa veya bir özellik talep etmek istiyorsanız, [Sorunlar](https://github.com/nghoang1288/SSHBridge-Web/issues) sayfasını ziyaret edin, giriş yapın ve `New Issue` butonuna basın.
 Lütfen sorununuzu mümkün olduğunca ayrıntılı yazın, tercihen İngilizce olarak. Ayrıca [Discord](https://discord.gg/jVQGdvHDrf) sunucusuna katılabilir ve destek kanalını ziyaret edebilirsiniz, ancak yanıt süreleri daha uzun olabilir.
 
 # Ekran Görüntüleri

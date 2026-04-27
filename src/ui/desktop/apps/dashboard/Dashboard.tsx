@@ -644,7 +644,7 @@ export function Dashboard({
                   variant="outline"
                   onClick={() =>
                     window.open(
-                      "https://github.com/nghoang1288/Termix",
+                      "https://github.com/nghoang1288/SSHBridge-Web",
                       "_blank",
                     )
                   }
@@ -656,7 +656,7 @@ export function Dashboard({
                   variant="outline"
                   onClick={() =>
                     window.open(
-                      "https://github.com/nghoang1288/Termix/issues/new",
+                      "https://github.com/nghoang1288/SSHBridge-Web/issues/new",
                       "_blank",
                     )
                   }

@@ -17,9 +17,9 @@
   <a href="README-IT.md"><img src="https://flagcdn.com/it.svg" alt="Italiano" width="24" height="16"> Italiano</a>
 </p>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/Termix?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/nghoang1288/Termix?style=flat&label=Forks)
-![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/Termix?style=flat&label=Release)
+![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/SSHBridge-Web?style=flat&label=Stars)
+![GitHub forks](https://img.shields.io/github/forks/nghoang1288/SSHBridge-Web?style=flat&label=Forks)
+![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/SSHBridge-Web?style=flat&label=Release)
 <a href="https://discord.gg/jVQGdvHDrf"><img alt="Discord" src="https://img.shields.io/discord/1347374268253470720"></a>
 
 <p align="center">
@@ -30,7 +30,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
 </p>
 
@@ -40,7 +40,7 @@ Si lo desea, puede apoyar el proyecto aquí.\
 # Descripción General
 
 <p align="center">
-  <a href="https://github.com/nghoang1288/Termix">
+  <a href="https://github.com/nghoang1288/SSHBridge-Web">
     <img alt="SSHBridge Banner" src=../public/icon.svg style="width: 250px; height: 250px;">  </a>
 </p>
 
@@ -74,7 +74,7 @@ SSHBridge es una plataforma de gestión de servidores todo en uno, de código ab
 
 # Características Planeadas
 
-Consulte [Proyectos](https://github.com/nghoang1288/Termix) para todas las características planeadas. Si desea contribuir, consulte [Contribuir](https://github.com/nghoang1288/Termix/blob/main/CONTRIBUTING.md).
+Consulte [Proyectos](https://github.com/nghoang1288/SSHBridge-Web) para todas las características planeadas. Si desea contribuir, consulte [Contribuir](https://github.com/nghoang1288/SSHBridge-Web/blob/main/CONTRIBUTING.md).
 
 # Instalación
 
@@ -173,7 +173,7 @@ networks:
 
 # Soporte
 
-Si necesita ayuda o desea solicitar una función para SSHBridge, visite la página de [Issues](https://github.com/nghoang1288/Termix/issues), inicie sesión y pulse `New Issue`.
+Si necesita ayuda o desea solicitar una función para SSHBridge, visite la página de [Issues](https://github.com/nghoang1288/SSHBridge-Web/issues), inicie sesión y pulse `New Issue`.
 Por favor, sea lo más detallado posible en su reporte, preferiblemente escrito en inglés. También puede unirse al servidor de [Discord](https://discord.gg/jVQGdvHDrf) y visitar el canal de soporte, sin embargo, los tiempos de respuesta pueden ser más largos.
 
 # Capturas de Pantalla

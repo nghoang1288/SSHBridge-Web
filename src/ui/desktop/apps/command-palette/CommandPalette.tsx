@@ -178,17 +178,17 @@ export function CommandPalette({
   };
 
   const handleOpenUpdateLog = () => {
-    window.open("https://github.com/nghoang1288/Termix/releases", "_blank");
+    window.open("https://github.com/nghoang1288/SSHBridge-Web/releases", "_blank");
     setIsOpen(false);
   };
 
   const handleGitHub = () => {
-    window.open("https://github.com/nghoang1288/Termix", "_blank");
+    window.open("https://github.com/nghoang1288/SSHBridge-Web", "_blank");
     setIsOpen(false);
   };
 
   const handleSupport = () => {
-    window.open("https://github.com/nghoang1288/Termix/issues/new", "_blank");
+    window.open("https://github.com/nghoang1288/SSHBridge-Web/issues/new", "_blank");
     setIsOpen(false);
   };
 
