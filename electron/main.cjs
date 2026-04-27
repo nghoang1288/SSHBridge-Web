@@ -479,7 +479,8 @@ ipcMain.handle("get-app-version", () => {
 
 const GITHUB_API_BASE = "https://api.github.com";
 const REPO_OWNER = "nghoang1288";
-const REPO_NAME = "Termix";
+const REPO_NAME = "SSHBridge-Web";
+const REPOSITORY_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}`;
 
 const githubCache = new Map();
 const CACHE_DURATION = 30 * 60 * 1000;
@@ -905,6 +906,14 @@ app.whenReady().then(async () => {
     "arch:",
     process.arch,
   );
+  app.setAboutPanelOptions({
+    applicationName: "SSHBridge",
+    applicationVersion: app.getVersion(),
+    copyright: "Copyright (c) nghoang1288",
+    website: REPOSITORY_URL,
+    credits:
+      "SSHBridge Web/Desktop is a server management platform with SSH terminal, tunneling, file management, and remote desktop tooling.",
+  });
   createMenu();
 
   if (!isDev) {
