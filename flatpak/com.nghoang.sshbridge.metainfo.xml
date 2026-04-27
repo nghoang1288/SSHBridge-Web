@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>com.karmaa.termix</id>
-  <name>Termix</name>
+  <id>com.nghoang.sshbridge</id>
+  <name>SSHBridge</name>
   <summary>Web-based server management platform with SSH terminal, tunneling, and file editing</summary>
 
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>Apache-2.0</project_license>
 
-  <developer_name>bugattiguy527</developer_name>
+  <developer_name>nghoang1288</developer_name>
 
   <description>
     <p>
-      Termix is an open-source, forever-free, self-hosted all-in-one server management platform.
+      SSHBridge is an open-source, forever-free, self-hosted all-in-one server management platform.
       It provides a web-based solution for managing your servers and infrastructure through a single, intuitive interface.
     </p>
     <p>Features:</p>
@@ -25,19 +25,19 @@
     </ul>
   </description>
 
-  <launchable type="desktop-id">com.karmaa.termix.desktop</launchable>
+  <launchable type="desktop-id">com.nghoang.sshbridge.desktop</launchable>
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/Termix-SSH/Termix/main/public/screenshots/terminal.png</image>
+      <image>https://raw.githubusercontent.com/nghoang1288/Termix/main/public/screenshots/terminal.png</image>
       <caption>SSH Terminal Interface</caption>
     </screenshot>
   </screenshots>
 
-  <url type="homepage">https://github.com/Termix-SSH/Termix</url>
-  <url type="bugtracker">https://github.com/Termix-SSH/Support/issues</url>
+  <url type="homepage">https://github.com/nghoang1288/Termix</url>
+  <url type="bugtracker">https://github.com/nghoang1288/Termix/issues</url>
   <url type="help">https://docs.termix.site</url>
-  <url type="vcs-browser">https://github.com/Termix-SSH/Termix</url>
+  <url type="vcs-browser">https://github.com/nghoang1288/Termix</url>
 
   <content_rating type="oars-1.1">
     <content_attribute id="social-info">moderate</content_attribute>
@@ -46,9 +46,9 @@
   <releases>
     <release version="VERSION_PLACEHOLDER" date="DATE_PLACEHOLDER">
       <description>
-        <p>Latest release of Termix</p>
+        <p>Latest release of SSHBridge</p>
       </description>
-      <url>https://github.com/Termix-SSH/Termix/releases</url>
+      <url>https://github.com/nghoang1288/Termix/releases</url>
     </release>
   </releases>
 
@@ -68,7 +68,7 @@
   </keywords>
 
   <provides>
-    <binary>termix</binary>
+    <binary>sshbridge</binary>
   </provides>
 
   <requires>

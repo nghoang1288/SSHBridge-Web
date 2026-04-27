@@ -142,7 +142,7 @@ export function TOTPSetup({
 
   const downloadBackupCodes = () => {
     const content =
-      `Termix Two-Factor Authentication Backup Codes\n` +
+      `SSHBridge Two-Factor Authentication Backup Codes\n` +
       `Generated: ${new Date().toISOString()}\n\n` +
       `Keep these codes in a safe place. Each code can only be used once.\n\n` +
       backupCodes.map((code, i) => `${i + 1}. ${code}`).join("\n");
@@ -151,7 +151,7 @@ export function TOTPSetup({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "termix-backup-codes.txt";
+    a.download = "sshbridge-backup-codes.txt";
     a.click();
     URL.revokeObjectURL(url);
     toast.success(t("auth.backupCodesDownloaded"));

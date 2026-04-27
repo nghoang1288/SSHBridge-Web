@@ -56,7 +56,7 @@ export function TerminalPreview({
       >
         <div>
           <span style={{ color: TERMINAL_THEMES[resolvedTheme]?.colors.green }}>
-            user@termix
+            user@sshbridge
           </span>
           <span>:</span>
           <span style={{ color: TERMINAL_THEMES[resolvedTheme]?.colors.blue }}>
@@ -89,7 +89,7 @@ export function TerminalPreview({
         </div>
         <div>
           <span style={{ color: TERMINAL_THEMES[resolvedTheme]?.colors.green }}>
-            user@termix
+            user@sshbridge
           </span>
           <span>:</span>
           <span style={{ color: TERMINAL_THEMES[resolvedTheme]?.colors.blue }}>

@@ -17,9 +17,9 @@
   <a href="README-IT.md"><img src="https://flagcdn.com/it.svg" alt="Italiano" width="24" height="16"> Italiano</a>
 </p>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/Termix-SSH/Termix?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/Termix-SSH/Termix?style=flat&label=Forks)
-![GitHub Release](https://img.shields.io/github/v/release/Termix-SSH/Termix?style=flat&label=Release)
+![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/Termix?style=flat&label=Stars)
+![GitHub forks](https://img.shields.io/github/forks/nghoang1288/Termix?style=flat&label=Forks)
+![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/Termix?style=flat&label=Release)
 <a href="https://discord.gg/jVQGdvHDrf"><img alt="Discord" src="https://img.shields.io/discord/1347374268253470720"></a>
 
 <p align="center">
@@ -30,8 +30,8 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/Termix-SSH/Termix">
-    <img alt="Termix Banner" src=../repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
+  <a href="https://github.com/nghoang1288/Termix">
+    <img alt="SSHBridge Banner" src=../repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
 </p>
 
 Si vous le souhaitez, vous pouvez soutenir le projet ici !\
@@ -40,11 +40,11 @@ Si vous le souhaitez, vous pouvez soutenir le projet ici !\
 # Présentation
 
 <p align="center">
-  <a href="https://github.com/Termix-SSH/Termix">
-    <img alt="Termix Banner" src=../public/icon.svg style="width: 250px; height: 250px;">  </a>
+  <a href="https://github.com/nghoang1288/Termix">
+    <img alt="SSHBridge Banner" src=../public/icon.svg style="width: 250px; height: 250px;">  </a>
 </p>
 
-Termix est une plateforme de gestion de serveurs tout-en-un, open source, à jamais gratuite et auto-hébergée. Elle fournit une solution multiplateforme pour gérer vos serveurs et votre infrastructure à travers une interface unique et intuitive. Termix offre un accès terminal SSH, le contrôle de bureau à distance (RDP, VNC, Telnet), des capacités de tunneling SSH, la gestion de fichiers SSH à distance et de nombreux autres outils. Termix est l'alternative parfaite, gratuite et auto-hébergée à Termius, disponible sur toutes les plateformes.
+SSHBridge est une plateforme de gestion de serveurs tout-en-un, open source, à jamais gratuite et auto-hébergée. Elle fournit une solution multiplateforme pour gérer vos serveurs et votre infrastructure à travers une interface unique et intuitive. SSHBridge offre un accès terminal SSH, le contrôle de bureau à distance (RDP, VNC, Telnet), des capacités de tunneling SSH, la gestion de fichiers SSH à distance et de nombreux autres outils. SSHBridge est l'alternative parfaite, gratuite et auto-hébergée à Termius, disponible sur toutes les plateformes.
 
 # Fonctionnalités
 
@@ -63,7 +63,7 @@ Termix est une plateforme de gestion de serveurs tout-en-un, open source, à jam
 - **Configuration SSL automatique** - Génération et gestion intégrées de certificats SSL avec redirections HTTPS.
 - **Interface moderne** - Interface épurée compatible desktop/mobile construite avec React, Tailwind CSS et Shadcn. Choisissez parmi de nombreux thèmes d'interface utilisateur, notamment clair, sombre, Dracula, etc. Utilisez les routes URL pour ouvrir n'importe quelle connexion en plein écran.
 - **Langues** - Support intégré d'environ 30 langues (géré par [Crowdin](https://docs.termix.site/translations)).
-- **Support multiplateforme** - Disponible en tant qu'application web, application de bureau (Windows, Linux et macOS, peut être exécutée de manière autonome sans backend Termix), PWA, et application mobile/tablette dédiée pour iOS et Android.
+- **Support multiplateforme** - Disponible en tant qu'application web, application de bureau (Windows, Linux et macOS, peut être exécutée de manière autonome sans backend SSHBridge), PWA, et application mobile/tablette dédiée pour iOS et Android.
 - **Outils SSH** - Créez des extraits de commandes réutilisables exécutables en un seul clic. Exécutez une commande simultanément sur plusieurs terminaux ouverts.
 - **Historique des commandes** - Auto-complétion et consultation des commandes SSH précédemment exécutées.
 - **Connexion rapide** - Connectez-vous à un serveur sans avoir à sauvegarder les données de connexion.
@@ -74,7 +74,7 @@ Termix est une plateforme de gestion de serveurs tout-en-un, open source, à jam
 
 # Fonctionnalités prévues
 
-Consultez les [Projects](https://github.com/orgs/Termix-SSH/projects/2) pour toutes les fonctionnalités prévues. Si vous souhaitez contribuer, consultez [Contributing](https://github.com/Termix-SSH/Termix/blob/main/CONTRIBUTING.md).
+Consultez les [Projects](https://github.com/nghoang1288/Termix) pour toutes les fonctionnalités prévues. Si vous souhaitez contribuer, consultez [Contributing](https://github.com/nghoang1288/Termix/blob/main/CONTRIBUTING.md).
 
 # Installation
 
@@ -102,24 +102,24 @@ Appareils supportés :
   - Google Play Store
   - APK
 
-Visitez la [documentation](https://docs.termix.site/install) de Termix pour plus d'informations sur l'installation de Termix sur toutes les plateformes. Sinon, voici un exemple de fichier Docker Compose (vous pouvez omettre guacd et le réseau si vous ne prévoyez pas d'utiliser les fonctionnalités de bureau à distance) :
+Visitez la [documentation](https://docs.termix.site/install) de SSHBridge pour plus d'informations sur l'installation de SSHBridge sur toutes les plateformes. Sinon, voici un exemple de fichier Docker Compose (vous pouvez omettre guacd et le réseau si vous ne prévoyez pas d'utiliser les fonctionnalités de bureau à distance) :
 
 ```yaml
 services:
-  termix:
-    image: ghcr.io/lukegus/termix:latest
-    container_name: termix
+  sshbridge:
+    image: ghcr.io/nghoang1288/sshbridge:latest
+    container_name: sshbridge
     restart: unless-stopped
     ports:
       - "8080:8080"
     volumes:
-      - termix-data:/app/data
+      - sshbridge-data:/app/data
     environment:
       PORT: "8080"
     depends_on:
       - guacd
     networks:
-      - termix-net
+      - sshbridge-net
 
   guacd:
     image: guacamole/guacd:latest
@@ -128,14 +128,14 @@ services:
     ports:
       - "4822:4822"
     networks:
-      - termix-net
+      - sshbridge-net
 
 volumes:
-  termix-data:
+  sshbridge-data:
     driver: local
 
 networks:
-  termix-net:
+  sshbridge-net:
     driver: bridge
 ```
 
@@ -173,40 +173,40 @@ networks:
 
 # Support
 
-Si vous avez besoin d'aide ou souhaitez demander une fonctionnalité pour Termix, visitez la page [Issues](https://github.com/Termix-SSH/Support/issues), connectez-vous et appuyez sur `New Issue`. Veuillez être aussi détaillé que possible dans votre issue, de préférence rédigée en anglais. Vous pouvez également rejoindre le serveur [Discord](https://discord.gg/jVQGdvHDrf) et visiter le canal de support, cependant les temps de réponse peuvent être plus longs.
+Si vous avez besoin d'aide ou souhaitez demander une fonctionnalité pour SSHBridge, visitez la page [Issues](https://github.com/nghoang1288/Termix/issues), connectez-vous et appuyez sur `New Issue`. Veuillez être aussi détaillé que possible dans votre issue, de préférence rédigée en anglais. Vous pouvez également rejoindre le serveur [Discord](https://discord.gg/jVQGdvHDrf) et visiter le canal de support, cependant les temps de réponse peuvent être plus longs.
 
 # Captures d'écran
 
 [![YouTube](../repo-images/YouTube.jpg)](https://www.youtube.com/@TermixSSH/videos)
 
 <p align="center">
-  <img src="../repo-images/Image%201.png" width="400" alt="Termix Demo 1"/>
-  <img src="../repo-images/Image%202.png" width="400" alt="Termix Demo 2"/>
+  <img src="../repo-images/Image%201.png" width="400" alt="SSHBridge Demo 1"/>
+  <img src="../repo-images/Image%202.png" width="400" alt="SSHBridge Demo 2"/>
 </p>
 
 <p align="center">
-  <img src="../repo-images/Image%203.png" width="400" alt="Termix Demo 3"/>
-  <img src="../repo-images/Image%204.png" width="400" alt="Termix Demo 4"/>
+  <img src="../repo-images/Image%203.png" width="400" alt="SSHBridge Demo 3"/>
+  <img src="../repo-images/Image%204.png" width="400" alt="SSHBridge Demo 4"/>
 </p>
 
 <p align="center">
-  <img src="../repo-images/Image%205.png" width="400" alt="Termix Demo 5"/>
-  <img src="../repo-images/Image%206.png" width="400" alt="Termix Demo 6"/>
+  <img src="../repo-images/Image%205.png" width="400" alt="SSHBridge Demo 5"/>
+  <img src="../repo-images/Image%206.png" width="400" alt="SSHBridge Demo 6"/>
 </p>
 
 <p align="center">
-  <img src="../repo-images/Image%207.png" width="400" alt="Termix Demo 7"/>
-  <img src="../repo-images/Image%208.png" width="400" alt="Termix Demo 8"/>
+  <img src="../repo-images/Image%207.png" width="400" alt="SSHBridge Demo 7"/>
+  <img src="../repo-images/Image%208.png" width="400" alt="SSHBridge Demo 8"/>
 </p>
 
 <p align="center">
-  <img src="../repo-images/Image%209.png" width="400" alt="Termix Demo 9"/>
-  <img src="../repo-images/Image%2010.png" width="400" alt="Termix Demo 10"/>
+  <img src="../repo-images/Image%209.png" width="400" alt="SSHBridge Demo 9"/>
+  <img src="../repo-images/Image%2010.png" width="400" alt="SSHBridge Demo 10"/>
 </p>
 
 <p align="center">
-  <img src="../repo-images/Image%2011.png" width="400" alt="Termix Demo 11"/>
-  <img src="../repo-images/Image%2012.png" width="400" alt="Termix Demo 12"/>
+  <img src="../repo-images/Image%2011.png" width="400" alt="SSHBridge Demo 11"/>
+  <img src="../repo-images/Image%2012.png" width="400" alt="SSHBridge Demo 12"/>
 </p>
 
 Certaines vidéos et images peuvent être obsolètes ou ne pas présenter parfaitement les fonctionnalités.

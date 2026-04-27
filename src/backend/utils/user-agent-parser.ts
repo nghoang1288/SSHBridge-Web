@@ -15,11 +15,14 @@ export function detectPlatform(req: Request): DeviceType {
   const userAgent = req.headers["user-agent"] || "";
   const electronHeader = req.headers["x-electron-app"];
 
-  if (electronHeader === "true" || userAgent.includes("Termix-Desktop")) {
+  if (
+    electronHeader === "true" ||
+    /(?:Termix|SSHBridge)-Desktop/.test(userAgent)
+  ) {
     return "desktop";
   }
 
-  if (userAgent.includes("Termix-Mobile")) {
+  if (/(?:Termix|SSHBridge)-Mobile/.test(userAgent)) {
     return "mobile";
   }
 
@@ -60,10 +63,12 @@ function parseElectronUserAgent(userAgent: string): DeviceInfo {
   let os = "Unknown OS";
   let version = "Unknown";
 
-  const termixMatch = userAgent.match(/Termix-Desktop\/([\d.]+)\s*\(([^;)]+)/);
-  if (termixMatch) {
-    version = termixMatch[1];
-    os = termixMatch[2].trim();
+  const appMatch = userAgent.match(
+    /(?:Termix|SSHBridge)-Desktop\/([\d.]+)\s*\(([^;)]+)/,
+  );
+  if (appMatch) {
+    version = appMatch[1];
+    os = appMatch[2].trim();
   } else {
     if (userAgent.includes("Windows")) {
       os = parseWindowsVersion(userAgent);
@@ -83,10 +88,10 @@ function parseElectronUserAgent(userAgent: string): DeviceInfo {
 
   return {
     type: "desktop",
-    browser: "Termix Desktop",
+    browser: "SSHBridge Desktop",
     version,
     os,
-    deviceInfo: `Termix Desktop on ${os}`,
+    deviceInfo: `SSHBridge Desktop on ${os}`,
   };
 }
 
@@ -94,9 +99,11 @@ function parseMobileUserAgent(userAgent: string): DeviceInfo {
   let os = "Unknown OS";
   let version = "Unknown";
 
-  const termixPlatformMatch = userAgent.match(/Termix-Mobile\/(Android|iOS)/i);
-  if (termixPlatformMatch) {
-    const platform = termixPlatformMatch[1];
+  const appPlatformMatch = userAgent.match(
+    /(?:Termix|SSHBridge)-Mobile\/(Android|iOS)/i,
+  );
+  if (appPlatformMatch) {
+    const platform = appPlatformMatch[1];
     if (platform.toLowerCase() === "android") {
       const androidMatch = userAgent.match(/Android ([\d.]+)/);
       os = androidMatch ? `Android ${androidMatch[1]}` : "Android";
@@ -129,7 +136,7 @@ function parseMobileUserAgent(userAgent: string): DeviceInfo {
   }
 
   const versionMatch = userAgent.match(
-    /Termix-Mobile\/(?:Android|iOS|)([\d.]+)/i,
+    /(?:Termix|SSHBridge)-Mobile\/(?:Android|iOS|)([\d.]+)/i,
   );
   if (versionMatch) {
     version = versionMatch[1];
@@ -137,10 +144,10 @@ function parseMobileUserAgent(userAgent: string): DeviceInfo {
 
   return {
     type: "mobile",
-    browser: "Termix Mobile",
+    browser: "SSHBridge Mobile",
     version,
     os,
-    deviceInfo: `Termix Mobile on ${os}`,
+    deviceInfo: `SSHBridge Mobile on ${os}`,
   };
 }
 

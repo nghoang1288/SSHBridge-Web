@@ -29,7 +29,7 @@ export interface TerminalTheme {
 
 export const TERMINAL_THEMES: Record<string, TerminalTheme> = {
   termix: {
-    name: "Termix Default",
+    name: "SSHBridge Default",
     category: "dark",
     colors: {
       background: "#18181b",
@@ -57,7 +57,7 @@ export const TERMINAL_THEMES: Record<string, TerminalTheme> = {
   },
 
   termixDark: {
-    name: "Termix Dark",
+    name: "SSHBridge Dark",
     category: "dark",
     colors: {
       background: "#18181b",
@@ -85,7 +85,7 @@ export const TERMINAL_THEMES: Record<string, TerminalTheme> = {
   },
 
   termixLight: {
-    name: "Termix Light",
+    name: "SSHBridge Light",
     category: "light",
     colors: {
       background: "#ffffff",

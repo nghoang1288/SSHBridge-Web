@@ -13,9 +13,9 @@ const swaggerOptions: swaggerJSDoc.Options = {
   definition: {
     openapi: "3.0.3",
     info: {
-      title: "Termix API",
+      title: "SSHBridge API",
       version: "0.0.0",
-      description: "Termix Backend API Reference",
+      description: "SSHBridge Backend API Reference",
     },
     servers: [
       {

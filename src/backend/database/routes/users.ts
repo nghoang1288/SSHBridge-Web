@@ -1298,8 +1298,9 @@ router.get("/oidc/callback", async (req, res) => {
     }
 
     try {
-      const { SharedCredentialManager } =
-        await import("../../utils/shared-credential-manager.js");
+      const { SharedCredentialManager } = await import(
+        "../../utils/shared-credential-manager.js"
+      );
       const sharedCredManager = SharedCredentialManager.getInstance();
       await sharedCredManager.reEncryptPendingCredentialsForUser(userRecord.id);
     } catch {
@@ -1514,8 +1515,9 @@ router.post("/login", async (req, res) => {
     }
 
     try {
-      const { SharedCredentialManager } =
-        await import("../../utils/shared-credential-manager.js");
+      const { SharedCredentialManager } = await import(
+        "../../utils/shared-credential-manager.js"
+      );
       const sharedCredManager = SharedCredentialManager.getInstance();
       await sharedCredManager.reEncryptPendingCredentialsForUser(userRecord.id);
     } catch (error) {
@@ -2922,7 +2924,7 @@ router.post("/totp/setup", authenticateJWT, async (req, res) => {
     }
 
     const secret = speakeasy.generateSecret({
-      name: `Termix (${userRecord.username})`,
+      name: `SSHBridge (${userRecord.username})`,
       length: 32,
     });
 

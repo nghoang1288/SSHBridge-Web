@@ -61,7 +61,7 @@ export function DatabaseSecurityTab({
         const contentDisposition = response.headers.get("content-disposition");
         const filename =
           contentDisposition?.match(/filename="([^"]+)"/)?.[1] ||
-          "termix-export.sqlite";
+          "sshbridge-export.sqlite";
 
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");

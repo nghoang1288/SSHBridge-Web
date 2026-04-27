@@ -178,17 +178,17 @@ export function CommandPalette({
   };
 
   const handleOpenUpdateLog = () => {
-    window.open("https://github.com/Termix-SSH/Termix/releases", "_blank");
+    window.open("https://github.com/nghoang1288/Termix/releases", "_blank");
     setIsOpen(false);
   };
 
   const handleGitHub = () => {
-    window.open("https://github.com/Termix-SSH/Termix", "_blank");
+    window.open("https://github.com/nghoang1288/Termix", "_blank");
     setIsOpen(false);
   };
 
   const handleSupport = () => {
-    window.open("https://github.com/Termix-SSH/Support/issues/new", "_blank");
+    window.open("https://github.com/nghoang1288/Termix/issues/new", "_blank");
     setIsOpen(false);
   };
 

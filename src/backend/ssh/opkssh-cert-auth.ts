@@ -6,6 +6,11 @@
 
 import type { Client, ConnectConfig } from "ssh2";
 
+type CertificateSigner = (
+  data: Buffer,
+  callback: (signature: Buffer) => void,
+) => void;
+
 interface OPKSSHToken {
   privateKey: string;
   sshCert: string;
@@ -107,7 +112,7 @@ export async function setupOPKSSHCertAuth(
       user: string,
       pubKey: any,
       keyAlgo: string | undefined,
-      cbSign?: Function,
+      cbSign?: CertificateSigner,
     ) => {
       const isCertAuth = !!cbSign && pubKey?.type?.includes("-cert-");
       if (!isCertAuth) {

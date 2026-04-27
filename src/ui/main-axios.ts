@@ -337,9 +337,9 @@ function createApiInstance(
         }
       }
       if (config.headers.set) {
-        config.headers.set("User-Agent", `Termix-Mobile/${platform}`);
+        config.headers.set("User-Agent", `SSHBridge-Mobile/${platform}`);
       } else {
-        config.headers["User-Agent"] = `Termix-Mobile/${platform}`;
+        config.headers["User-Agent"] = `SSHBridge-Mobile/${platform}`;
       }
     }
 
@@ -1004,7 +1004,7 @@ function handleApiError(error: unknown, operation: string): never {
           errorContext,
         );
         throw new ApiError(
-          "No server configured. Please configure a Termix server first.",
+          "No server configured. Please configure a SSHBridge server first.",
           0,
           "NO_SERVER_CONFIGURED",
         );

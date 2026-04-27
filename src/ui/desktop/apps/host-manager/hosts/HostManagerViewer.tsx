@@ -366,24 +366,28 @@ export function HostManagerViewer({
 
   const exportHostsToCsv = async (hostsToExport: SSHHost[]) => {
     try {
-      const toastId = toast.loading(t("hosts.exportingCsv", "Fetching credentials..."));
-      const csvRows = ["Groups,Label,Tags,Hostname/IP,Protocol,Port,Username,Password"];
-      
+      const toastId = toast.loading(
+        t("hosts.exportingCsv", "Fetching credentials..."),
+      );
+      const csvRows = [
+        "Groups,Label,Tags,Hostname/IP,Protocol,Port,Username,Password",
+      ];
+
       for (const host of hostsToExport) {
         let actualPassword = host.password || "";
         if (host.authType !== "key" && host.credentialId) {
           try {
-             const decryptedHost = await exportSSHHostWithCredentials(host.id);
-             actualPassword = decryptedHost.password || "";
+            const decryptedHost = await exportSSHHostWithCredentials(host.id);
+            actualPassword = decryptedHost.password || "";
           } catch (e) {
-             console.warn("Could not export credentials for " + host.name);
+            console.warn("Could not export credentials for " + host.name);
           }
         }
-        
+
         const escapeCSV = (val: string | number | undefined) => {
           if (val === undefined || val === null) return "";
           const str = String(val);
-          if (str.includes(",") || str.includes('\"') || str.includes("\\n")) {
+          if (str.includes(",") || str.includes('"') || str.includes("\\n")) {
             return `"${str.replace(/"/g, '""')}"`;
           }
           return str;
@@ -398,7 +402,11 @@ export function HostManagerViewer({
         const username = escapeCSV(host.username);
         const password = escapeCSV(actualPassword);
 
-        csvRows.push([groups, label, tags, ip, protocol, port, username, password].join(","));
+        csvRows.push(
+          [groups, label, tags, ip, protocol, port, username, password].join(
+            ",",
+          ),
+        );
       }
 
       const csvContent = csvRows.join("\n");
@@ -406,13 +414,16 @@ export function HostManagerViewer({
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `termius_export_${new Date().toISOString().slice(0,10)}.csv`;
+      a.download = `termius_export_${new Date().toISOString().slice(0, 10)}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      toast.success(t("hosts.exportedCsvSuccess", "Exported CSV successfully"), { id: toastId });
+      toast.success(
+        t("hosts.exportedCsvSuccess", "Exported CSV successfully"),
+        { id: toastId },
+      );
     } catch (e) {
       toast.error(t("hosts.exportedCsvError", "Failed to export CSV"));
     }
@@ -916,7 +927,7 @@ export function HostManagerViewer({
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = `termix-hosts-export-${new Date().toISOString().slice(0, 10)}.json`;
+          a.download = `sshbridge-hosts-export-${new Date().toISOString().slice(0, 10)}.json`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
@@ -1160,7 +1171,9 @@ export function HostManagerViewer({
                 size="sm"
                 onClick={() => {
                   if (selectedHostIds.size > 0) {
-                    const hostsToExport = hosts.filter(h => selectedHostIds.has(h.id));
+                    const hostsToExport = hosts.filter((h) =>
+                      selectedHostIds.has(h.id),
+                    );
                     exportHostsToCsv(hostsToExport);
                   } else {
                     exportHostsToCsv(hosts);
@@ -1168,7 +1181,12 @@ export function HostManagerViewer({
                 }}
               >
                 <Download className="h-4 w-4 mr-2" />
-                {selectedHostIds.size > 0 ? t("hosts.exportCsvSelected", `Export CSV (${selectedHostIds.size})`) : t("hosts.exportCsvAll", "Export CSV")}
+                {selectedHostIds.size > 0
+                  ? t(
+                      "hosts.exportCsvSelected",
+                      `Export CSV (${selectedHostIds.size})`,
+                    )
+                  : t("hosts.exportCsvAll", "Export CSV")}
               </Button>
 
               <Button
@@ -1285,7 +1303,9 @@ export function HostManagerViewer({
               size="sm"
               onClick={() => {
                 if (selectedHostIds.size > 0) {
-                  const hostsToExport = hosts.filter(h => selectedHostIds.has(h.id));
+                  const hostsToExport = hosts.filter((h) =>
+                    selectedHostIds.has(h.id),
+                  );
                   exportHostsToCsv(hostsToExport);
                 } else {
                   exportHostsToCsv(hosts);
@@ -1293,7 +1313,12 @@ export function HostManagerViewer({
               }}
             >
               <Download className="h-4 w-4 mr-2" />
-              {selectedHostIds.size > 0 ? t("hosts.exportCsvSelected", `Export CSV (${selectedHostIds.size})`) : t("hosts.exportCsvAll", "Export CSV")}
+              {selectedHostIds.size > 0
+                ? t(
+                    "hosts.exportCsvSelected",
+                    `Export CSV (${selectedHostIds.size})`,
+                  )
+                : t("hosts.exportCsvAll", "Export CSV")}
             </Button>
 
             <Button
@@ -1783,7 +1808,12 @@ export function HostManagerViewer({
                                             </Button>
                                           </TooltipTrigger>
                                           <TooltipContent>
-                                            <p>{t("hosts.exportCsvTermius", "Export Termius CSV")}</p>
+                                            <p>
+                                              {t(
+                                                "hosts.exportCsvTermius",
+                                                "Export Termius CSV",
+                                              )}
+                                            </p>
                                           </TooltipContent>
                                         </Tooltip>
                                         <Tooltip>

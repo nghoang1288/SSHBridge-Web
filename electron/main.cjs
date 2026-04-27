@@ -15,7 +15,7 @@ const http = require("http");
 const { URL } = require("url");
 const { fork } = require("child_process");
 
-const logFile = path.join(app.getPath("userData"), "termix-main.log");
+const logFile = path.join(app.getPath("userData"), "sshbridge-main.log");
 function logToFile(...args) {
   const timestamp = new Date().toISOString();
   const msg = args
@@ -261,7 +261,7 @@ function createTray() {
     }
 
     tray = new Tray(trayIcon);
-    tray.setToolTip("Termix");
+    tray.setToolTip("SSHBridge");
 
     const contextMenu = Menu.buildFromTemplate([
       {
@@ -316,14 +316,14 @@ function createWindow() {
     height: 800,
     minWidth: 800,
     minHeight: 600,
-    title: "Termix",
+    title: "SSHBridge",
     icon: path.join(appRoot, "public", "icon.png"),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
       webSecurity: false,
       preload: path.join(__dirname, "preload.js"),
-      partition: "persist:termix",
+      partition: "persist:sshbridge",
       allowRunningInsecureContent: true,
       webviewTag: true,
       offscreen: false,
@@ -348,7 +348,7 @@ function createWindow() {
     mainWindow.setMenuBarVisibility(false);
   }
 
-  const customUserAgent = `Termix-Desktop/${appVersion} (${platform}; Electron/${electronVersion})`;
+  const customUserAgent = `SSHBridge-Desktop/${appVersion} (${platform}; Electron/${electronVersion})`;
   mainWindow.webContents.setUserAgent(customUserAgent);
 
   mainWindow.webContents.session.webRequest.onBeforeSendHeaders(
@@ -478,7 +478,7 @@ ipcMain.handle("get-app-version", () => {
 });
 
 const GITHUB_API_BASE = "https://api.github.com";
-const REPO_OWNER = "Termix-SSH";
+const REPO_OWNER = "nghoang1288";
 const REPO_NAME = "Termix";
 
 const githubCache = new Map();
@@ -498,7 +498,7 @@ async function fetchGitHubAPI(endpoint, cacheKey) {
     const response = await httpFetch(`${GITHUB_API_BASE}${endpoint}`, {
       headers: {
         Accept: "application/vnd.github+json",
-        "User-Agent": "TermixElectronUpdateChecker/1.0",
+        "User-Agent": "SSHBridgeElectronUpdateChecker/1.0",
         "X-GitHub-Api-Version": "2022-11-28",
       },
       timeout: 10000,
@@ -749,7 +749,7 @@ ipcMain.handle("test-server-connection", async (event, serverUrl) => {
           return {
             success: false,
             error:
-              "Server returned HTML instead of JSON. This does not appear to be a Termix server.",
+              "Server returned HTML instead of JSON. This does not appear to be a SSHBridge server.",
           };
         }
 
@@ -795,7 +795,7 @@ ipcMain.handle("test-server-connection", async (event, serverUrl) => {
           return {
             success: false,
             error:
-              "Server returned HTML instead of JSON. This does not appear to be a Termix server.",
+              "Server returned HTML instead of JSON. This does not appear to be a SSHBridge server.",
           };
         }
 
@@ -828,7 +828,7 @@ ipcMain.handle("test-server-connection", async (event, serverUrl) => {
     return {
       success: false,
       error:
-        "Server is not responding or does not appear to be a valid Termix server. Please ensure the server is running and accessible.",
+        "Server is not responding or does not appear to be a valid SSHBridge server. Please ensure the server is running and accessible.",
     };
   } catch (error) {
     return { success: false, error: error.message };

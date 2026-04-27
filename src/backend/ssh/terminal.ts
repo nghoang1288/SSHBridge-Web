@@ -938,8 +938,9 @@ wss.on("connection", async (ws: WebSocket, req) => {
         const opksshData = data as { hostId: number };
         try {
           const { startOPKSSHAuth } = await import("./opkssh-auth.js");
-          const { getRequestOrigin } =
-            await import("../utils/request-origin.js");
+          const { getRequestOrigin } = await import(
+            "../utils/request-origin.js"
+          );
           const db = getDb();
           const hostRow = await db
             .select()
@@ -2414,6 +2415,6 @@ wss.on("connection", async (ws: WebSocket, req) => {
   // keepaliveCountMax, tcpKeepAlive), which handles connection health monitoring
   // without producing visible output on the terminal.
   //
-  // See: https://github.com/Termix-SSH/Support/issues/232
-  // See: https://github.com/Termix-SSH/Support/issues/309
+  // See: https://github.com/nghoang1288/Termix/issues/232
+  // See: https://github.com/nghoang1288/Termix/issues/309
 });

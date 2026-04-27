@@ -78,12 +78,13 @@ const upload = multer({
   },
   fileFilter: (req, file, cb) => {
     if (
+      file.originalname.endsWith(".sshbridge-export.sqlite") ||
       file.originalname.endsWith(".termix-export.sqlite") ||
       file.originalname.endsWith(".sqlite")
     ) {
       cb(null, true);
     } else {
-      cb(new Error("Only .termix-export.sqlite files are allowed"));
+      cb(new Error("Only .sshbridge-export.sqlite files are allowed"));
     }
   },
 });
@@ -119,7 +120,7 @@ class GitHubCache {
 const githubCache = new GitHubCache();
 
 const GITHUB_API_BASE = "https://api.github.com";
-const REPO_OWNER = "Termix-SSH";
+const REPO_OWNER = "nghoang1288";
 const REPO_NAME = "Termix";
 
 async function fetchGitHubAPI<T>(
@@ -140,7 +141,7 @@ async function fetchGitHubAPI<T>(
     const response = await fetch(url, {
       headers: {
         Accept: "application/vnd.github+json",
-        "User-Agent": "TermixUpdateChecker/1.0",
+        "User-Agent": "SSHBridgeUpdateChecker/1.0",
         "X-GitHub-Api-Version": "2022-11-28",
       },
       agent: getProxyAgent(url),
@@ -613,7 +614,7 @@ app.post("/database/export", authenticateJWT, async (req, res) => {
       throw new Error("User data not unlocked");
     }
 
-    const tempDir = path.join(os.tmpdir(), "termix-exports");
+    const tempDir = path.join(os.tmpdir(), "sshbridge-exports");
 
     try {
       if (!fs.existsSync(tempDir)) {
@@ -628,7 +629,7 @@ app.post("/database/export", authenticateJWT, async (req, res) => {
     }
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-    const filename = `termix-export-${user[0].username}-${timestamp}.sqlite`;
+    const filename = `sshbridge-export-${user[0].username}-${timestamp}.sqlite`;
     const tempPath = path.join(tempDir, filename);
 
     apiLogger.info("Creating export database", {
@@ -1161,7 +1162,7 @@ app.post(
         mimetype: req.file.mimetype,
       });
 
-      let userDataKey = DataCrypto.getUserDataKey(userId);
+      const userDataKey = DataCrypto.getUserDataKey(userId);
       if (!userDataKey) {
         throw new Error("User data not unlocked");
       }

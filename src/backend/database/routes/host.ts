@@ -2730,8 +2730,9 @@ async function resolveHostCredentials(
 
       if (requestingUserId && requestingUserId !== ownerId) {
         try {
-          const { SharedCredentialManager } =
-            await import("../../utils/shared-credential-manager.js");
+          const { SharedCredentialManager } = await import(
+            "../../utils/shared-credential-manager.js"
+          );
           const sharedCredManager = SharedCredentialManager.getInstance();
           const sharedCred = await sharedCredManager.getSharedCredentialForUser(
             host.id as number,
@@ -4496,8 +4497,9 @@ router.use(
     });
 
     try {
-      const { getActiveAuthSession, registerOAuthState } =
-        await import("../../ssh/opkssh-auth.js");
+      const { getActiveAuthSession, registerOAuthState } = await import(
+        "../../ssh/opkssh-auth.js"
+      );
       const session = getActiveAuthSession(requestId);
 
       if (!session) {
@@ -4792,7 +4794,7 @@ router.use(
               message:
                 "OPKSSH did not return an external OAuth provider URL. " +
                 "This typically indicates a configuration mismatch between the provider's redirect_uris " +
-                "and the Termix callback path. Check the server log for the OPKSSH response body.",
+                "and the SSHBridge callback path. Check the server log for the OPKSSH response body.",
               details: detailLines.join("\n"),
               requestId,
             }),
@@ -4809,7 +4811,7 @@ router.use(
               title: "OPKSSH error",
               heading: "Failed to reach OPKSSH service",
               message:
-                "Termix could not connect to the local OPKSSH authentication service. " +
+                "SSHBridge could not connect to the local OPKSSH authentication service. " +
                 "The OPKSSH process may have exited or is not listening yet.",
               details: `Upstream: ${startUrl}\nError: ${errMsg}`,
               requestId,
@@ -4908,7 +4910,7 @@ router.use(
           }
         } else if (key.toLowerCase() === "set-cookie") {
           // Rewrite cookies from OPKSSH's internal listener so they are scoped
-          // to the Termix proxy path instead of OPKSSH's internal path.
+          // to the SSHBridge proxy path instead of OPKSSH's internal path.
           // The state cookie set by /login must survive to /login-callback.
           const cookies = Array.isArray(value) ? value : [value as string];
           const rewritten = cookies.map((cookie) => {
@@ -5318,8 +5320,9 @@ router.post(
     try {
       const { singleProxy, proxyChain, testTarget } = req.body;
 
-      const { testProxyConnectivity } =
-        await import("../../utils/proxy-helper.js");
+      const { testProxyConnectivity } = await import(
+        "../../utils/proxy-helper.js"
+      );
 
       const result = await testProxyConnectivity({
         singleProxy,

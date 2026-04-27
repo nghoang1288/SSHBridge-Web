@@ -43,12 +43,12 @@ class AlertCache {
 const alertCache = new AlertCache();
 
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com";
-const REPO_OWNER = "Termix-SSH";
-const REPO_NAME = "Docs";
-const ALERTS_FILE = "main/termix-alerts.json";
+const REPO_OWNER = "nghoang1288";
+const REPO_NAME = "Termix";
+const ALERTS_FILE = "main/sshbridge-alerts.json";
 
 async function fetchAlertsFromGitHub(): Promise<TermixAlert[]> {
-  const cacheKey = "termix_alerts";
+  const cacheKey = "sshbridge_alerts";
   const cachedData = alertCache.get<TermixAlert[]>(cacheKey);
   if (cachedData) {
     return cachedData;
@@ -59,7 +59,7 @@ async function fetchAlertsFromGitHub(): Promise<TermixAlert[]> {
     const response = await fetch(url, {
       headers: {
         Accept: "application/json",
-        "User-Agent": "TermixAlertChecker/1.0",
+        "User-Agent": "SSHBridgeAlertChecker/1.0",
       },
       agent: getProxyAgent(url),
     });
@@ -136,7 +136,7 @@ router.get("/", authenticateJWT, async (req, res) => {
 
     res.json({
       alerts: activeAlertsForUser,
-      cached: alertCache.get("termix_alerts") !== null,
+      cached: alertCache.get("sshbridge_alerts") !== null,
       total_count: activeAlertsForUser.length,
     });
   } catch (error) {

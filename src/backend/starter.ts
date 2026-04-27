@@ -30,7 +30,7 @@ import {
       // expected - env file may not exist
     }
 
-    systemLogger.info("Termix backend initialization started", {
+    systemLogger.info("SSHBridge backend initialization started", {
       operation: "backend_init_start",
       nodeEnv: process.env.NODE_ENV || "production",
       port: process.env.PORT || 4090,
@@ -90,7 +90,7 @@ import {
         continue;
       }
     }
-    versionLogger.info(`Termix Backend starting - Version: ${version}`, {
+    versionLogger.info(`SSHBridge Backend starting - Version: ${version}`, {
       operation: "startup",
       version: version,
     });
@@ -186,7 +186,7 @@ import {
         });
     }
 
-    systemLogger.success("Termix backend started successfully", {
+    systemLogger.success("SSHBridge backend started successfully", {
       operation: "backend_init_complete",
       port: process.env.PORT || 4090,
       ssl: process.env.SSL_ENABLED === "true",

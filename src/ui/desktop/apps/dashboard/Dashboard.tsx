@@ -644,7 +644,7 @@ export function Dashboard({
                   variant="outline"
                   onClick={() =>
                     window.open(
-                      "https://github.com/Termix-SSH/Termix",
+                      "https://github.com/nghoang1288/Termix",
                       "_blank",
                     )
                   }
@@ -656,7 +656,7 @@ export function Dashboard({
                   variant="outline"
                   onClick={() =>
                     window.open(
-                      "https://github.com/Termix-SSH/Support/issues/new",
+                      "https://github.com/nghoang1288/Termix/issues/new",
                       "_blank",
                     )
                   }

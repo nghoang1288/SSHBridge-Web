@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 
-$packageName = 'termix-ssh'
-$softwareName = 'Termix*'
+$packageName = 'sshbridge'
+$softwareName = 'SSHBridge*'
 $installerType = 'msi'
 
 $silentArgs = '/qn /norestart'
