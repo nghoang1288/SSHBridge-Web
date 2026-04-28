@@ -1,9 +1,12 @@
 import React from "react";
 import { useSidebar } from "@/components/ui/sidebar.tsx";
 import { Separator } from "@/components/ui/separator.tsx";
+import { Button } from "@/components/ui/button.tsx";
 import { Tunnel } from "@/ui/desktop/apps/features/tunnel/Tunnel.tsx";
 import { useTranslation } from "react-i18next";
 import { getSSHHosts } from "@/ui/main-axios.ts";
+import { useTabs } from "@/ui/desktop/navigation/tabs/TabContext.tsx";
+import { ArrowDownUp, Settings2 } from "lucide-react";
 
 interface HostConfig {
   id: number;
@@ -32,6 +35,9 @@ export function TunnelManager({
   embedded = false,
 }: TunnelManagerProps): React.ReactElement {
   const { t } = useTranslation();
+  const { addTab } = useTabs() as {
+    addTab: (tab: Record<string, unknown>) => number;
+  };
   const { state: sidebarState } = useSidebar();
   const [currentHostConfig, setCurrentHostConfig] = React.useState(hostConfig);
 
@@ -96,6 +102,17 @@ export function TunnelManager({
     ? "h-full w-full text-foreground overflow-hidden bg-transparent"
     : "bg-canvas text-foreground rounded-lg border-2 border-edge overflow-hidden";
 
+  const openTunnelSettings = React.useCallback(() => {
+    if (!currentHostConfig) return;
+
+    addTab({
+      type: "ssh_manager",
+      title: "Host Manager",
+      hostConfig: currentHostConfig,
+      initialTab: "tunnel",
+    });
+  }, [addTab, currentHostConfig]);
+
   return (
     <div style={wrapperStyle} className={containerClass}>
       <div className="h-full w-full flex flex-col">
@@ -125,13 +142,26 @@ export function TunnelManager({
             </div>
           ) : (
             <div className="flex items-center justify-center h-full">
-              <div className="text-center">
+              <div className="max-w-md rounded-lg border border-edge bg-elevated/90 p-6 text-center">
+                <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-md border border-edge bg-surface">
+                  <ArrowDownUp className="h-5 w-5 text-foreground-secondary" />
+                </div>
                 <p className="text-foreground-subtle text-lg">
                   {t("tunnel.noTunnelsConfigured")}
                 </p>
                 <p className="text-foreground-subtle text-sm mt-2">
                   {t("tunnel.configureTunnelsInHostSettings")}
                 </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="mt-4 h-9 gap-2 border-edge bg-button hover:bg-hover"
+                  onClick={openTunnelSettings}
+                  disabled={!currentHostConfig}
+                >
+                  <Settings2 className="h-4 w-4" />
+                  Configure tunnels
+                </Button>
               </div>
             </div>
           )}

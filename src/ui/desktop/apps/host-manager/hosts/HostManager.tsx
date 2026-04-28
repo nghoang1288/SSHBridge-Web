@@ -15,6 +15,31 @@ import { useTranslation } from "react-i18next";
 import { exportSSHHostWithCredentials } from "@/ui/main-axios.ts";
 import type { SSHHost, HostManagerProps } from "../../../types/index";
 
+const HOST_EDITOR_TABS = new Set([
+  "general",
+  "terminal",
+  "docker",
+  "tunnel",
+  "file_manager",
+  "statistics",
+  "remote_desktop",
+  "sharing",
+]);
+
+function normalizeManagerTab(initialTab?: string) {
+  if (initialTab === "credentials" || initialTab === "add_credential") {
+    return "credentials";
+  }
+
+  return "hosts";
+}
+
+function getInitialEditorTab(initialTab?: string) {
+  return initialTab && HOST_EDITOR_TABS.has(initialTab)
+    ? initialTab
+    : undefined;
+}
+
 export function HostManager({
   isTopbarOpen,
   initialTab = "hosts",
@@ -26,13 +51,7 @@ export function HostManager({
   updateTab,
 }: HostManagerProps): React.ReactElement {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState(
-    initialTab === "host_viewer" || initialTab === "add_host"
-      ? "hosts"
-      : initialTab === "credentials" || initialTab === "add_credential"
-        ? "credentials"
-        : initialTab,
-  );
+  const [activeTab, setActiveTab] = useState(normalizeManagerTab(initialTab));
   const [editingHost, setEditingHost] = useState<SSHHost | null>(
     hostConfig || null,
   );
@@ -82,12 +101,7 @@ export function HostManager({
 
   useEffect(() => {
     if (_updateTimestamp !== undefined) {
-      const normalizedTab =
-        initialTab === "host_viewer" || initialTab === "add_host"
-          ? "hosts"
-          : initialTab === "credentials" || initialTab === "add_credential"
-            ? "credentials"
-            : initialTab;
+      const normalizedTab = normalizeManagerTab(initialTab);
 
       if (initialTab && normalizedTab !== activeTab) {
         setActiveTab(normalizedTab);
@@ -107,12 +121,7 @@ export function HostManager({
       }
     } else {
       if (initialTab) {
-        const normalizedTab =
-          initialTab === "host_viewer" || initialTab === "add_host"
-            ? "hosts"
-            : initialTab === "credentials" || initialTab === "add_credential"
-              ? "credentials"
-              : initialTab;
+        const normalizedTab = normalizeManagerTab(initialTab);
         setActiveTab(normalizedTab);
       }
       if (hostConfig && hostConfig.id !== lastProcessedHostIdRef.current) {
@@ -242,6 +251,7 @@ export function HostManager({
                 <div className="flex flex-col h-full min-h-0">
                   <HostManagerEditor
                     editingHost={editingHost}
+                    initialEditorTab={getInitialEditorTab(initialTab)}
                     onFormSubmit={handleFormSubmit}
                     onBack={() => {
                       setEditingHost(null);

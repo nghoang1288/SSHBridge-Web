@@ -169,14 +169,30 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
   };
 
   const isSSH = !host.connectionType || host.connectionType === "ssh";
+  const canOpenTunnel = host.enableTunnel !== false && hasTunnelConnections;
+  const showTunnelShortcut = isSSH && (host.showTunnelInSidebar ?? false);
+  const tunnelActionLabel = canOpenTunnel
+    ? t("hosts.openTunnels")
+    : "Configure tunnels";
+
+  const handleTunnelClick = () => {
+    if (canOpenTunnel) {
+      addTab({ type: "tunnel", title, hostConfig: host });
+      return;
+    }
+
+    addTab({
+      type: "ssh_manager",
+      title: t("nav.hostManager"),
+      hostConfig: host,
+      initialTab: "tunnel",
+    });
+  };
 
   const visibleButtons = [
     host.enableTerminal && (host.showTerminalInSidebar ?? true),
     isSSH && host.enableFileManager && (host.showFileManagerInSidebar ?? false),
-    isSSH &&
-      host.enableTunnel &&
-      hasTunnelConnections &&
-      (host.showTunnelInSidebar ?? false),
+    showTunnelShortcut,
     isSSH && host.enableDocker && (host.showDockerInSidebar ?? false),
     isSSH && shouldShowMetrics && (host.showServerStatsInSidebar ?? false),
   ].filter(Boolean).length;
@@ -244,21 +260,19 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
               </Button>
             )}
 
-          {isSSH &&
-            host.enableTunnel &&
-            hasTunnelConnections &&
-            (host.showTunnelInSidebar ?? false) && (
-              <Button
-                variant="outline"
-                className="h-8 border border-edge bg-button !px-2 hover:bg-hover"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  addTab({ type: "tunnel", title, hostConfig: host });
-                }}
-              >
-                <ArrowDownUp />
-              </Button>
-            )}
+          {showTunnelShortcut && (
+            <Button
+              variant="outline"
+              className="h-8 border border-edge bg-button !px-2 hover:bg-hover"
+              title={tunnelActionLabel}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleTunnelClick();
+              }}
+            >
+              <ArrowDownUp />
+            </Button>
+          )}
 
           {isSSH &&
             host.enableDocker &&
@@ -362,21 +376,18 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
                     <span className="flex-1">{t("hosts.openFileManager")}</span>
                   </DropdownMenuItem>
                 )}
-              {isSSH &&
-                host.enableTunnel &&
-                hasTunnelConnections &&
-                !(host.showTunnelInSidebar ?? false) && (
-                  <DropdownMenuItem
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      addTab({ type: "tunnel", title, hostConfig: host });
-                    }}
-                    className="flex cursor-pointer items-center gap-2 px-3 py-2 text-foreground-secondary hover:bg-hover"
-                  >
-                    <ArrowDownUp className="h-4 w-4" />
-                    <span className="flex-1">{t("hosts.openTunnels")}</span>
-                  </DropdownMenuItem>
-                )}
+              {isSSH && !showTunnelShortcut && (
+                <DropdownMenuItem
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleTunnelClick();
+                  }}
+                  className="flex cursor-pointer items-center gap-2 px-3 py-2 text-foreground-secondary hover:bg-hover"
+                >
+                  <ArrowDownUp className="h-4 w-4" />
+                  <span className="flex-1">{tunnelActionLabel}</span>
+                </DropdownMenuItem>
+              )}
               {isSSH &&
                 host.enableDocker &&
                 !(host.showDockerInSidebar ?? false) && (

@@ -460,6 +460,7 @@ export interface TabContextTab {
     | "server_stats"
     | "admin"
     | "file_manager"
+    | "tunnel"
     | "user_profile"
     | "docker"
     | "network_graph"

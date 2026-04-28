@@ -144,12 +144,14 @@ interface User {
 
 interface SSHManagerHostEditorProps {
   editingHost?: SSHHost | null;
+  initialEditorTab?: string;
   onFormSubmit?: (updatedHost?: SSHHost) => void;
   onBack?: () => void;
 }
 
 export function HostManagerEditor({
   editingHost,
+  initialEditorTab,
   onFormSubmit,
   onBack,
 }: SSHManagerHostEditorProps) {
@@ -177,7 +179,13 @@ export function HostManagerEditor({
     "upload",
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState("general");
+  const [activeTab, setActiveTab] = useState(initialEditorTab || "general");
+
+  useEffect(() => {
+    if (initialEditorTab) {
+      setActiveTab(initialEditorTab);
+    }
+  }, [initialEditorTab, editingHost?.id]);
   const [formError, setFormError] = useState<string | null>(null);
   const [guacEnabled, setGuacEnabled] = useState(true);
 

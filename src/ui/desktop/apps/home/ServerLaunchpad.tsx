@@ -108,10 +108,8 @@ export function ServerLaunchpad({
   rightSidebarOpen?: boolean;
   rightSidebarWidth?: number;
 }): React.ReactElement {
-  const { addTab, setCurrentTab, tabs } = useTabs() as {
+  const { addTab } = useTabs() as {
     addTab: (tab: Record<string, unknown>) => number;
-    setCurrentTab: (id: number) => void;
-    tabs: Array<{ id: number; type: string }>;
   };
   const { statuses, refreshStatuses, getStatus, isLoading } = useServerStatus();
   const [hosts, setHosts] = useState<SSHHost[]>([]);
@@ -195,13 +193,15 @@ export function ServerLaunchpad({
   ).length;
   const pinnedCount = hosts.filter((host) => host.pin).length;
   const recentHosts = filteredHosts.slice(0, 4);
+  const sshHosts = hosts.filter(
+    (host) => !host.connectionType || host.connectionType === "ssh",
+  );
+  const tunnelReadyHosts = sshHosts.filter(
+    (host) => host.enableTunnel !== false && hasTunnelConnections(host),
+  );
+  const tunnelReadyCount = tunnelReadyHosts.length;
 
   const openHostManager = (host?: SSHHost, initialTab?: string) => {
-    const existing = tabs.find((tab) => tab.type === "ssh_manager");
-    if (existing) {
-      setCurrentTab(existing.id);
-      return;
-    }
     addTab({
       type: "ssh_manager",
       title: "Host Manager",
@@ -252,6 +252,31 @@ export function ServerLaunchpad({
 
   const openTool = (host: SSHHost, type: string) => {
     addTab({ type, title: getTitle(host), hostConfig: host });
+  };
+
+  const openTunnel = (host: SSHHost) => {
+    if (host.enableTunnel !== false && hasTunnelConnections(host)) {
+      openTool(host, "tunnel");
+      return;
+    }
+
+    openHostManager(host, "tunnel");
+  };
+
+  const openTunnelManager = () => {
+    const readyHost = tunnelReadyHosts[0];
+    if (readyHost) {
+      openTool(readyHost, "tunnel");
+      return;
+    }
+
+    const firstSshHost = sshHosts[0];
+    if (firstSshHost) {
+      openHostManager(firstSshHost, "tunnel");
+      return;
+    }
+
+    openHostManager(undefined, "hosts");
   };
 
   const refreshAll = async () => {
@@ -408,8 +433,8 @@ export function ServerLaunchpad({
                         !host.connectionType || host.connectionType === "ssh";
                       const showFileManager =
                         isSSH && host.enableFileManager !== false;
-                      const showTunnel =
-                        isSSH &&
+                      const showTunnel = isSSH;
+                      const canOpenTunnel =
                         host.enableTunnel !== false &&
                         hasTunnelConnections(host);
                       const showDocker = isSSH && host.enableDocker === true;
@@ -518,8 +543,12 @@ export function ServerLaunchpad({
                                 <Button
                                   variant="outline"
                                   className="h-8 w-8 border-edge bg-button p-0 hover:bg-hover"
-                                  title="Tunnel"
-                                  onClick={() => openTool(host, "tunnel")}
+                                  title={
+                                    canOpenTunnel
+                                      ? "Open tunnels"
+                                      : "Configure tunnels"
+                                  }
+                                  onClick={() => openTunnel(host)}
                                 >
                                   <ArrowDownUp className="h-3.5 w-3.5" />
                                 </Button>
@@ -603,6 +632,17 @@ export function ServerLaunchpad({
                 >
                   <Plus className="h-4 w-4" />
                   Add saved server
+                </Button>
+                <Button
+                  variant="outline"
+                  className="h-10 w-full justify-start gap-2 border-edge bg-button hover:bg-hover"
+                  onClick={openTunnelManager}
+                >
+                  <ArrowDownUp className="h-4 w-4" />
+                  Tunnels
+                  <span className="ml-auto rounded border border-edge bg-surface px-1.5 py-0.5 text-[11px] text-foreground-subtle">
+                    {tunnelReadyCount}
+                  </span>
                 </Button>
               </div>
             </section>
