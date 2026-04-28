@@ -12,7 +12,7 @@
     <licenseUrl>https://raw.githubusercontent.com/nghoang1288/SSHBridge-Web/refs/heads/main/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectSourceUrl>https://github.com/nghoang1288/SSHBridge-Web</projectSourceUrl>
-    <docsUrl>https://docs.termix.site/install</docsUrl>
+    <docsUrl>https://github.com/nghoang1288/SSHBridge-Web#readme</docsUrl>
     <bugTrackerUrl>https://github.com/nghoang1288/SSHBridge-Web/issues</bugTrackerUrl>
     <tags>docker ssh self-hosted file-management ssh-tunnel sshbridge server-management terminal</tags>
     <summary>SSHBridge is a web-based server management platform with SSH terminal, tunneling, and file editing capabilities.</summary>

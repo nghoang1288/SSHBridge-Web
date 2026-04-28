@@ -121,7 +121,10 @@ export function HostTunnelTab({
               size="sm"
               className="h-8 px-3 text-xs"
               onClick={() =>
-                window.open("https://docs.termix.site/tunnels", "_blank")
+                window.open(
+                  "https://github.com/nghoang1288/SSHBridge-Web#core-experience",
+                  "_blank",
+                )
               }
             >
               {t("common.documentation")}

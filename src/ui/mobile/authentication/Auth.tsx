@@ -1242,7 +1242,7 @@ export function Auth({
                       className="w-full h-11 text-base font-semibold"
                       onClick={() =>
                         window.open(
-                          "https://docs.termix.site/install",
+                          "https://github.com/nghoang1288/SSHBridge-Web#readme",
                           "_blank",
                         )
                       }

@@ -58,11 +58,11 @@ SSHBridge는 오픈 소스이며 영구 무료인 셀프 호스팅 올인원 서
 - **대시보드** - 대시보드에서 서버 정보를 한눈에 확인.
 - **RBAC** - 역할을 생성하고 사용자/역할 간에 호스트 공유.
 - **사용자 인증** - 관리자 제어와 OIDC(액세스 제어 포함) 및 2FA(TOTP) 지원을 통한 안전한 사용자 관리. 모든 플랫폼에서 활성 사용자 세션을 보고 권한을 취소 가능. OIDC/로컬 계정 연동.
-- **데이터베이스 암호화** - 백엔드가 암호화된 SQLite 데이터베이스 파일로 저장됨. 자세한 내용은 [문서](https://docs.termix.site/security)를 참조하세요.
+- **데이터베이스 암호화** - 백엔드가 암호화된 SQLite 데이터베이스 파일로 저장됨. 자세한 내용은 [문서](https://github.com/nghoang1288/SSHBridge-Web#security-notes)를 참조하세요.
 - **데이터 내보내기/가져오기** - SSH 호스트, 자격 증명, 파일 관리자 데이터의 내보내기 및 가져오기.
 - **자동 SSL 설정** - HTTPS 리디렉션을 포함한 내장 SSL 인증서 생성 및 관리.
 - **모던 UI** - React, Tailwind CSS, Shadcn으로 구축된 깔끔한 데스크톱/모바일 친화적 인터페이스. 라이트, 다크, 드라큘라 등 다양한 UI 테마 선택 가능. URL 라우트를 사용하여 모든 연결을 전체 화면으로 열기 가능.
-- **다국어 지원** - 약 30개 언어 내장 지원([Crowdin](https://docs.termix.site/translations)으로 관리).
+- **다국어 지원** - 약 30개 언어 내장 지원([Crowdin](https://github.com/nghoang1288/SSHBridge-Web/tree/main/src/locales)으로 관리).
 - **플랫폼 지원** - 웹 앱, 데스크톱 애플리케이션(Windows, Linux, macOS, SSHBridge 백엔드 없이 독립 실행 가능), PWA, iOS 및 Android 전용 모바일/태블릿 앱으로 제공.
 - **SSH 도구** - 한 번의 클릭으로 실행 가능한 재사용 가능 명령어 스니펫 생성. 여러 열린 터미널에서 동시에 하나의 명령어 실행.
 - **명령어 기록** - 이전에 실행한 SSH 명령어의 자동 완성 및 조회.
@@ -102,7 +102,7 @@ SSHBridge는 오픈 소스이며 영구 무료인 셀프 호스팅 올인원 서
   - Google Play Store
   - APK
 
-모든 플랫폼에 SSHBridge를 설치하는 방법에 대한 자세한 내용은 SSHBridge [문서](https://docs.termix.site/install)를 방문하세요. 다음은 Docker Compose 파일 예시입니다(원격 데스크톱 기능을 사용할 계획이 없다면 guacd와 네트워크를 생략할 수 있습니다):
+모든 플랫폼에 SSHBridge를 설치하는 방법에 대한 자세한 내용은 SSHBridge [문서](https://github.com/nghoang1288/SSHBridge-Web#readme)를 방문하세요. 다음은 Docker Compose 파일 예시입니다(원격 데스크톱 기능을 사용할 계획이 없다면 guacd와 네트워크를 생략할 수 있습니다):
 
 ```yaml
 services:
@@ -177,7 +177,7 @@ SSHBridge에 대한 도움이 필요하거나 기능을 요청하려면 [Issues]
 
 # 스크린샷
 
-[![YouTube](../repo-images/YouTube.jpg)](https://www.youtube.com/@TermixSSH/videos)
+[![YouTube](../repo-images/YouTube.jpg)](https://github.com/nghoang1288/SSHBridge-Web)
 
 <p align="center">
   <img src="../repo-images/Image%201.png" width="400" alt="SSHBridge Demo 1"/>

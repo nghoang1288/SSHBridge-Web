@@ -175,7 +175,12 @@ export function OIDCSettingsTab({
           variant="outline"
           size="sm"
           className="h-8 px-3 text-xs"
-          onClick={() => window.open("https://docs.termix.site/oidc", "_blank")}
+          onClick={() =>
+            window.open(
+              "https://github.com/nghoang1288/SSHBridge-Web#core-experience",
+              "_blank",
+            )
+          }
         >
           {t("common.documentation")}
         </Button>

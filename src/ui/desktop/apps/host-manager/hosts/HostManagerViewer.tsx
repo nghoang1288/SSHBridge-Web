@@ -1193,7 +1193,10 @@ export function HostManagerViewer({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  window.open("https://docs.termix.site/json-import", "_blank");
+                  window.open(
+                    "https://github.com/nghoang1288/SSHBridge-Web#core-experience",
+                    "_blank",
+                  );
                 }}
               >
                 {t("hosts.formatGuide")}
@@ -1325,7 +1328,10 @@ export function HostManagerViewer({
               variant="outline"
               size="sm"
               onClick={() => {
-                window.open("https://docs.termix.site/json-import", "_blank");
+                window.open(
+                  "https://github.com/nghoang1288/SSHBridge-Web#core-experience",
+                  "_blank",
+                );
               }}
             >
               {t("hosts.formatGuide")}

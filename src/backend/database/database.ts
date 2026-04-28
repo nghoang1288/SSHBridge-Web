@@ -121,7 +121,7 @@ const githubCache = new GitHubCache();
 
 const GITHUB_API_BASE = "https://api.github.com";
 const REPO_OWNER = "nghoang1288";
-const REPO_NAME = "Termix";
+const REPO_NAME = "SSHBridge-Web";
 
 async function fetchGitHubAPI<T>(
   endpoint: string,

@@ -16,7 +16,12 @@ export function HostDockerTab({ form, t }: HostDockerTabProps) {
         variant="outline"
         size="sm"
         className="h-8 px-3 text-xs"
-        onClick={() => window.open("https://docs.termix.site/docker", "_blank")}
+        onClick={() =>
+          window.open(
+            "https://github.com/nghoang1288/SSHBridge-Web#docker",
+            "_blank",
+          )
+        }
       >
         {t("common.documentation")}
       </Button>

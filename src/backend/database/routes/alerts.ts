@@ -44,7 +44,7 @@ const alertCache = new AlertCache();
 
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com";
 const REPO_OWNER = "nghoang1288";
-const REPO_NAME = "Termix";
+const REPO_NAME = "SSHBridge-Web";
 const ALERTS_FILE = "main/sshbridge-alerts.json";
 
 async function fetchAlertsFromGitHub(): Promise<TermixAlert[]> {

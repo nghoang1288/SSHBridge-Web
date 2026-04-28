@@ -58,11 +58,11 @@ SSHBridge es una plataforma de gestión de servidores todo en uno, de código ab
 - **Dashboard** - Vea la información del servidor de un vistazo en su dashboard.
 - **RBAC** - Cree roles y comparta hosts entre usuarios/roles.
 - **Autenticación de Usuarios** - Gestión segura de usuarios con controles de administrador y soporte para OIDC (con control de acceso) y 2FA (TOTP). Vea sesiones activas de usuarios en todas las plataformas y revoque permisos. Vincule sus cuentas OIDC/Locales entre sí.
-- **Cifrado de Base de Datos** - Backend almacenado como archivos de base de datos SQLite cifrados. Consulte la [documentación](https://docs.termix.site/security) para más información.
+- **Cifrado de Base de Datos** - Backend almacenado como archivos de base de datos SQLite cifrados. Consulte la [documentación](https://github.com/nghoang1288/SSHBridge-Web#security-notes) para más información.
 - **Exportación/Importación de Datos** - Exporte e importe hosts SSH, credenciales y datos del gestor de archivos.
 - **Configuración Automática de SSL** - Generación y gestión integrada de certificados SSL con redirecciones HTTPS.
 - **Interfaz Moderna** - Interfaz limpia compatible con escritorio/móvil construida con React, Tailwind CSS y Shadcn. Elija entre muchos temas de UI diferentes, incluyendo claro, oscuro, Dracula, etc. Use rutas URL para abrir cualquier conexión en pantalla completa.
-- **Idiomas** - Soporte integrado para ~30 idiomas (gestionado por [Crowdin](https://docs.termix.site/translations)).
+- **Idiomas** - Soporte integrado para ~30 idiomas (gestionado por [Crowdin](https://github.com/nghoang1288/SSHBridge-Web/tree/main/src/locales)).
 - **Soporte de Plataformas** - Disponible como aplicación web, aplicación de escritorio (Windows, Linux y macOS, se puede ejecutar de forma independiente sin el backend de SSHBridge), PWA y aplicación dedicada para móviles/tablets en iOS y Android.
 - **Herramientas SSH** - Cree fragmentos de comandos reutilizables que se ejecutan con un solo clic. Ejecute un comando simultáneamente en múltiples terminales abiertos.
 - **Historial de Comandos** - Autocompletado y visualización de comandos SSH ejecutados anteriormente.
@@ -102,7 +102,7 @@ Dispositivos soportados:
   - Google Play Store
   - APK
 
-Visite la [documentación](https://docs.termix.site/install) de SSHBridge para más información sobre cómo instalar SSHBridge en todas las plataformas. De lo contrario, vea un archivo Docker Compose de ejemplo aquí (puede omitir guacd y la red si no planea usar funciones de escritorio remoto):
+Visite la [documentación](https://github.com/nghoang1288/SSHBridge-Web#readme) de SSHBridge para más información sobre cómo instalar SSHBridge en todas las plataformas. De lo contrario, vea un archivo Docker Compose de ejemplo aquí (puede omitir guacd y la red si no planea usar funciones de escritorio remoto):
 
 ```yaml
 services:
@@ -178,7 +178,7 @@ Por favor, sea lo más detallado posible en su reporte, preferiblemente escrito 
 
 # Capturas de Pantalla
 
-[![YouTube](../repo-images/YouTube.jpg)](https://www.youtube.com/@TermixSSH/videos)
+[![YouTube](../repo-images/YouTube.jpg)](https://github.com/nghoang1288/SSHBridge-Web)
 
 <p align="center">
   <img src="../repo-images/Image%201.png" width="400" alt="SSHBridge Demo 1"/>

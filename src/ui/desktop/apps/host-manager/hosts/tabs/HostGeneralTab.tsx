@@ -794,7 +794,10 @@ export function HostGeneralTab({
                     size="sm"
                     className="h-8 px-3 text-xs"
                     onClick={() =>
-                      window.open("https://docs.termix.site/opkssh", "_blank")
+                      window.open(
+                        "https://github.com/openpubkey/opkssh",
+                        "_blank",
+                      )
                     }
                   >
                     {t("common.documentation")}
