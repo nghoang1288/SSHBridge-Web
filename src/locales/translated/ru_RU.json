@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "УПРАВЛЕНИЕ СЕРВЕРА ССИ",
     "description": "Управление безопасным, мощным и интуитивно понятным соединением SSH",
-    "welcomeBack": "Добро пожаловать на TERMIX",
-    "createAccount": "Создайте ваш аккаунт TERMIX",
+    "welcomeBack": "Добро пожаловать на SSHBridge",
+    "createAccount": "Создайте ваш аккаунт SSHBridge",
     "continueExternal": "Продолжить с внешним провайдером",
     "loginTitle": "Войти в Термикс",
     "registerTitle": "Создать Аккаунт",

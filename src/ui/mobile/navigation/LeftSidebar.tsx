@@ -11,7 +11,7 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { ChevronUp, Menu, User2, Moon, Sun } from "lucide-react";
+import { ChevronUp, Menu, User2 } from "lucide-react";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Separator } from "@/components/ui/separator.tsx";
 import { FolderCard } from "@/ui/mobile/navigation/hosts/FolderCard.tsx";
@@ -182,36 +182,45 @@ export function LeftSidebar({
 
   return (
     <div className="">
-      <SidebarProvider open={isSidebarOpen}>
+      <SidebarProvider
+        open={isSidebarOpen}
+        style={
+          { "--sidebar-width": "min(100vw, 430px)" } as React.CSSProperties
+        }
+      >
         <Sidebar>
-          <SidebarHeader>
-            <SidebarGroupLabel className="text-lg font-bold text-foreground">
-              SSHBridge
+          <SidebarHeader className="p-4 pb-3">
+            <SidebarGroupLabel className="h-10 text-lg font-semibold text-foreground">
+              Connect
               <Button
                 variant="outline"
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="w-[28px] h-[28px] absolute right-5"
+                className="absolute right-4 h-8 w-8 border-edge bg-button hover:bg-hover"
               >
                 <Menu className="h-4 w-4" />
               </Button>
             </SidebarGroupLabel>
+            <div className="mt-2 flex items-center gap-2 text-xs text-foreground-subtle">
+              <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              {filteredHosts.length} saved SSH servers
+            </div>
           </SidebarHeader>
           <Separator />
           <SidebarContent>
-            <SidebarGroup className="flex flex-col gap-y-2">
-              <div className="!bg-field rounded-lg">
+            <SidebarGroup className="flex flex-col gap-y-3 p-4">
+              <div className="rounded-md bg-field">
                 <Input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t("placeholders.searchHostsAny")}
-                  className="w-full h-8 text-sm border-2 !bg-field border-edge rounded-md"
+                  className="h-11 w-full rounded-md border !border-edge !bg-surface text-base text-foreground placeholder:text-foreground-subtle shadow-none focus-visible:border-edge-active focus-visible:ring-ring/20"
                   autoComplete="off"
                 />
               </div>
 
               {hostsError && (
                 <div className="px-1">
-                  <div className="text-xs text-red-500 bg-red-500/10 rounded-lg px-2 py-1 border w-full">
+                  <div className="w-full rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-xs text-red-400">
                     {t("leftSidebar.failedToLoadHosts")}
                   </div>
                 </div>
@@ -236,7 +245,7 @@ export function LeftSidebar({
             </SidebarGroup>
           </SidebarContent>
           <Separator className="mt-1" />
-          <SidebarFooter>
+          <SidebarFooter className="p-4">
             <SidebarMenu>
               <SidebarMenuItem>
                 <DropdownMenu>
@@ -253,7 +262,7 @@ export function LeftSidebar({
                     side="top"
                     align="start"
                     sideOffset={6}
-                    className="min-w-[var(--radix-popper-anchor-width)] bg-sidebar-accent text-sidebar-accent-foreground border border-border rounded-md shadow-2xl p-1"
+                    className="min-w-[var(--radix-popper-anchor-width)] rounded-md border border-edge bg-popover p-1 text-popover-foreground shadow-2xl"
                   >
                     <DropdownMenuItem
                       className="rounded px-2 py-1.5 hover:bg-surface-hover hover:text-accent-foreground focus:bg-surface-hover focus:text-accent-foreground cursor-pointer focus:outline-none"

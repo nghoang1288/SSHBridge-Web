@@ -51,6 +51,7 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
   const title = host.name?.trim()
     ? host.name
     : `${host.username}@${host.ip}:${host.port}`;
+  const endpoint = `${host.username}@${host.ip}:${host.port}`;
 
   useEffect(() => {
     setHost(initialHost);
@@ -160,6 +161,13 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
     addTab({ type: "terminal", title, hostConfig: host });
   };
 
+  const handleRowKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleTerminalClick();
+    }
+  };
+
   const isSSH = !host.connectionType || host.connectionType === "ssh";
 
   const visibleButtons = [
@@ -174,7 +182,14 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
   ].filter(Boolean).length;
 
   return (
-    <div>
+    <div
+      role="button"
+      tabIndex={0}
+      className="group rounded-md px-2 py-2 outline-none transition-colors hover:bg-surface-hover focus-visible:ring-2 focus-visible:ring-ring"
+      onClick={handleTerminalClick}
+      onKeyDown={handleRowKeyDown}
+      title={t("hosts.openTerminal")}
+    >
       <div className="flex items-center gap-2">
         {shouldShowStatus && (
           <Status
@@ -185,16 +200,22 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
           </Status>
         )}
 
-        <p className="font-semibold flex-1 min-w-0 break-words text-sm">
-          {host.name || host.ip}
-        </p>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-semibold text-foreground">
+            {host.name || host.ip}
+          </p>
+          <p className="truncate text-xs text-foreground-subtle">{endpoint}</p>
+        </div>
 
         <ButtonGroup className="flex-shrink-0">
           {host.enableTerminal && (host.showTerminalInSidebar ?? true) && (
             <Button
               variant="outline"
-              className="!px-2 border-1 border-edge"
-              onClick={handleTerminalClick}
+              className="h-8 border border-edge bg-button !px-2 hover:bg-hover"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleTerminalClick();
+              }}
             >
               {host.connectionType === "rdp" ? (
                 <Monitor />
@@ -213,10 +234,11 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
             (host.showFileManagerInSidebar ?? false) && (
               <Button
                 variant="outline"
-                className="!px-2 border-1 border-edge"
-                onClick={() =>
-                  addTab({ type: "file_manager", title, hostConfig: host })
-                }
+                className="h-8 border border-edge bg-button !px-2 hover:bg-hover"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  addTab({ type: "file_manager", title, hostConfig: host });
+                }}
               >
                 <FolderOpen />
               </Button>
@@ -228,10 +250,11 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
             (host.showTunnelInSidebar ?? false) && (
               <Button
                 variant="outline"
-                className="!px-2 border-1 border-edge"
-                onClick={() =>
-                  addTab({ type: "tunnel", title, hostConfig: host })
-                }
+                className="h-8 border border-edge bg-button !px-2 hover:bg-hover"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  addTab({ type: "tunnel", title, hostConfig: host });
+                }}
               >
                 <ArrowDownUp />
               </Button>
@@ -242,10 +265,11 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
             (host.showDockerInSidebar ?? false) && (
               <Button
                 variant="outline"
-                className="!px-2 border-1 border-edge"
-                onClick={() =>
-                  addTab({ type: "docker", title, hostConfig: host })
-                }
+                className="h-8 border border-edge bg-button !px-2 hover:bg-hover"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  addTab({ type: "docker", title, hostConfig: host });
+                }}
               >
                 <Container />
               </Button>
@@ -256,10 +280,11 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
             (host.showServerStatsInSidebar ?? false) && (
               <Button
                 variant="outline"
-                className="!px-2 border-1 border-edge"
-                onClick={() =>
-                  addTab({ type: "server_stats", title, hostConfig: host })
-                }
+                className="h-8 border border-edge bg-button !px-2 hover:bg-hover"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  addTab({ type: "server_stats", title, hostConfig: host });
+                }}
               >
                 <Server />
               </Button>
@@ -270,9 +295,10 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
               <Button
                 variant="outline"
                 className={cn(
-                  "!px-2 border-1 border-edge",
+                  "h-8 border border-edge bg-button !px-2 hover:bg-hover",
                   visibleButtons > 0 && "rounded-l-none border-l-0",
                 )}
+                onClick={(event) => event.stopPropagation()}
               >
                 <EllipsisVertical />
               </Button>
@@ -281,12 +307,12 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
             <DropdownMenuContent
               align="start"
               side="right"
-              className="w-56 bg-canvas border-edge text-foreground"
+              className="w-56 border-edge bg-popover text-popover-foreground"
             >
               {host.enableTerminal && !(host.showTerminalInSidebar ?? true) && (
                 <DropdownMenuItem
                   onClick={handleTerminalClick}
-                  className="flex items-center gap-2 cursor-pointer px-3 py-2 hover:bg-hover text-foreground-secondary"
+                  className="flex cursor-pointer items-center gap-2 px-3 py-2 text-foreground-secondary hover:bg-hover"
                 >
                   {host.connectionType === "rdp" ? (
                     <Monitor className="h-4 w-4" />
@@ -312,10 +338,11 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
                 shouldShowMetrics &&
                 !(host.showServerStatsInSidebar ?? false) && (
                   <DropdownMenuItem
-                    onClick={() =>
-                      addTab({ type: "server_stats", title, hostConfig: host })
-                    }
-                    className="flex items-center gap-2 cursor-pointer px-3 py-2 hover:bg-hover text-foreground-secondary"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      addTab({ type: "server_stats", title, hostConfig: host });
+                    }}
+                    className="flex cursor-pointer items-center gap-2 px-3 py-2 text-foreground-secondary hover:bg-hover"
                   >
                     <Server className="h-4 w-4" />
                     <span className="flex-1">{t("hosts.openServerStats")}</span>
@@ -325,10 +352,11 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
                 host.enableFileManager &&
                 !(host.showFileManagerInSidebar ?? false) && (
                   <DropdownMenuItem
-                    onClick={() =>
-                      addTab({ type: "file_manager", title, hostConfig: host })
-                    }
-                    className="flex items-center gap-2 cursor-pointer px-3 py-2 hover:bg-hover text-foreground-secondary"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      addTab({ type: "file_manager", title, hostConfig: host });
+                    }}
+                    className="flex cursor-pointer items-center gap-2 px-3 py-2 text-foreground-secondary hover:bg-hover"
                   >
                     <FolderOpen className="h-4 w-4" />
                     <span className="flex-1">{t("hosts.openFileManager")}</span>
@@ -339,10 +367,11 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
                 hasTunnelConnections &&
                 !(host.showTunnelInSidebar ?? false) && (
                   <DropdownMenuItem
-                    onClick={() =>
-                      addTab({ type: "tunnel", title, hostConfig: host })
-                    }
-                    className="flex items-center gap-2 cursor-pointer px-3 py-2 hover:bg-hover text-foreground-secondary"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      addTab({ type: "tunnel", title, hostConfig: host });
+                    }}
+                    className="flex cursor-pointer items-center gap-2 px-3 py-2 text-foreground-secondary hover:bg-hover"
                   >
                     <ArrowDownUp className="h-4 w-4" />
                     <span className="flex-1">{t("hosts.openTunnels")}</span>
@@ -352,10 +381,11 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
                 host.enableDocker &&
                 !(host.showDockerInSidebar ?? false) && (
                   <DropdownMenuItem
-                    onClick={() =>
-                      addTab({ type: "docker", title, hostConfig: host })
-                    }
-                    className="flex items-center gap-2 cursor-pointer px-3 py-2 hover:bg-hover text-foreground-secondary"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      addTab({ type: "docker", title, hostConfig: host });
+                    }}
+                    className="flex cursor-pointer items-center gap-2 px-3 py-2 text-foreground-secondary hover:bg-hover"
                   >
                     <Container className="h-4 w-4" />
                     <span className="flex-1">{t("hosts.openDocker")}</span>
@@ -371,22 +401,23 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
                       toast.error(t("hosts.wolFailed"));
                     }
                   }}
-                  className="flex items-center gap-2 cursor-pointer px-3 py-2 hover:bg-hover text-foreground-secondary"
+                  className="flex cursor-pointer items-center gap-2 px-3 py-2 text-foreground-secondary hover:bg-hover"
                 >
                   <Power className="h-4 w-4" />
                   <span className="flex-1">{t("hosts.wakeOnLan")}</span>
                 </DropdownMenuItem>
               )}
               <DropdownMenuItem
-                onClick={() =>
+                onClick={(event) => {
+                  event.stopPropagation();
                   addTab({
                     type: "ssh_manager",
                     title: t("nav.hostManager"),
                     hostConfig: host,
                     initialTab: "hosts",
-                  })
-                }
-                className="flex items-center gap-2 cursor-pointer px-3 py-2 hover:bg-hover text-foreground-secondary"
+                  });
+                }}
+                className="flex cursor-pointer items-center gap-2 px-3 py-2 text-foreground-secondary hover:bg-hover"
               >
                 <Pencil className="h-4 w-4" />
                 <span className="flex-1">{t("common.edit")}</span>
@@ -396,13 +427,13 @@ export function Host({ host: initialHost }: HostProps): React.ReactElement {
         </ButtonGroup>
       </div>
       {showTags && hasTags && (
-        <div className="flex flex-wrap items-center gap-2 mt-1">
+        <div className="mt-1.5 flex flex-wrap items-center gap-1.5 pl-5">
           {tags.map((tag: string) => (
             <div
               key={tag}
-              className="bg-canvas border-1 border-edge pl-2 pr-2 rounded-[10px]"
+              className="rounded-sm border border-edge-panel bg-surface px-1.5"
             >
-              <p className="text-sm">{tag}</p>
+              <p className="text-xs text-foreground-secondary">{tag}</p>
             </div>
           ))}
         </div>

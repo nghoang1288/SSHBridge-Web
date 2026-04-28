@@ -2386,17 +2386,16 @@ export async function removeFolderShortcut(
  * between the degraded toast and the full-outage overlay based on whether
  * any WebSocket is still alive).
  *
- * Sequence: try(2s) -> wait 3s -> try(5s) -> wait 5s -> try(8s) -> fail.
- * Worst-case wall-clock = 23s, which fits inside the 30s ServerStatusContext
- * poll cadence, so the next tick acts as the next retry without overlap.
+ * Sequence: try(1.5s) -> wait 0.75s -> try(2.5s) -> fail.
+ * Status badges should degrade quickly; long background retries make the server
+ * list feel stale and block manual refresh feedback.
  */
 const STATUS_RETRY_SCHEDULE: ReadonlyArray<{
   timeoutMs: number;
   pauseAfterMs: number | null;
 }> = [
-  { timeoutMs: 2000, pauseAfterMs: 3000 },
-  { timeoutMs: 5000, pauseAfterMs: 5000 },
-  { timeoutMs: 8000, pauseAfterMs: null },
+  { timeoutMs: 1500, pauseAfterMs: 750 },
+  { timeoutMs: 2500, pauseAfterMs: null },
 ];
 
 function isTransientStatusError(error: unknown): boolean {
@@ -2588,7 +2587,7 @@ export async function submitMetricsTOTP(
 
 export async function refreshServerPolling(): Promise<void> {
   try {
-    await statsApi.post("/refresh");
+    await statsApi.post("/refresh", undefined, { timeout: 5000 });
   } catch (error) {
     console.warn("Failed to refresh server polling:", error);
   }

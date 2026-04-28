@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "MANAJER SERVER SSH",
     "description": "Manajemen koneksi SSH yang aman, andal, dan intuitif.",
-    "welcomeBack": "Selamat datang kembali di TERMIX",
-    "createAccount": "Buat akun TERMIX Anda",
+    "welcomeBack": "Selamat datang kembali di SSHBridge",
+    "createAccount": "Buat akun SSHBridge Anda",
     "continueExternal": "Lanjutkan dengan penyedia eksternal",
     "loginTitle": "Masuk ke SSHBridge",
     "registerTitle": "Buat Akun",

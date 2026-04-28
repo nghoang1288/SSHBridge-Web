@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "SSH-BEDIENERBESTUURDER",
     "description": "Veilige, kragtige en intuïtiewe SSH-verbindingsbestuur",
-    "welcomeBack": "Welkom terug by TERMIX",
-    "createAccount": "Skep jou TERMIX-rekening",
+    "welcomeBack": "Welkom terug by SSHBridge",
+    "createAccount": "Skep jou SSHBridge-rekening",
     "continueExternal": "Gaan voort met eksterne verskaffer",
     "loginTitle": "Teken aan by SSHBridge",
     "registerTitle": "Skep Rekening",

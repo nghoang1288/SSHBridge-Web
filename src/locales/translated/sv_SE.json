@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "SSH SERVER MANAGER",
     "description": "Säkert, kraftfullt och intuitivt SSH-anslutningshantering",
-    "welcomeBack": "Välkommen tillbaka till TERMIX",
-    "createAccount": "Skapa ditt TERMIX-konto",
+    "welcomeBack": "Välkommen tillbaka till SSHBridge",
+    "createAccount": "Skapa ditt SSHBridge-konto",
     "continueExternal": "Fortsätt med extern leverantör",
     "loginTitle": "Logga in till SSHBridge",
     "registerTitle": "Skapa konto",

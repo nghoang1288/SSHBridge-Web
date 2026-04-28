@@ -93,11 +93,11 @@ export function FolderCard({
     folderIcon && iconMap[folderIcon] ? iconMap[folderIcon] : Folder;
 
   return (
-    <div className="bg-elevated border-2 border-edge rounded-lg overflow-hidden p-0 m-0">
+    <div className="m-0 overflow-hidden rounded-md border border-edge-panel bg-elevated p-0">
       <div
-        className={`px-4 py-3 relative ${isExpanded ? "border-b-2" : ""} bg-header`}
+        className={`relative bg-header px-3 py-2 ${isExpanded ? "border-b border-edge-panel" : ""}`}
       >
-        <div className="flex gap-2 pr-10">
+        <div className="flex gap-2 pr-9">
           <div className="flex-shrink-0 flex items-center">
             <FolderIcon
               size={16}
@@ -106,14 +106,14 @@ export function FolderCard({
             />
           </div>
           <div className="flex-1 min-w-0">
-            <CardTitle className="mb-0 leading-tight break-words text-md">
+            <CardTitle className="mb-0 break-words text-sm font-semibold leading-tight">
               {folderName}
             </CardTitle>
           </div>
         </div>
         <Button
           variant="outline"
-          className="w-[28px] h-[28px] absolute right-4 top-1/2 -translate-y-1/2 flex-shrink-0"
+          className="absolute right-2 top-1/2 h-7 w-7 -translate-y-1/2 flex-shrink-0 border-edge bg-button hover:bg-hover"
           onClick={toggleExpanded}
         >
           <ChevronDown
@@ -122,15 +122,15 @@ export function FolderCard({
         </Button>
       </div>
       {isExpanded && (
-        <div className="flex flex-col p-2 gap-y-3">
+        <div className="flex flex-col gap-y-1 p-1.5">
           {hosts.map((host, index) => (
             <React.Fragment
               key={`${folderName}-host-${host.id}-${host.name || host.ip}`}
             >
               <Host host={host} />
               {index < hosts.length - 1 && (
-                <div className="relative -mx-2">
-                  <Separator className="p-0.25 absolute inset-x-0" />
+                <div className="relative -mx-1.5">
+                  <Separator className="absolute inset-x-0" />
                 </div>
               )}
             </React.Fragment>

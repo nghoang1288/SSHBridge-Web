@@ -1,29 +1,24 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  ChevronUp,
-  User2,
-  HardDrive,
-  Menu,
   ChevronRight,
-  RotateCcw,
+  ChevronUp,
+  CircleDot,
+  HardDrive,
+  Home,
+  LogOut,
+  Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Search,
+  Server,
+  Terminal,
+  User2,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { isElectron, logoutUser } from "@/ui/main-axios.ts";
+import { toast } from "sonner";
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarInset,
-  SidebarHeader,
-} from "@/components/ui/sidebar.tsx";
-
+import { Button } from "@/components/ui/button.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { Separator } from "@/components/ui/separator.tsx";
 import {
   DropdownMenu,
@@ -31,11 +26,30 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Input } from "@/components/ui/input.tsx";
-import { Button } from "@/components/ui/button.tsx";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar.tsx";
+import { cn } from "@/lib/utils.ts";
+import { useServerStatus } from "@/ui/contexts/ServerStatusContext";
 import { FolderCard } from "@/ui/desktop/navigation/hosts/FolderCard.tsx";
-import { getSSHHosts, getSSHFolders } from "@/ui/main-axios.ts";
 import { useTabs } from "@/ui/desktop/navigation/tabs/TabContext.tsx";
+import {
+  getGuacamoleDpi,
+  getGuacamoleTokenFromHost,
+  getSSHFolders,
+  getSSHHosts,
+  isElectron,
+  logActivity,
+  logoutUser,
+} from "@/ui/main-axios.ts";
 import type { SSHFolder, SSHHost } from "@/types/index.ts";
 
 interface SidebarProps {
@@ -44,6 +58,17 @@ interface SidebarProps {
   username?: string | null;
   children?: React.ReactNode;
   onLogout?: () => void;
+}
+
+const COMPACT_WIDTH = 76;
+const EXPANDED_WIDTH = 320;
+
+function getMaxSidebarWidth() {
+  return Math.min(420, Math.max(EXPANDED_WIDTH, Math.floor(window.innerWidth * 0.34)));
+}
+
+function clampSidebarWidth(value: number) {
+  return Math.min(getMaxSidebarWidth(), Math.max(COMPACT_WIDTH, value));
 }
 
 async function handleLogout() {
@@ -61,6 +86,14 @@ async function handleLogout() {
   }
 }
 
+function getHostTitle(host: SSHHost) {
+  return host.name?.trim() || `${host.username}@${host.ip}:${host.port}`;
+}
+
+function getHostEndpoint(host: SSHHost) {
+  return `${host.username}@${host.ip}:${host.port}`;
+}
+
 export function LeftSidebar({
   disabled,
   isAdmin,
@@ -69,148 +102,170 @@ export function LeftSidebar({
   onLogout,
 }: SidebarProps): React.ReactElement {
   const { t } = useTranslation();
+  const { getStatus } = useServerStatus();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(() => {
     const saved = localStorage.getItem("leftSidebarOpen");
     return saved !== null ? JSON.parse(saved) : true;
   });
 
+  const [sidebarWidth, setSidebarWidth] = useState<number>(() => {
+    const saved = localStorage.getItem("leftSidebarWidthV2");
+    if (!saved) return COMPACT_WIDTH;
+    const parsed = parseInt(saved, 10);
+    if (!Number.isFinite(parsed)) return COMPACT_WIDTH;
+    return clampSidebarWidth(parsed);
+  });
+  const isCompact = sidebarWidth <= 120;
+
   const {
     tabs: tabList,
+    currentTab,
     addTab,
     setCurrentTab,
     allSplitScreenTab,
-    updateHostConfig,
   } = useTabs() as {
     tabs: Array<{ id: number; type: string; [key: string]: unknown }>;
+    currentTab: number;
     addTab: (tab: { type: string; [key: string]: unknown }) => number;
     setCurrentTab: (id: number) => void;
     allSplitScreenTab: number[];
-    updateHostConfig: (id: number, config: unknown) => void;
-  };
-  const isSplitScreenActive =
-    Array.isArray(allSplitScreenTab) && allSplitScreenTab.length > 0;
-  const sshManagerTab = tabList.find((t) => t.type === "ssh_manager");
-  const openSshManagerTab = () => {
-    if (isSplitScreenActive) return;
-    if (sshManagerTab) {
-      setCurrentTab(sshManagerTab.id);
-      return;
-    }
-    const id = addTab({ type: "ssh_manager", title: t("nav.hostManager") });
-    setCurrentTab(id);
-  };
-  const adminTab = tabList.find((t) => t.type === "admin");
-  const openAdminTab = () => {
-    if (isSplitScreenActive) return;
-    if (adminTab) {
-      setCurrentTab(adminTab.id);
-      return;
-    }
-    const id = addTab({ type: "admin" });
-    setCurrentTab(id);
-  };
-  const userProfileTab = tabList.find((t) => t.type === "user_profile");
-  const openUserProfileTab = () => {
-    if (isSplitScreenActive) return;
-    if (userProfileTab) {
-      setCurrentTab(userProfileTab.id);
-      return;
-    }
-    const id = addTab({ type: "user_profile" });
-    setCurrentTab(id);
   };
 
   const [hosts, setHosts] = useState<SSHHost[]>([]);
   const [hostsLoading] = useState(false);
   const [hostsError, setHostsError] = useState<string | null>(null);
-  const prevHostsRef = React.useRef<SSHHost[]>([]);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [folderMetadata, setFolderMetadata] = useState<Map<string, SSHFolder>>(
     new Map(),
   );
+  const prevHostsRef = useRef<SSHHost[]>([]);
+  const [isResizing, setIsResizing] = useState(false);
+  const startXRef = useRef<number | null>(null);
+  const startWidthRef = useRef<number>(sidebarWidth);
 
-  const fetchFolderMetadata = React.useCallback(async () => {
+  const isSplitScreenActive =
+    Array.isArray(allSplitScreenTab) && allSplitScreenTab.length > 0;
+  const currentTabObj = tabList.find((tab) => tab.id === currentTab);
+
+  const openHomeTab = useCallback(() => {
+    if (isSplitScreenActive) return;
+    const homeTab = tabList.find((tab) => tab.type === "home");
+    if (homeTab) {
+      setCurrentTab(homeTab.id);
+      return;
+    }
+    const id = addTab({ type: "home", title: t("nav.home") });
+    setCurrentTab(id);
+  }, [addTab, isSplitScreenActive, setCurrentTab, t, tabList]);
+
+  const openSshManagerTab = useCallback(() => {
+    if (isSplitScreenActive) return;
+    const existing = tabList.find((tab) => tab.type === "ssh_manager");
+    if (existing) {
+      setCurrentTab(existing.id);
+      return;
+    }
+    const id = addTab({ type: "ssh_manager", title: t("nav.hostManager") });
+    setCurrentTab(id);
+  }, [addTab, isSplitScreenActive, setCurrentTab, t, tabList]);
+
+  const openAdminTab = useCallback(() => {
+    if (isSplitScreenActive) return;
+    const existing = tabList.find((tab) => tab.type === "admin");
+    if (existing) {
+      setCurrentTab(existing.id);
+      return;
+    }
+    const id = addTab({ type: "admin" });
+    setCurrentTab(id);
+  }, [addTab, isSplitScreenActive, setCurrentTab, tabList]);
+
+  const openUserProfileTab = useCallback(() => {
+    if (isSplitScreenActive) return;
+    const existing = tabList.find((tab) => tab.type === "user_profile");
+    if (existing) {
+      setCurrentTab(existing.id);
+      return;
+    }
+    const id = addTab({ type: "user_profile" });
+    setCurrentTab(id);
+  }, [addTab, isSplitScreenActive, setCurrentTab, tabList]);
+
+  const openHost = useCallback(
+    async (host: SSHHost) => {
+      const title = getHostTitle(host);
+      if (
+        host.connectionType === "rdp" ||
+        host.connectionType === "vnc" ||
+        host.connectionType === "telnet"
+      ) {
+        try {
+          const protocol = host.connectionType;
+          const result = await getGuacamoleTokenFromHost(host.id);
+          addTab({
+            type: protocol,
+            title,
+            hostConfig: host,
+            connectionConfig: {
+              token: result.token,
+              protocol,
+              type: protocol,
+              hostname: host.ip,
+              port: host.port,
+              username: host.username,
+              password: host.password,
+              domain: host.domain,
+              security: host.security,
+              "ignore-cert": host.ignoreCert,
+              dpi: getGuacamoleDpi(host),
+            },
+          });
+          await logActivity(protocol, host.id, title).catch(() => undefined);
+        } catch (error) {
+          console.error("Failed to open remote session:", error);
+          toast.error("Could not open remote session");
+        }
+        return;
+      }
+
+      addTab({ type: "terminal", title, hostConfig: host });
+    },
+    [addTab],
+  );
+
+  const fetchFolderMetadata = useCallback(async () => {
     try {
       const folders = await getSSHFolders();
-      const metadataMap = new Map<string, SSHFolder>();
-      folders.forEach((folder) => {
-        metadataMap.set(folder.name, folder);
-      });
-      setFolderMetadata(metadataMap);
+      setFolderMetadata(new Map(folders.map((folder) => [folder.name, folder])));
     } catch (error) {
       console.error("Failed to fetch folder metadata:", error);
     }
   }, []);
 
-  const fetchHosts = React.useCallback(async () => {
+  const fetchHosts = useCallback(async () => {
     try {
       const newHosts = await getSSHHosts();
-      const prevHosts = prevHostsRef.current;
-
-      const existingHostsMap = new Map(prevHosts.map((h) => [h.id, h]));
-      const newHostsMap = new Map(newHosts.map((h) => [h.id, h]));
-
-      let hasChanges = false;
-
-      if (newHosts.length !== prevHosts.length) {
-        hasChanges = true;
-      } else {
-        for (const [id, newHost] of newHostsMap) {
-          const existingHost = existingHostsMap.get(id);
-          if (!existingHost) {
-            hasChanges = true;
-            break;
-          }
-
-          if (
-            newHost.name !== existingHost.name ||
-            newHost.folder !== existingHost.folder ||
-            newHost.ip !== existingHost.ip ||
-            newHost.port !== existingHost.port ||
-            newHost.username !== existingHost.username ||
-            newHost.pin !== existingHost.pin ||
-            newHost.enableTerminal !== existingHost.enableTerminal ||
-            newHost.enableTunnel !== existingHost.enableTunnel ||
-            newHost.enableFileManager !== existingHost.enableFileManager ||
-            newHost.authType !== existingHost.authType ||
-            newHost.password !== existingHost.password ||
-            newHost.key !== existingHost.key ||
-            newHost.keyPassword !== existingHost.keyPassword ||
-            newHost.keyType !== existingHost.keyType ||
-            newHost.defaultPath !== existingHost.defaultPath ||
-            JSON.stringify(newHost.tags) !==
-              JSON.stringify(existingHost.tags) ||
-            JSON.stringify(newHost.tunnelConnections) !==
-              JSON.stringify(existingHost.tunnelConnections)
-          ) {
-            hasChanges = true;
-            break;
-          }
-        }
+      if (JSON.stringify(newHosts) !== JSON.stringify(prevHostsRef.current)) {
+        setHosts(newHosts);
+        prevHostsRef.current = newHosts;
       }
-
-      if (hasChanges) {
-        setTimeout(() => {
-          setHosts(newHosts);
-          prevHostsRef.current = newHosts;
-        }, 50);
-      }
+      setHostsError(null);
     } catch {
       setHostsError(t("leftSidebar.failedToLoadHosts"));
     }
   }, [t]);
 
-  const fetchHostsRef = React.useRef(fetchHosts);
-  const fetchFolderMetadataRef = React.useRef(fetchFolderMetadata);
+  const fetchHostsRef = useRef(fetchHosts);
+  const fetchFolderMetadataRef = useRef(fetchFolderMetadata);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchHostsRef.current = fetchHosts;
     fetchFolderMetadataRef.current = fetchFolderMetadata;
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchHostsRef.current();
     fetchFolderMetadataRef.current();
     const interval = setInterval(() => {
@@ -220,108 +275,61 @@ export function LeftSidebar({
     return () => clearInterval(interval);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleHostsChanged = () => {
       fetchHostsRef.current();
       fetchFolderMetadataRef.current();
     };
-    const handleCredentialsChanged = () => {
-      fetchHostsRef.current();
-    };
-    const handleFoldersChanged = () => {
-      fetchFolderMetadataRef.current();
-    };
-    window.addEventListener(
-      "ssh-hosts:changed",
-      handleHostsChanged as EventListener,
-    );
-    window.addEventListener(
-      "credentials:changed",
-      handleCredentialsChanged as EventListener,
-    );
-    window.addEventListener(
-      "folders:changed",
-      handleFoldersChanged as EventListener,
-    );
+    const handleCredentialsChanged = () => fetchHostsRef.current();
+    const handleFoldersChanged = () => fetchFolderMetadataRef.current();
+
+    window.addEventListener("ssh-hosts:changed", handleHostsChanged);
+    window.addEventListener("credentials:changed", handleCredentialsChanged);
+    window.addEventListener("folders:changed", handleFoldersChanged);
+
     return () => {
-      window.removeEventListener(
-        "ssh-hosts:changed",
-        handleHostsChanged as EventListener,
-      );
-      window.removeEventListener(
-        "credentials:changed",
-        handleCredentialsChanged as EventListener,
-      );
-      window.removeEventListener(
-        "folders:changed",
-        handleFoldersChanged as EventListener,
-      );
+      window.removeEventListener("ssh-hosts:changed", handleHostsChanged);
+      window.removeEventListener("credentials:changed", handleCredentialsChanged);
+      window.removeEventListener("folders:changed", handleFoldersChanged);
     };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handler = setTimeout(() => setDebouncedSearch(search), 200);
     return () => clearTimeout(handler);
   }, [search]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.setItem("leftSidebarOpen", JSON.stringify(isSidebarOpen));
   }, [isSidebarOpen]);
 
-  const [sidebarWidth, setSidebarWidth] = useState<number>(() => {
-    const saved = localStorage.getItem("leftSidebarWidth");
-    const defaultWidth = 250;
-    const savedWidth = saved !== null ? parseInt(saved, 10) : defaultWidth;
-    const minWidth = Math.min(200, Math.floor(window.innerWidth * 0.15));
-    const maxWidth = Math.floor(window.innerWidth * 0.3);
-    return Math.min(savedWidth, Math.max(minWidth, maxWidth));
-  });
-
-  const [isResizing, setIsResizing] = useState(false);
-  const startXRef = React.useRef<number | null>(null);
-  const startWidthRef = React.useRef<number>(sidebarWidth);
-
-  React.useEffect(() => {
-    localStorage.setItem("leftSidebarWidth", String(sidebarWidth));
+  useEffect(() => {
+    localStorage.setItem("leftSidebarWidthV2", String(sidebarWidth));
   }, [sidebarWidth]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
-      const minWidth = Math.min(200, Math.floor(window.innerWidth * 0.15));
-      const maxWidth = Math.floor(window.innerWidth * 0.3);
-      if (sidebarWidth > maxWidth) {
-        setSidebarWidth(Math.max(minWidth, maxWidth));
-      } else if (sidebarWidth < minWidth) {
-        setSidebarWidth(minWidth);
-      }
+      setSidebarWidth((width) => clampSidebarWidth(width));
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [sidebarWidth]);
+  }, []);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleMouseDown = (event: React.MouseEvent) => {
+    if (isCompact) return;
+    event.preventDefault();
     setIsResizing(true);
-    startXRef.current = e.clientX;
+    startXRef.current = event.clientX;
     startWidthRef.current = sidebarWidth;
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isResizing) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (event: MouseEvent) => {
       if (startXRef.current == null) return;
-      const dx = e.clientX - startXRef.current;
-      const newWidth = Math.round(startWidthRef.current + dx);
-      const minWidth = Math.min(200, Math.floor(window.innerWidth * 0.15));
-      const maxWidth = Math.round(window.innerWidth * 0.3);
-      if (newWidth >= minWidth && newWidth <= maxWidth) {
-        setSidebarWidth(newWidth);
-      } else if (newWidth < minWidth) {
-        setSidebarWidth(minWidth);
-      } else if (newWidth > maxWidth) {
-        setSidebarWidth(maxWidth);
-      }
+      const dx = event.clientX - startXRef.current;
+      setSidebarWidth(clampSidebarWidth(Math.round(startWidthRef.current + dx)));
     };
 
     const handleMouseUp = () => {
@@ -342,16 +350,16 @@ export function LeftSidebar({
     };
   }, [isResizing]);
 
-  const filteredHosts = React.useMemo(() => {
+  const filteredHosts = useMemo(() => {
     if (!debouncedSearch.trim()) return hosts;
     const searchQuery = debouncedSearch.trim().toLowerCase();
 
-    return hosts.filter((h) => {
+    return hosts.filter((host) => {
       const fieldMatches: Record<string, string> = {};
       let remainingQuery = searchQuery;
-
       const fieldPattern = /(\w+):([^\s]+)/g;
       let match;
+
       while ((match = fieldPattern.exec(searchQuery)) !== null) {
         const [fullMatch, field, value] = match;
         fieldMatches[field] = value;
@@ -362,72 +370,71 @@ export function LeftSidebar({
         switch (field) {
           case "tag":
           case "tags": {
-            const tags = Array.isArray(h.tags) ? h.tags : [];
-            const hasMatchingTag = tags.some((tag) =>
-              tag.toLowerCase().includes(value),
-            );
-            if (!hasMatchingTag) return false;
+            const tags = Array.isArray(host.tags) ? host.tags : [];
+            if (!tags.some((tag) => tag.toLowerCase().includes(value))) {
+              return false;
+            }
             break;
           }
           case "name":
-            if (!(h.name || "").toLowerCase().includes(value)) return false;
+            if (!(host.name || "").toLowerCase().includes(value)) return false;
             break;
           case "user":
           case "username":
-            if (!h.username.toLowerCase().includes(value)) return false;
+            if (!host.username.toLowerCase().includes(value)) return false;
             break;
           case "ip":
           case "host":
-            if (!h.ip.toLowerCase().includes(value)) return false;
+            if (!host.ip.toLowerCase().includes(value)) return false;
             break;
           case "port":
-            if (!String(h.port).includes(value)) return false;
+            if (!String(host.port).includes(value)) return false;
             break;
           case "folder":
-            if (!(h.folder || "").toLowerCase().includes(value)) return false;
+            if (!(host.folder || "").toLowerCase().includes(value)) return false;
             break;
           case "auth":
           case "authtype":
-            if (!h.authType.toLowerCase().includes(value)) return false;
+            if (!host.authType.toLowerCase().includes(value)) return false;
             break;
           case "path":
-            if (!(h.defaultPath || "").toLowerCase().includes(value))
+            if (!(host.defaultPath || "").toLowerCase().includes(value)) {
               return false;
+            }
             break;
         }
       }
 
-      if (remainingQuery) {
-        const searchableText = [
-          h.name || "",
-          h.username,
-          h.ip,
-          h.folder || "",
-          ...(h.tags || []),
-          h.authType,
-          h.defaultPath || "",
-        ]
-          .join(" ")
-          .toLowerCase();
-        if (!searchableText.includes(remainingQuery)) return false;
-      }
-
-      return true;
+      if (!remainingQuery) return true;
+      const searchableText = [
+        host.name || "",
+        host.username,
+        host.ip,
+        host.folder || "",
+        ...(host.tags || []),
+        host.authType,
+        host.defaultPath || "",
+      ]
+        .join(" ")
+        .toLowerCase();
+      return searchableText.includes(remainingQuery);
     });
   }, [hosts, debouncedSearch]);
 
-  const hostsByFolder = React.useMemo(() => {
+  const hostsByFolder = useMemo(() => {
     const map: Record<string, SSHHost[]> = {};
-    filteredHosts.forEach((h) => {
+    filteredHosts.forEach((host) => {
       const folder =
-        h.folder && h.folder.trim() ? h.folder : t("leftSidebar.noFolder");
+        host.folder && host.folder.trim()
+          ? host.folder
+          : t("leftSidebar.noFolder");
       if (!map[folder]) map[folder] = [];
-      map[folder].push(h);
+      map[folder].push(host);
     });
     return map;
-  }, [filteredHosts]);
+  }, [filteredHosts, t]);
 
-  const sortedFolders = React.useMemo(() => {
+  const sortedFolders = useMemo(() => {
     const folders = Object.keys(hostsByFolder);
     folders.sort((a, b) => {
       if (a === t("leftSidebar.noFolder")) return -1;
@@ -435,17 +442,285 @@ export function LeftSidebar({
       return a.localeCompare(b);
     });
     return folders;
-  }, [hostsByFolder]);
+  }, [hostsByFolder, t]);
 
-  const getSortedHosts = React.useCallback((arr: SSHHost[]) => {
+  const getSortedHosts = useCallback((arr: SSHHost[]) => {
     const pinned = arr
-      .filter((h) => h.pin)
-      .sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+      .filter((host) => host.pin)
+      .sort((a, b) => getHostTitle(a).localeCompare(getHostTitle(b)));
     const rest = arr
-      .filter((h) => !h.pin)
-      .sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+      .filter((host) => !host.pin)
+      .sort((a, b) => getHostTitle(a).localeCompare(getHostTitle(b)));
     return [...pinned, ...rest];
   }, []);
+
+  const railHosts = useMemo(() => {
+    return getSortedHosts(hosts)
+      .sort((a, b) => {
+        const aStatus = getStatus(a.id);
+        const bStatus = getStatus(b.id);
+        if (aStatus !== bStatus) return aStatus === "online" ? -1 : 1;
+        return 0;
+      })
+      .slice(0, 5);
+  }, [getSortedHosts, getStatus, hosts]);
+
+  const statusClass = (hostId: number) => {
+    const status = getStatus(hostId);
+    if (status === "online") return "bg-emerald-400";
+    if (status === "offline") return "bg-rose-400";
+    return "bg-amber-300";
+  };
+
+  const renderRailButton = ({
+    label,
+    icon,
+    active,
+    onClick,
+    disabled: railDisabled,
+  }: {
+    label: string;
+    icon: React.ReactNode;
+    active?: boolean;
+    onClick: () => void;
+    disabled?: boolean;
+  }) => (
+    <button
+      type="button"
+      title={label}
+      aria-label={label}
+      onClick={onClick}
+      disabled={railDisabled}
+      className={cn(
+        "flex h-11 w-11 items-center justify-center rounded-md border text-foreground-secondary transition-colors",
+        active
+          ? "border-edge-active bg-active text-foreground"
+          : "border-transparent bg-transparent hover:border-edge hover:bg-surface",
+        railDisabled && "cursor-not-allowed opacity-45",
+      )}
+    >
+      {icon}
+    </button>
+  );
+
+  const compactRail = (
+    <>
+      <SidebarHeader className="flex items-center gap-2 p-2">
+        <button
+          type="button"
+          title={t("nav.home")}
+          aria-label={t("nav.home")}
+          onClick={openHomeTab}
+          className="flex h-11 w-11 items-center justify-center rounded-md border border-edge-active bg-active font-mono text-sm font-bold text-foreground"
+        >
+          SB
+        </button>
+        {renderRailButton({
+          label: "Expand sidebar",
+          icon: <PanelLeftOpen className="h-5 w-5" />,
+          onClick: () => setSidebarWidth(EXPANDED_WIDTH),
+        })}
+      </SidebarHeader>
+      <Separator />
+      <SidebarContent className="items-center px-2 py-3">
+        <div className="flex flex-col items-center gap-2">
+          {renderRailButton({
+            label: t("nav.home"),
+            icon: <Home className="h-5 w-5" />,
+            active: currentTabObj?.type === "home",
+            onClick: openHomeTab,
+            disabled: isSplitScreenActive,
+          })}
+          {renderRailButton({
+            label: t("nav.hostManager"),
+            icon: <HardDrive className="h-5 w-5" />,
+            active: currentTabObj?.type === "ssh_manager",
+            onClick: openSshManagerTab,
+            disabled: isSplitScreenActive,
+          })}
+        </div>
+
+        <div className="my-3 h-px w-9 bg-edge-panel" />
+
+        <div className="flex flex-col items-center gap-2">
+          {railHosts.map((host) => (
+            <button
+              key={`rail-host-${host.id}`}
+              type="button"
+              title={`${getHostTitle(host)}\n${getHostEndpoint(host)}`}
+              aria-label={getHostTitle(host)}
+              onClick={() => openHost(host)}
+              className="relative flex h-11 w-11 items-center justify-center rounded-md border border-edge bg-surface text-foreground-secondary transition-colors hover:border-edge-hover hover:bg-surface-hover hover:text-foreground"
+            >
+              <Terminal className="h-5 w-5" />
+              <span
+                className={cn(
+                  "absolute right-2 top-2 h-2 w-2 rounded-full",
+                  statusClass(host.id),
+                )}
+              />
+            </button>
+          ))}
+        </div>
+      </SidebarContent>
+      <Separator />
+      <SidebarFooter className="items-center p-2">
+        {renderRailButton({
+          label: username || t("profile.title"),
+          icon: <User2 className="h-5 w-5" />,
+          onClick: openUserProfileTab,
+          disabled,
+        })}
+      </SidebarFooter>
+    </>
+  );
+
+  const expandedPanel = (
+    <>
+      <SidebarHeader className="p-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            <div className="text-sm font-semibold text-foreground">Servers</div>
+            <div className="mt-1 flex items-center gap-1.5 text-xs text-foreground-subtle">
+              <CircleDot className="h-3 w-3 text-emerald-300" />
+              {hosts.length} saved
+            </div>
+          </div>
+          <div className="flex shrink-0 gap-1">
+            <Button
+              variant="outline"
+              onClick={() => setSidebarWidth(COMPACT_WIDTH)}
+              className="h-8 w-8 border-edge bg-button p-0 hover:bg-hover"
+              title="Compact rail"
+            >
+              <PanelLeftClose className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="h-8 w-8 border-edge bg-button p-0 hover:bg-hover"
+              title={t("common.toggleSidebar")}
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </SidebarHeader>
+      <Separator />
+      <SidebarContent>
+        <div className="grid grid-cols-2 gap-2 p-3">
+          <Button
+            variant="outline"
+            className="h-9 justify-start gap-2 border-edge bg-button hover:bg-hover"
+            onClick={openHomeTab}
+            disabled={isSplitScreenActive}
+          >
+            <Home className="h-4 w-4" />
+            Home
+          </Button>
+          <Button
+            variant="outline"
+            className="h-9 justify-start gap-2 border-edge bg-button hover:bg-hover"
+            onClick={openSshManagerTab}
+            disabled={isSplitScreenActive}
+          >
+            <HardDrive className="h-4 w-4" />
+            Manage
+          </Button>
+        </div>
+        <Separator />
+        <div className="flex flex-col gap-y-2 p-3">
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-subtle" />
+            <Input
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder={t("placeholders.searchHostsAny")}
+              className="h-9 w-full rounded-md border !border-edge !bg-surface pl-9 text-sm text-foreground placeholder:text-foreground-subtle shadow-none focus-visible:border-edge-active focus-visible:ring-ring/20"
+              autoComplete="off"
+            />
+          </div>
+
+          {hostsError && (
+            <div className="rounded-md border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
+              {hostsError}
+            </div>
+          )}
+
+          {hostsLoading && (
+            <div className="px-4 pb-2">
+              <div className="text-center text-xs text-muted-foreground">
+                {t("hosts.loadingHosts")}
+              </div>
+            </div>
+          )}
+
+          {sortedFolders.map((folder, index) => {
+            const metadata = folderMetadata.get(folder);
+            return (
+              <FolderCard
+                key={`folder-${folder}`}
+                folderName={folder}
+                hosts={getSortedHosts(hostsByFolder[folder])}
+                isFirst={index === 0}
+                isLast={index === sortedFolders.length - 1}
+                folderColor={metadata?.color}
+                folderIcon={metadata?.icon}
+              />
+            );
+          })}
+        </div>
+      </SidebarContent>
+      <Separator className="my-1" />
+      <SidebarFooter className="p-2">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  className="data-[state=open]:opacity-90 w-full"
+                  disabled={disabled}
+                >
+                  <User2 /> {username ? username : t("common.logout")}
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="top"
+                align="start"
+                sideOffset={6}
+                className="min-w-[var(--radix-popper-anchor-width)] rounded-md border border-edge bg-popover p-1 text-popover-foreground shadow-2xl"
+              >
+                <DropdownMenuItem
+                  className="cursor-pointer rounded px-2 py-1.5 hover:bg-surface-hover hover:text-accent-foreground focus:bg-surface-hover focus:text-accent-foreground focus:outline-none"
+                  onClick={openUserProfileTab}
+                >
+                  <User2 className="mr-2 inline h-4 w-4" />
+                  <span>{t("profile.title")}</span>
+                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem
+                    className="cursor-pointer rounded px-2 py-1.5 hover:bg-surface-hover hover:text-accent-foreground focus:bg-surface-hover focus:text-accent-foreground focus:outline-none"
+                    onClick={openAdminTab}
+                  >
+                    <Server className="mr-2 inline h-4 w-4" />
+                    <span>{t("admin.title")}</span>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem
+                  className="cursor-pointer rounded px-2 py-1.5 hover:bg-surface-hover hover:text-accent-foreground focus:bg-surface-hover focus:text-accent-foreground focus:outline-none"
+                  onClick={onLogout || handleLogout}
+                >
+                  <LogOut className="mr-2 inline h-4 w-4" />
+                  <span>{t("common.logout")}</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    </>
+  );
 
   return (
     <div className="h-screen w-screen overflow-hidden">
@@ -457,143 +732,10 @@ export function LeftSidebar({
       >
         <div className="flex h-screen w-screen overflow-hidden">
           <Sidebar variant="floating">
-            <SidebarHeader>
-              <SidebarGroupLabel className="text-lg font-bold text-foreground">
-                {t("common.appName")}
-                <div className="absolute right-5 flex gap-1">
-                  <Button
-                    variant="outline"
-                    onClick={() => setSidebarWidth(250)}
-                    className="w-[28px] h-[28px]"
-                    title={t("common.resetSidebarWidth")}
-                  >
-                    <RotateCcw className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    className="w-[28px] h-[28px]"
-                    title={t("common.toggleSidebar")}
-                  >
-                    <Menu className="h-4 w-4" />
-                  </Button>
-                </div>
-              </SidebarGroupLabel>
-            </SidebarHeader>
-            <Separator className="p-0.25" />
-            <SidebarContent>
-              <SidebarGroup className="!m-0 !p-0 !-mb-2">
-                <Button
-                  className="m-2 flex flex-row font-semibold border-2 !border-edge"
-                  variant="outline"
-                  onClick={openSshManagerTab}
-                  disabled={isSplitScreenActive}
-                  title={
-                    isSplitScreenActive
-                      ? t("interface.disabledDuringSplitScreen")
-                      : undefined
-                  }
-                >
-                  <HardDrive strokeWidth="2.5" />
-                  {t("nav.hostManager")}
-                </Button>
-              </SidebarGroup>
-              <Separator className="p-0.25" />
-              <SidebarGroup className="flex flex-col gap-y-2 !-mt-2">
-                <div className="!bg-field rounded-lg">
-                  <Input
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder={t("placeholders.searchHostsAny")}
-                    className="w-full h-8 text-sm border-2 !bg-field border-edge rounded-md"
-                    autoComplete="off"
-                  />
-                </div>
-
-                {hostsError && (
-                  <div className="!bg-field rounded-lg">
-                    <div className="w-full h-8 text-sm border-2 !bg-field border-edge rounded-md px-3 py-1.5 flex items-center text-red-500">
-                      {t("leftSidebar.failedToLoadHosts")}
-                    </div>
-                  </div>
-                )}
-
-                {hostsLoading && (
-                  <div className="px-4 pb-2">
-                    <div className="text-xs text-muted-foreground text-center">
-                      {t("hosts.loadingHosts")}
-                    </div>
-                  </div>
-                )}
-
-                {sortedFolders.map((folder, idx) => {
-                  const metadata = folderMetadata.get(folder);
-                  return (
-                    <FolderCard
-                      key={`folder-${folder}`}
-                      folderName={folder}
-                      hosts={getSortedHosts(hostsByFolder[folder])}
-                      isFirst={idx === 0}
-                      isLast={idx === sortedFolders.length - 1}
-                      folderColor={metadata?.color}
-                      folderIcon={metadata?.icon}
-                    />
-                  );
-                })}
-              </SidebarGroup>
-            </SidebarContent>
-            <Separator className="p-0.25 mt-1 mb-1" />
-            <SidebarFooter>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <SidebarMenuButton
-                        className="data-[state=open]:opacity-90 w-full"
-                        disabled={disabled}
-                      >
-                        <User2 /> {username ? username : t("common.logout")}
-                        <ChevronUp className="ml-auto" />
-                      </SidebarMenuButton>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      side="top"
-                      align="start"
-                      sideOffset={6}
-                      className="min-w-[var(--radix-popper-anchor-width)] bg-sidebar-accent text-sidebar-accent-foreground border border-border rounded-md shadow-2xl p-1"
-                    >
-                      <DropdownMenuItem
-                        className="rounded px-2 py-1.5 hover:bg-surface-hover hover:text-accent-foreground focus:bg-surface-hover focus:text-accent-foreground cursor-pointer focus:outline-none"
-                        onClick={() => {
-                          openUserProfileTab();
-                        }}
-                      >
-                        <span>{t("profile.title")}</span>
-                      </DropdownMenuItem>
-                      {isAdmin && (
-                        <DropdownMenuItem
-                          className="rounded px-2 py-1.5 hover:bg-surface-hover hover:text-accent-foreground focus:bg-surface-hover focus:text-accent-foreground cursor-pointer focus:outline-none"
-                          onClick={() => {
-                            if (isAdmin) openAdminTab();
-                          }}
-                        >
-                          <span>{t("admin.title")}</span>
-                        </DropdownMenuItem>
-                      )}
-                      <DropdownMenuItem
-                        className="rounded px-2 py-1.5 hover:bg-surface-hover hover:text-accent-foreground focus:bg-surface-hover focus:text-accent-foreground cursor-pointer focus:outline-none"
-                        onClick={onLogout || handleLogout}
-                      >
-                        <span>{t("common.logout")}</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarFooter>
-            {isSidebarOpen && (
+            {isCompact ? compactRail : expandedPanel}
+            {!isCompact && isSidebarOpen && (
               <div
-                className="absolute top-0 h-full cursor-col-resize z-[60]"
+                className="absolute top-0 z-[60] h-full cursor-col-resize"
                 onMouseDown={handleMouseDown}
                 style={{
                   right: "-4px",
@@ -602,15 +744,15 @@ export function LeftSidebar({
                     ? "var(--bg-interact)"
                     : "transparent",
                 }}
-                onMouseEnter={(e) => {
+                onMouseEnter={(event) => {
                   if (!isResizing) {
-                    e.currentTarget.style.backgroundColor =
+                    event.currentTarget.style.backgroundColor =
                       "var(--border-hover)";
                   }
                 }}
-                onMouseLeave={(e) => {
+                onMouseLeave={(event) => {
                   if (!isResizing) {
-                    e.currentTarget.style.backgroundColor = "transparent";
+                    event.currentTarget.style.backgroundColor = "transparent";
                   }
                 }}
                 title={t("common.dragToResizeSidebar")}
@@ -625,11 +767,11 @@ export function LeftSidebar({
       {!isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(true)}
-          className="fixed top-0 left-0 w-[10px] h-full cursor-pointer flex items-center justify-center rounded-tr-md rounded-br-md"
+          className="fixed left-0 top-0 flex h-full w-[10px] cursor-pointer items-center justify-center rounded-br-md rounded-tr-md"
           style={{
             zIndex: 9999,
             backgroundColor: "var(--bg-base)",
-            border: "2px solid var(--border-base)",
+            border: "1px solid var(--border-base)",
             borderLeft: "none",
           }}
         >

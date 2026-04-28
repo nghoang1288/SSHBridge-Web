@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { flushSync } from "react-dom";
 import { useSidebar } from "@/components/ui/sidebar.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { ChevronDown, ChevronUpIcon, Hammer, Zap } from "lucide-react";
+import { ChevronDown, ChevronUpIcon, Hammer, Search, Zap } from "lucide-react";
 import { Tab } from "@/ui/desktop/navigation/tabs/Tab.tsx";
 import { useTabs } from "@/ui/desktop/navigation/tabs/TabContext.tsx";
 import { useTranslation } from "react-i18next";
@@ -362,285 +362,305 @@ export function TopNavbar({
   return (
     <div>
       <div
-        className="fixed z-10 h-[50px] border-2 border-edge rounded-lg flex flex-row transform-none m-0 p-0"
+        className="sshbridge-topbar fixed z-10 m-0 flex h-[58px] transform-none flex-row rounded-xl p-0"
         style={{
-          top: isTopbarOpen ? "0.5rem" : "-3rem",
+          top: isTopbarOpen ? "0.625rem" : "-3.75rem",
           left: leftPosition,
           right: rightPosition,
-          backgroundColor: "var(--bg-base)",
+          backgroundColor: "var(--bg-header)",
           transition: "top 200ms linear, left 200ms linear, right 200ms linear",
         }}
       >
-        <div
-          ref={containerRef}
-          className="h-full p-1 pr-2 border-r-2 border-edge w-[calc(100%-6rem)] flex items-center overflow-x-auto overflow-y-hidden skinny-scrollbar gap-1"
-        >
-          {tabs.map((tab: TabData, index: number) => {
-            const isActive = tab.id === currentTab;
-            const isSplit =
-              Array.isArray(allSplitScreenTab) &&
-              allSplitScreenTab.includes(tab.id);
-            const isTerminal = tab.type === "terminal";
-            const isServer = tab.type === "server_stats";
-            const isFileManager = tab.type === "file_manager";
-            const isTunnel = tab.type === "tunnel";
-            const isDocker = tab.type === "docker";
-            const isSshManager = tab.type === "ssh_manager";
-            const isAdmin = tab.type === "admin";
-            const isUserProfile = tab.type === "user_profile";
-            const isRdp = tab.type === "rdp";
-            const isVnc = tab.type === "vnc";
-            const isTelnet = tab.type === "telnet";
-            const isSplittable =
-              isTerminal || isServer || isFileManager || isTunnel || isDocker;
-            const disableSplit = !isSplittable;
-            const disableActivate =
-              isSplit ||
-              ((tab.type === "home" ||
-                tab.type === "ssh_manager" ||
-                tab.type === "admin" ||
-                tab.type === "user_profile" ||
-                tab.type === "network_graph") &&
-                isSplitScreenActive);
-            const isHome = tab.type === "home";
-            const disableClose = isHome;
+        <div className="flex h-full min-w-0 flex-1 items-center gap-2 p-1.5">
+          <button
+            type="button"
+            onClick={onOpenCommandPalette}
+            className="sshbridge-command-input hidden h-[42px] w-[310px] shrink-0 items-center gap-2 rounded-lg px-3 text-left text-sm lg:flex"
+            title="Open command palette"
+          >
+            <Search className="h-4 w-4 shrink-0 opacity-80" />
+            <span className="min-w-0 flex-1 truncate font-mono text-[13px]">
+              / connect prod-api --tmux main
+            </span>
+            <span className="rounded border border-white/15 px-1.5 py-0.5 text-[10px] text-white/70">
+              Shift Shift
+            </span>
+          </button>
 
-            const isDraggingThisTab = dragState.draggedIndex === index;
-            const isTheDraggedTab = tab.id === dragState.draggedId;
-            const isDroppedAndSnapping = tab.id === justDroppedTabId;
-            const dragOffset = isDraggingThisTab
-              ? dragState.currentX - dragState.startX
-              : 0;
+          <div
+            ref={containerRef}
+            className="skinny-scrollbar flex h-full min-w-0 flex-1 items-center gap-1.5 overflow-x-auto overflow-y-hidden px-0.5"
+          >
+            {tabs.map((tab: TabData, index: number) => {
+              const isActive = tab.id === currentTab;
+              const isSplit =
+                Array.isArray(allSplitScreenTab) &&
+                allSplitScreenTab.includes(tab.id);
+              const isTerminal = tab.type === "terminal";
+              const isServer = tab.type === "server_stats";
+              const isFileManager = tab.type === "file_manager";
+              const isTunnel = tab.type === "tunnel";
+              const isDocker = tab.type === "docker";
+              const isSshManager = tab.type === "ssh_manager";
+              const isAdmin = tab.type === "admin";
+              const isUserProfile = tab.type === "user_profile";
+              const isRdp = tab.type === "rdp";
+              const isVnc = tab.type === "vnc";
+              const isTelnet = tab.type === "telnet";
+              const isSplittable =
+                isTerminal || isServer || isFileManager || isTunnel || isDocker;
+              const disableSplit = !isSplittable;
+              const disableActivate =
+                isSplit ||
+                ((tab.type === "home" ||
+                  tab.type === "ssh_manager" ||
+                  tab.type === "admin" ||
+                  tab.type === "user_profile" ||
+                  tab.type === "network_graph") &&
+                  isSplitScreenActive);
+              const isHome = tab.type === "home";
+              const disableClose = isHome;
 
-            let transform = "";
+              const isDraggingThisTab = dragState.draggedIndex === index;
+              const isTheDraggedTab = tab.id === dragState.draggedId;
+              const isDroppedAndSnapping = tab.id === justDroppedTabId;
+              const dragOffset = isDraggingThisTab
+                ? dragState.currentX - dragState.startX
+                : 0;
 
-            if (!isInDropAnimation) {
-              if (isDraggingThisTab) {
-                transform = `translateX(${dragOffset}px)`;
-              } else if (
-                dragState.draggedIndex !== null &&
-                dragState.targetIndex !== null
-              ) {
-                const draggedOriginalIndex = dragState.draggedIndex;
-                const currentTargetIndex = dragState.targetIndex;
+              let transform = "";
 
-                if (
-                  draggedOriginalIndex < currentTargetIndex &&
-                  index > draggedOriginalIndex &&
-                  index <= currentTargetIndex
-                ) {
-                  const draggedTabWidth =
-                    tabRefs.current
-                      .get(draggedOriginalIndex)
-                      ?.getBoundingClientRect().width || 0;
-                  const gap = 4;
-                  transform = `translateX(-${draggedTabWidth + gap}px)`;
+              if (!isInDropAnimation) {
+                if (isDraggingThisTab) {
+                  transform = `translateX(${dragOffset}px)`;
                 } else if (
-                  draggedOriginalIndex > currentTargetIndex &&
-                  index >= currentTargetIndex &&
-                  index < draggedOriginalIndex
+                  dragState.draggedIndex !== null &&
+                  dragState.targetIndex !== null
                 ) {
-                  const draggedTabWidth =
-                    tabRefs.current
-                      .get(draggedOriginalIndex)
-                      ?.getBoundingClientRect().width || 0;
-                  const gap = 4;
-                  transform = `translateX(${draggedTabWidth + gap}px)`;
+                  const draggedOriginalIndex = dragState.draggedIndex;
+                  const currentTargetIndex = dragState.targetIndex;
+
+                  if (
+                    draggedOriginalIndex < currentTargetIndex &&
+                    index > draggedOriginalIndex &&
+                    index <= currentTargetIndex
+                  ) {
+                    const draggedTabWidth =
+                      tabRefs.current
+                        .get(draggedOriginalIndex)
+                        ?.getBoundingClientRect().width || 0;
+                    const gap = 4;
+                    transform = `translateX(-${draggedTabWidth + gap}px)`;
+                  } else if (
+                    draggedOriginalIndex > currentTargetIndex &&
+                    index >= currentTargetIndex &&
+                    index < draggedOriginalIndex
+                  ) {
+                    const draggedTabWidth =
+                      tabRefs.current
+                        .get(draggedOriginalIndex)
+                        ?.getBoundingClientRect().width || 0;
+                    const gap = 4;
+                    transform = `translateX(${draggedTabWidth + gap}px)`;
+                  }
                 }
               }
-            }
 
-            return (
-              <div
-                key={tab.id}
-                ref={(el) => {
-                  if (el) {
-                    tabRefs.current.set(index, el);
-                  } else {
-                    tabRefs.current.delete(index);
-                  }
-                }}
-                draggable={true}
-                onDragStart={(e) => {
-                  e.stopPropagation();
-                  handleDragStart(e, index);
-                }}
-                onDrag={handleDrag}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onDragEnd={handleDragEnd}
-                onMouseDown={(e) => {
-                  if (e.button === 1 && !disableClose) {
-                    e.preventDefault();
-                    handleTabClose(tab.id);
-                  }
-                }}
-                style={{
-                  transform,
-                  transition:
-                    isDraggingThisTab ||
-                    isDroppedAndSnapping ||
-                    isInDropAnimation
-                      ? "none"
-                      : "transform 200ms ease-out",
-                  zIndex: isDraggingThisTab ? 1000 : 1,
-                  position: "relative",
-                  cursor: isDraggingThisTab ? "grabbing" : "grab",
-                  userSelect: "none",
-                  WebkitUserSelect: "none",
-                  flex: tab.type === "home" ? "0 0 auto" : "1 1 150px",
-                  minWidth: tab.type === "home" ? "auto" : "150px",
-                  maxWidth: tab.type === "home" ? "auto" : "450px",
-                  display: "flex",
-                }}
-              >
-                <Tab
-                  tabType={tab.type}
-                  title={tab.title}
-                  isActive={isActive}
-                  isSplit={isSplit}
-                  onActivate={() => handleTabActivate(tab.id)}
-                  onClose={
-                    isTerminal ||
-                    isServer ||
-                    isFileManager ||
-                    isTunnel ||
-                    isDocker ||
-                    isSshManager ||
-                    isAdmin ||
-                    isUserProfile ||
-                    isRdp ||
-                    isVnc ||
-                    isTelnet ||
-                    tab.type === "network_graph"
-                      ? () => handleTabClose(tab.id)
-                      : undefined
-                  }
-                  onSplit={
-                    isSplittable ? () => handleTabSplit(tab.id) : undefined
-                  }
-                  canSplit={isSplittable}
-                  canClose={
-                    isTerminal ||
-                    isServer ||
-                    isFileManager ||
-                    isTunnel ||
-                    isDocker ||
-                    isSshManager ||
-                    isAdmin ||
-                    isUserProfile ||
-                    isRdp ||
-                    isVnc ||
-                    isTelnet ||
-                    tab.type === "network_graph"
-                  }
-                  disableActivate={disableActivate}
-                  disableSplit={disableSplit}
-                  disableClose={disableClose}
-                  isDragging={isDraggingThisTab}
-                  isDragOver={false}
-                  hostConfig={tab.hostConfig}
-                />
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="flex items-center justify-center gap-2 flex-1 px-2">
-          <TabDropdown />
-
-          {/* Terminal Theme Switcher */}
-          {(() => {
-            const activeTab = tabs.find((t: any) => t.id === currentTab);
-            if (activeTab?.type !== "terminal") return null;
-
-            return (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-[30px] h-[30px] border-edge"
-                    title={t("hosts.selectTheme")}
-                  >
-                    <TerminalIcon className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="bg-canvas border-edge text-foreground max-h-[400px] overflow-y-auto thin-scrollbar"
-                  onMouseLeave={() => setPreviewTerminalTheme(null)}
+              return (
+                <div
+                  key={tab.id}
+                  ref={(el) => {
+                    if (el) {
+                      tabRefs.current.set(index, el);
+                    } else {
+                      tabRefs.current.delete(index);
+                    }
+                  }}
+                  draggable={true}
+                  onDragStart={(e) => {
+                    e.stopPropagation();
+                    handleDragStart(e, index);
+                  }}
+                  onDrag={handleDrag}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                  onDragEnd={handleDragEnd}
+                  onMouseDown={(e) => {
+                    if (e.button === 1 && !disableClose) {
+                      e.preventDefault();
+                      handleTabClose(tab.id);
+                    }
+                  }}
+                  style={{
+                    transform,
+                    transition:
+                      isDraggingThisTab ||
+                      isDroppedAndSnapping ||
+                      isInDropAnimation
+                        ? "none"
+                        : "transform 200ms ease-out",
+                    zIndex: isDraggingThisTab ? 1000 : 1,
+                    position: "relative",
+                    cursor: isDraggingThisTab ? "grabbing" : "grab",
+                    userSelect: "none",
+                    WebkitUserSelect: "none",
+                    flex: tab.type === "home" ? "0 0 auto" : "0 0 176px",
+                    minWidth: tab.type === "home" ? "auto" : "148px",
+                    maxWidth: tab.type === "home" ? "auto" : "220px",
+                    display: "flex",
+                  }}
                 >
-                  <DropdownMenuLabel className="text-xs opacity-70">
-                    Terminal Themes
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  {Object.entries(TERMINAL_THEMES).map(([key, theme]) => (
-                    <DropdownMenuItem
-                      key={key}
-                      onClick={() => {
-                        const activeTab = tabs.find(
-                          (t: any) => t.id === currentTab,
-                        );
-                        if (activeTab?.hostConfig) {
-                          const updatedConfig = {
-                            ...activeTab.hostConfig.terminalConfig,
-                            theme: key,
-                          };
+                  <Tab
+                    tabType={tab.type}
+                    title={tab.title}
+                    isActive={isActive}
+                    isSplit={isSplit}
+                    onActivate={() => handleTabActivate(tab.id)}
+                    onClose={
+                      isTerminal ||
+                      isServer ||
+                      isFileManager ||
+                      isTunnel ||
+                      isDocker ||
+                      isSshManager ||
+                      isAdmin ||
+                      isUserProfile ||
+                      isRdp ||
+                      isVnc ||
+                      isTelnet ||
+                      tab.type === "network_graph"
+                        ? () => handleTabClose(tab.id)
+                        : undefined
+                    }
+                    onSplit={
+                      isSplittable ? () => handleTabSplit(tab.id) : undefined
+                    }
+                    canSplit={isSplittable}
+                    canClose={
+                      isTerminal ||
+                      isServer ||
+                      isFileManager ||
+                      isTunnel ||
+                      isDocker ||
+                      isSshManager ||
+                      isAdmin ||
+                      isUserProfile ||
+                      isRdp ||
+                      isVnc ||
+                      isTelnet ||
+                      tab.type === "network_graph"
+                    }
+                    disableActivate={disableActivate}
+                    disableSplit={disableSplit}
+                    disableClose={disableClose}
+                    isDragging={isDraggingThisTab}
+                    isDragOver={false}
+                    hostConfig={tab.hostConfig}
+                  />
+                </div>
+              );
+            })}
+          </div>
 
-                          // Persist terminal theme selection to localStorage
-                          localStorage.setItem(
-                            `terminal_theme_host_${activeTab.hostConfig.id}`,
-                            key,
-                          );
+          <div className="flex shrink-0 items-center justify-center gap-1.5 border-l border-edge-panel pl-2">
+            <TabDropdown />
 
-                          updateTab(currentTab, {
-                            hostConfig: {
-                              ...activeTab.hostConfig,
-                              terminalConfig: updatedConfig,
-                            },
-                          });
-                        }
-                      }}
-                      onMouseEnter={() => setPreviewTerminalTheme(key)}
-                      className="flex items-center gap-2 cursor-pointer"
+            {/* Terminal Theme Switcher */}
+            {(() => {
+              const activeTab = tabs.find((t: any) => t.id === currentTab);
+              if (activeTab?.type !== "terminal") return null;
+
+              return (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="h-[30px] w-[30px] border-edge bg-button hover:bg-hover"
+                      title={t("hosts.selectTheme")}
                     >
-                      <div
-                        className="w-3 h-3 rounded-full border border-edge"
-                        style={{ backgroundColor: theme.colors.background }}
-                      />
-                      <span>{theme.name}</span>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            );
-          })()}
+                      <TerminalIcon className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="thin-scrollbar max-h-[400px] overflow-y-auto border-edge bg-popover text-popover-foreground"
+                    onMouseLeave={() => setPreviewTerminalTheme(null)}
+                  >
+                    <DropdownMenuLabel className="text-xs opacity-70">
+                      Terminal Themes
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {Object.entries(TERMINAL_THEMES).map(([key, theme]) => (
+                      <DropdownMenuItem
+                        key={key}
+                        onClick={() => {
+                          const activeTab = tabs.find(
+                            (t: any) => t.id === currentTab,
+                          );
+                          if (activeTab?.hostConfig) {
+                            const updatedConfig = {
+                              ...activeTab.hostConfig.terminalConfig,
+                              theme: key,
+                            };
 
-          <Button
-            variant="outline"
-            onClick={() => setToolsSidebarOpen(!toolsSidebarOpen)}
-            className="w-[30px] h-[30px] border-edge"
-            title={t("nav.tools")}
-          >
-            <Hammer className="h-4 w-4" />
-          </Button>
+                            // Persist terminal theme selection to localStorage
+                            localStorage.setItem(
+                              `terminal_theme_host_${activeTab.hostConfig.id}`,
+                              key,
+                            );
 
-          <Button
-            variant="outline"
-            onClick={() => setQuickConnectOpen(true)}
-            className="w-[30px] h-[30px] border-edge"
-            title={t("quickConnect.title")}
-          >
-            <Zap className="h-4 w-4" />
-          </Button>
+                            updateTab(currentTab, {
+                              hostConfig: {
+                                ...activeTab.hostConfig,
+                                terminalConfig: updatedConfig,
+                              },
+                            });
+                          }
+                        }}
+                        onMouseEnter={() => setPreviewTerminalTheme(key)}
+                        className="flex items-center gap-2 cursor-pointer"
+                      >
+                        <div
+                          className="w-3 h-3 rounded-full border border-edge"
+                          style={{ backgroundColor: theme.colors.background }}
+                        />
+                        <span>{theme.name}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              );
+            })()}
 
-          <Button
-            variant="outline"
-            onClick={() => setIsTopbarOpen(false)}
-            className="w-[30px] h-[30px]"
-          >
-            <ChevronUpIcon />
-          </Button>
+            <Button
+              variant="outline"
+              onClick={() => setToolsSidebarOpen(!toolsSidebarOpen)}
+              className="h-[30px] w-[30px] border-edge bg-button hover:bg-hover"
+              title={t("nav.tools")}
+            >
+              <Hammer className="h-4 w-4" />
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => setQuickConnectOpen(true)}
+              className="h-[34px] gap-1.5 border-edge bg-button px-3 hover:bg-hover"
+              title={t("quickConnect.title")}
+            >
+              <Zap className="h-4 w-4" />
+              <span className="hidden text-xs font-semibold xl:inline">
+                Connect
+              </span>
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => setIsTopbarOpen(false)}
+              className="h-[30px] w-[30px] border-edge bg-button hover:bg-hover"
+            >
+              <ChevronUpIcon />
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -654,7 +674,7 @@ export function TopNavbar({
             height: "10px",
             zIndex: 9999,
             backgroundColor: "var(--bg-base)",
-            border: "2px solid var(--border-base)",
+            border: "1px solid var(--border-base)",
             borderTop: "none",
           }}
         >

@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "MANAGER DE SSH SERVIDOR",
     "description": "Gestión de conexiones SSH seguras, potentes e intuitivas",
-    "welcomeBack": "Bienvenido de nuevo a TERMIX",
-    "createAccount": "Crea tu cuenta de TERMIX",
+    "welcomeBack": "Bienvenido de nuevo a SSHBridge",
+    "createAccount": "Crea tu cuenta de SSHBridge",
     "continueExternal": "Continuar con el proveedor externo",
     "loginTitle": "Iniciar sesión en SSHBridge",
     "registerTitle": "Crear cuenta",

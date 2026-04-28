@@ -130,8 +130,8 @@ export function Tab({
 
   const tabBaseClasses = cn(
     "relative flex items-center gap-1.5 px-3 w-full min-w-0",
-    "rounded-t-lg border-t-2 border-l-2 border-r-2",
-    "transition-all duration-150 h-[42px]",
+    "rounded-lg border",
+    "h-[38px] transition-colors duration-150",
     isDragOver &&
       "bg-background/40 text-muted-foreground border-border opacity-60",
     isDragging && "opacity-70",
@@ -145,13 +145,13 @@ export function Tab({
       !isValidDropTarget &&
       !isHoveredDropTarget &&
       isActive &&
-      "bg-background text-foreground border-border z-10",
+      "z-10 border-edge-active bg-primary text-primary-foreground shadow-sm",
     !isDragOver &&
       !isDragging &&
       !isValidDropTarget &&
       !isHoveredDropTarget &&
       !isActive &&
-      "bg-background/80 text-muted-foreground border-border hover:bg-background/90",
+      "border-edge-panel bg-surface text-foreground-secondary hover:border-edge-hover hover:bg-surface-hover hover:text-foreground",
   );
 
   const splitTitle = (fullTitle: string): { base: string; suffix: string } => {
@@ -167,25 +167,21 @@ export function Tab({
       <div
         className={cn(
           "relative flex items-center gap-1.5 px-3 flex-shrink-0 cursor-pointer",
-          "rounded-t-lg border-t-2 border-l-2 border-r-2",
-          "transition-all duration-150 h-[42px]",
+          "h-[38px] rounded-lg border",
+          "transition-colors duration-150",
           isDragOver &&
             "bg-background/40 text-muted-foreground border-border opacity-60",
           isDragging && "opacity-70",
           !isDragOver &&
             !isDragging &&
             isActive &&
-            "bg-background text-foreground border-border z-10",
+            "z-10 border-edge-active bg-primary text-primary-foreground shadow-sm",
           !isDragOver &&
             !isDragging &&
             !isActive &&
-            "bg-background/80 text-muted-foreground border-border hover:bg-background/90",
+            "border-edge-panel bg-surface text-foreground-secondary hover:border-edge-hover hover:bg-surface-hover hover:text-foreground",
         )}
         onClick={!disableActivate ? onActivate : undefined}
-        style={{
-          marginBottom: "-2px",
-          borderBottom: isActive ? "2px solid var(--foreground)" : "none",
-        }}
       >
         <Home className="h-4 w-4" />
       </div>
@@ -230,11 +226,9 @@ export function Tab({
       <div
         className={cn(tabBaseClasses, "cursor-pointer")}
         onClick={!disableActivate ? onActivate : undefined}
-        style={{
-          marginBottom: "-2px",
-          borderBottom:
-            isActive || isSplit ? "2px solid var(--foreground)" : "none",
-        }}
+        style={
+          isSplit ? { boxShadow: "inset 0 -2px 0 var(--ring)" } : undefined
+        }
       >
         <div className="flex items-center gap-1.5 flex-1 min-w-0">
           {isServer ? (
@@ -321,10 +315,6 @@ export function Tab({
       <div
         className={cn(tabBaseClasses, "cursor-pointer")}
         onClick={!disableActivate ? onActivate : undefined}
-        style={{
-          marginBottom: "-2px",
-          borderBottom: isActive ? "2px solid var(--foreground)" : "none",
-        }}
       >
         <div className="flex items-center gap-1.5 flex-1 min-w-0">
           <span className="truncate text-sm flex-1 min-w-0">{base}</span>
@@ -357,10 +347,6 @@ export function Tab({
       <div
         className={cn(tabBaseClasses, "cursor-pointer")}
         onClick={!disableActivate ? onActivate : undefined}
-        style={{
-          marginBottom: "-2px",
-          borderBottom: isActive ? "2px solid var(--foreground)" : "none",
-        }}
       >
         <div className="flex items-center gap-1.5 flex-1 min-w-0">
           <span className="truncate text-sm flex-1 min-w-0">{base}</span>
@@ -393,10 +379,6 @@ export function Tab({
       <div
         className={cn(tabBaseClasses, "cursor-pointer")}
         onClick={!disableActivate ? onActivate : undefined}
-        style={{
-          marginBottom: "-2px",
-          borderBottom: isActive ? "2px solid var(--foreground)" : "none",
-        }}
       >
         <div className="flex items-center gap-1.5 flex-1 min-w-0">
           <Network className="h-4 w-4 flex-shrink-0" />

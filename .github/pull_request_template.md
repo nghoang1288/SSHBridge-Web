@@ -29,4 +29,4 @@ _(Optional: add before/after screenshots, GIFs, or console output)_
 - [ ] Code follows project style guidelines
 - [ ] Supports mobile and desktop UI/app (if applicable)
 - [ ] I have read [Contributing.md](https://github.com/nghoang1288/SSHBridge-Web/blob/main/CONTRIBUTING.md)
-- [ ] This is not a translation request. See [docs](https://docs.termix.site/translations)
+- [ ] Translation changes were reviewed against the base English copy

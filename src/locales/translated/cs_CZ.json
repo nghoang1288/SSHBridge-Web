@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "SPRÁVCE SSH SERVER",
     "description": "Bezpečné, výkonné a intuitivní řízení připojení SSH",
-    "welcomeBack": "Vítejte zpět do TERMIX",
-    "createAccount": "Vytvořte si účet TERMIX",
+    "welcomeBack": "Vítejte zpět do SSHBridge",
+    "createAccount": "Vytvořte si účet SSHBridge",
     "continueExternal": "Pokračovat s externím poskytovatelem",
     "loginTitle": "Přihlásit se do SSHBridge",
     "registerTitle": "Vytvořit účet",

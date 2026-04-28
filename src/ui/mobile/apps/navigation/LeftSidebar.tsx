@@ -195,13 +195,13 @@ export function LeftSidebar({
           <Separator />
           <SidebarContent className="px-2 py-2">
             <div className="!bg-field rounded-lg mb-2">
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder={t("placeholders.searchHostsAny")}
-                className="w-full h-8 text-sm border-2 !bg-field border-edge rounded-md"
-                autoComplete="off"
-              />
+                <Input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t("placeholders.searchHostsAny")}
+                  className="h-8 w-full rounded-md border-2 border-edge !bg-surface text-sm text-foreground placeholder:text-foreground-subtle shadow-none focus-visible:border-edge-active focus-visible:ring-ring/20"
+                  autoComplete="off"
+                />
             </div>
 
             {hostsError && (

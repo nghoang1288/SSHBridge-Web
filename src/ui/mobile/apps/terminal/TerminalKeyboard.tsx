@@ -21,6 +21,10 @@ export function TerminalKeyboard({
 
   const isDarkMode =
     appTheme === "dark" ||
+    appTheme === "dracula" ||
+    appTheme === "gentlemansChoice" ||
+    appTheme === "midnightEspresso" ||
+    appTheme === "catppuccinMocha" ||
     (appTheme === "system" &&
       window.matchMedia("(prefers-color-scheme: dark)").matches);
 
@@ -127,6 +131,31 @@ export function TerminalKeyboard({
     [onSendInput, isCtrl, isAlt],
   );
 
+  const handlePaste = useCallback(async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        onSendInput(text);
+      }
+    } catch (error) {
+      console.error("Clipboard read failed:", error);
+    }
+  }, [onSendInput]);
+
+  const commandKeys = [
+    { label: "Ctrl", button: "{ctrl}", active: isCtrl },
+    { label: "Alt", button: "{alt}", active: isAlt },
+    { label: "Esc", button: "{esc}" },
+    { label: "Tab", button: "{tab}" },
+    { label: "/", button: "/" },
+    { label: "~", button: "~" },
+    { label: "|", button: "|" },
+    { label: "Up", button: "{arrowUp}" },
+    { label: "Down", button: "{arrowDown}" },
+    { label: "Left", button: "{arrowLeft}" },
+    { label: "Right", button: "{arrowRight}" },
+  ];
+
   const buttonTheme = [
     {
       class: "hg-space-big",
@@ -150,7 +179,30 @@ export function TerminalKeyboard({
   }
 
   return (
-    <div className="z-10">
+    <div
+      className={`terminal-keyboard-shell z-10 ${isDarkMode ? "dark-theme" : "light-theme"}`}
+    >
+      <div className="terminal-command-bar" aria-label="Terminal command keys">
+        {commandKeys.map((key) => (
+          <button
+            key={key.label}
+            type="button"
+            className={`terminal-command-key ${key.active ? "key-active" : ""}`}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => onKeyPress(key.button)}
+          >
+            {key.label}
+          </button>
+        ))}
+        <button
+          type="button"
+          className="terminal-command-key terminal-command-key-paste"
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={handlePaste}
+        >
+          Paste
+        </button>
+      </div>
       <Keyboard
         layout={{
           default: [
@@ -188,10 +240,10 @@ export function TerminalKeyboard({
           "{less}": "less",
           "{space}": "space",
           "{enter}": "enter",
-          "{arrowLeft}": "←",
-          "{arrowRight}": "→",
-          "{arrowUp}": "↑",
-          "{arrowDown}": "↓",
+          "{arrowLeft}": "left",
+          "{arrowRight}": "right",
+          "{arrowUp}": "up",
+          "{arrowDown}": "down",
           "{hide}": "hide",
           "{unhide}": "unhide",
           "{esc}": "esc",

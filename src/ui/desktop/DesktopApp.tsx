@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { LeftSidebar } from "@/ui/desktop/navigation/LeftSidebar.tsx";
 import { Dashboard } from "@/ui/desktop/apps/dashboard/Dashboard.tsx";
+import { ServerLaunchpad } from "@/ui/desktop/apps/home/ServerLaunchpad.tsx";
 import { AppView } from "@/ui/desktop/navigation/AppView.tsx";
 import { HostManager } from "@/ui/desktop/apps/host-manager/hosts/HostManager.tsx";
 import {
@@ -20,7 +21,6 @@ import { CommandHistoryProvider } from "@/ui/desktop/apps/features/terminal/comm
 import { ServerStatusProvider } from "@/ui/contexts/ServerStatusContext";
 import { AdminSettings } from "@/ui/desktop/apps/admin/AdminSettings.tsx";
 import { UserProfile } from "@/ui/desktop/user/UserProfile.tsx";
-import { NetworkGraphCard } from "@/ui/desktop/apps/dashboard/cards/NetworkGraphCard";
 import { Toaster } from "@/components/ui/sonner.tsx";
 import { toast } from "sonner";
 import { CommandPalette } from "@/ui/desktop/apps/command-palette/CommandPalette.tsx";
@@ -52,16 +52,6 @@ function AppContent({
   const { theme, setTheme } = useTheme();
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
   const [rightSidebarWidth, setRightSidebarWidth] = useState(400);
-
-  const isDarkMode =
-    theme === "dark" ||
-    theme === "dracula" ||
-    theme === "gentlemansChoice" ||
-    theme === "midnightEspresso" ||
-    theme === "catppuccinMocha" ||
-    (theme === "system" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches);
-  const lineColor = isDarkMode ? "#151517" : "#f9f9f9";
 
   const lastShiftPressTime = useRef(0);
 
@@ -318,28 +308,25 @@ function AppContent({
 
   if (authLoading) {
     return (
-      <div
-        className="fixed inset-0 flex items-center justify-center"
-        style={{
-          background: "var(--bg-elevated)",
-          backgroundImage: `repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 35px,
-            ${lineColor} 35px,
-            ${lineColor} 37px
-          )`,
-        }}
-      >
-        <div className="w-[420px] max-w-full p-8 flex flex-col backdrop-blur-sm bg-card/50 rounded-2xl shadow-xl border-2 border-edge overflow-y-auto thin-scrollbar my-2 animate-in fade-in zoom-in-95 duration-300">
-          <div className="flex items-center justify-center h-32">
-            <div className="text-center">
-              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-muted-foreground">
-                {t("common.checkingAuthentication")}
-              </p>
+      <div className="sshbridge-loading-screen fixed inset-0 flex items-center justify-center">
+        <div className="sshbridge-loader-card w-[360px] max-w-[calc(100vw-2rem)] rounded-xl p-6">
+          <div className="mb-5 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary font-mono text-sm font-semibold text-primary-foreground">
+              SB
+            </div>
+            <div>
+              <div className="text-base font-semibold text-foreground">
+                {t("common.appName")}
+              </div>
+              <div className="text-xs text-foreground-subtle">
+                Preparing command deck
+              </div>
             </div>
           </div>
+          <div className="sshbridge-loader-bar" />
+          <p className="mt-4 text-sm text-foreground-secondary">
+            {t("common.checkingAuthentication")}
+          </p>
         </div>
       </div>
     );
@@ -382,11 +369,7 @@ function AppContent({
 
           {showHome && (
             <div className="h-screen w-full visible pointer-events-auto static overflow-hidden">
-              <Dashboard
-                isAuthenticated={isAuthenticated}
-                authLoading={authLoading}
-                onAuthSuccess={handleAuthSuccess}
-                isTopbarOpen={isTopbarOpen}
+              <ServerLaunchpad
                 rightSidebarOpen={rightSidebarOpen}
                 rightSidebarWidth={rightSidebarWidth}
               />
@@ -445,16 +428,7 @@ function AppContent({
           className={`fixed inset-0 z-[20000] transition-opacity duration-700 ${
             transitionPhase === "fadeOut" ? "opacity-100" : "opacity-0"
           }`}
-          style={{
-            background: "var(--bg-elevated)",
-            backgroundImage: `repeating-linear-gradient(
-              45deg,
-              transparent,
-              transparent 35px,
-              ${lineColor} 35px,
-              ${lineColor} 37px
-            )`,
-          }}
+          style={{ background: "var(--bg-base)" }}
         >
           {transitionPhase === "fadeOut" && (
             <>
@@ -517,7 +491,7 @@ function AppContent({
                       willChange: "color, text-shadow",
                     }}
                   >
-                    TERMIX
+                    {t("common.appName").toUpperCase()}
                   </div>
                   <div
                     className="text-sm text-muted-foreground mt-3 tracking-widest"

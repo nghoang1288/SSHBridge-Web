@@ -7,7 +7,11 @@ import React, {
   useRef,
   useMemo,
 } from "react";
-import { getAllServerStatuses, getSSHHosts } from "@/ui/main-axios";
+import {
+  getAllServerStatuses,
+  getSSHHosts,
+  refreshServerPolling,
+} from "@/ui/main-axios";
 import { DEFAULT_STATS_CONFIG } from "@/types/stats-widgets";
 
 type StatusValue = "online" | "offline" | "degraded";
@@ -20,7 +24,7 @@ interface ServerStatusEntry {
 interface ServerStatusContextType {
   statuses: Map<number, ServerStatusEntry>;
   isLoading: boolean;
-  refreshStatuses: () => Promise<void>;
+  refreshStatuses: (options?: { force?: boolean }) => Promise<void>;
   getStatus: (hostId: number) => StatusValue;
 }
 
@@ -42,6 +46,7 @@ export function ServerStatusProvider({
   const [enabledHostIds, setEnabledHostIds] = useState<Set<number>>(new Set());
   const mountedRef = useRef(true);
   const enabledHostIdsRef = useRef(enabledHostIds);
+  const refreshInFlightRef = useRef(false);
 
   useEffect(() => {
     enabledHostIdsRef.current = enabledHostIds;
@@ -85,11 +90,17 @@ export function ServerStatusProvider({
     }
   }, [isAuthenticated]);
 
-  const refreshStatuses = useCallback(async () => {
+  const refreshStatuses = useCallback(async (options?: { force?: boolean }) => {
     if (!mountedRef.current || !isAuthenticated) return;
+    if (refreshInFlightRef.current) return;
 
+    refreshInFlightRef.current = true;
     setIsLoading(true);
     try {
+      if (options?.force) {
+        await refreshServerPolling().catch(() => undefined);
+      }
+
       const data = await getAllServerStatuses();
       if (!mountedRef.current) return;
 
@@ -129,6 +140,7 @@ export function ServerStatusProvider({
       if (mountedRef.current) {
         setIsLoading(false);
       }
+      refreshInFlightRef.current = false;
     }
   }, [isAuthenticated]);
 
@@ -149,10 +161,16 @@ export function ServerStatusProvider({
 
   useEffect(() => {
     mountedRef.current = true;
+    const quickRefreshTimers: ReturnType<typeof setTimeout>[] = [];
 
     const init = async () => {
       await fetchEnabledHosts();
       await refreshStatuses();
+      if (!mountedRef.current) return;
+      quickRefreshTimers.push(
+        setTimeout(() => void refreshStatuses(), 1200),
+        setTimeout(() => void refreshStatuses(), 3500),
+      );
     };
 
     init();
@@ -162,6 +180,7 @@ export function ServerStatusProvider({
     return () => {
       mountedRef.current = false;
       clearInterval(intervalId);
+      quickRefreshTimers.forEach(clearTimeout);
     };
   }, [fetchEnabledHosts, refreshStatuses]);
 

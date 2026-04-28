@@ -1,7 +1,7 @@
 {
   "name": "SSHBridge",
   "short_name": "SSHBridge",
-  "description": "A web-based server management platform with SSH terminal, tunneling, and file editing capabilities",
+  "description": "Terminal-first self-hosted server workspace for SSH, files, tunnels, stats, and remote access.",
   "theme_color": "#09090b",
   "background_color": "#09090b",
   "display": "standalone",

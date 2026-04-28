@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "SSH-PALVELINHALLINTA",
     "description": "Turvallinen, tehokas ja intuitiivinen SSH-yhteyksien hallinta",
-    "welcomeBack": "Tervetuloa takaisin TERMIXiin",
-    "createAccount": "Luo TERMIX-tilisi",
+    "welcomeBack": "Tervetuloa takaisin SSHBridgeen",
+    "createAccount": "Luo SSHBridge-tilisi",
     "continueExternal": "Jatka ulkoisen palveluntarjoajan kanssa",
     "loginTitle": "Kirjaudu SSHBridgeiin",
     "registerTitle": "Luo tili",

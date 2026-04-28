@@ -128,10 +128,25 @@ const AppContent: FC = () => {
 
   if (authLoading) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-canvas">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">{t("common.loading")}</p>
+      <div className="sshbridge-mobile-auth flex h-screen w-screen items-center justify-center p-5">
+        <div className="sshbridge-loader-card w-full max-w-xs rounded-xl p-5">
+          <div className="mb-4 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary font-mono text-sm font-semibold text-primary-foreground">
+              SB
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-foreground">
+                SSHBridge
+              </div>
+              <div className="text-xs text-foreground-subtle">
+                Mobile terminal
+              </div>
+            </div>
+          </div>
+          <div className="sshbridge-loader-bar" />
+          <p className="mt-4 text-sm text-foreground-secondary">
+            {t("common.loading")}
+          </p>
         </div>
       </div>
     );
@@ -139,7 +154,7 @@ const AppContent: FC = () => {
 
   if (!isAuthenticated || isReactNativeWebView()) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-canvas p-4">
+      <div className="sshbridge-mobile-auth flex h-screen w-screen items-center justify-center p-4">
         <Auth
           setLoggedIn={setIsAuthenticated}
           setIsAdmin={setIsAdmin}
@@ -156,12 +171,12 @@ const AppContent: FC = () => {
   }
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-deepest overflow-y-hidden overflow-x-hidden relative">
+    <div className="relative flex h-screen w-screen flex-col overflow-x-hidden overflow-y-hidden bg-[#101010]">
       <div className="flex-1 min-h-0 relative">
         {tabs.map((tab) => (
           <div
             key={tab.id}
-            className={`absolute inset-0 mb-2 bg-elevated ${tab.id === currentTab ? "visible" : "invisible"} ${ready ? "opacity-100" : "opacity-0"}`}
+            className={`absolute inset-0 bg-deepest ${tab.id === currentTab ? "visible" : "invisible"} ${ready ? "opacity-100" : "opacity-0"}`}
           >
             <Terminal
               ref={tab.terminalRef}
@@ -171,26 +186,26 @@ const AppContent: FC = () => {
           </div>
         ))}
         {tabs.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full text-foreground gap-3 px-4 text-center">
-            <h1 className="text-lg font-semibold">
-              {t("mobile.selectHostToStart")}
-            </h1>
-            <p className="text-sm text-foreground-secondary max-w-xs">
-              {t("mobile.limitedSupportMessage")}
-            </p>
+          <div className="sshbridge-mobile-surface flex h-full flex-col items-center justify-center gap-3 px-4 text-center text-foreground">
+            <div className="rounded-lg border border-edge-panel bg-elevated/90 px-4 py-4">
+              <h1 className="text-lg font-semibold">
+                {t("mobile.selectHostToStart")}
+              </h1>
+              <p className="mt-1 max-w-xs text-sm text-foreground-secondary">
+                {t("mobile.limitedSupportMessage")}
+              </p>
+            </div>
             <button
-              className="mt-4 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-              onClick={() =>
-                window.open("https://docs.termix.site/install", "_blank")
-              }
+              className="sshbridge-primary-button mt-2 rounded-md px-6 py-3 font-semibold transition-colors"
+              onClick={() => setIsSidebarOpen(true)}
             >
-              {t("mobile.viewMobileAppDocs")}
+              Open server list
             </button>
           </div>
         )}
       </div>
       {currentTab && (
-        <div className="mb-1 z-10">
+        <div className="z-10">
           <TerminalKeyboard
             onSendInput={handleKeyboardInput}
             onLayoutChange={handleKeyboardLayoutChange}

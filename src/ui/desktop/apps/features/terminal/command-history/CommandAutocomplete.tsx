@@ -33,29 +33,33 @@ export function CommandAutocomplete({
     return null;
   }
 
+  const isMobileViewport = window.innerWidth < 768;
+  const visibleSuggestions = isMobileViewport
+    ? suggestions.slice(0, 3)
+    : suggestions;
   const footerHeight = 32;
-  const maxSuggestionsHeight = 240 - footerHeight;
+  const maxSuggestionsHeight = (isMobileViewport ? 154 : 240) - footerHeight;
 
   return (
     <div
       ref={containerRef}
-      className="fixed z-[9999] bg-canvas border border-edge rounded-md shadow-lg min-w-[240px] max-w-[640px] flex flex-col"
+      className="sshbridge-mobile-autocomplete fixed z-[9999] bg-canvas border border-edge rounded-md shadow-lg min-w-[240px] max-w-[640px] flex flex-col"
       style={{
         top: `${position.top}px`,
         left: `${position.left}px`,
-        maxHeight: "240px",
+        maxHeight: isMobileViewport ? "154px" : "240px",
       }}
     >
       <div
         className="overflow-y-auto thin-scrollbar"
         style={{ maxHeight: `${maxSuggestionsHeight}px` }}
       >
-        {suggestions.map((suggestion, index) => (
+        {visibleSuggestions.map((suggestion, index) => (
           <div
             key={`${suggestion.source}-${suggestion.value}-${index}`}
             ref={index === selectedIndex ? selectedRef : null}
             className={cn(
-              "px-3 py-1.5 text-sm cursor-pointer transition-colors",
+              "sshbridge-mobile-autocomplete-row px-3 py-1.5 text-sm cursor-pointer transition-colors",
               "hover:bg-hover",
               index === selectedIndex && "bg-surface text-muted-foreground",
             )}
@@ -84,9 +88,11 @@ export function CommandAutocomplete({
           </div>
         ))}
       </div>
-      <div className="px-3 py-1 text-xs text-muted-foreground border-t border-edge bg-canvas/50 shrink-0">
-        Enter to complete - Tab/Up/Down to navigate - Esc to close
-      </div>
+      {!isMobileViewport && (
+        <div className="px-3 py-1 text-xs text-muted-foreground border-t border-edge bg-canvas/50 shrink-0">
+          Enter to complete - Tab/Up/Down to navigate - Esc to close
+        </div>
+      )}
     </div>
   );
 }

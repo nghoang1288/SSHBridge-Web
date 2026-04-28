@@ -11,10 +11,10 @@ export function BottomNavbar({ onSidebarOpenClick }: MenuProps) {
   const { tabs, currentTab, setCurrentTab, removeTab } = useTabs();
 
   return (
-    <div className="w-full h-[50px] bg-canvas items-center p-1">
-      <div className="flex gap-2 !mb-0.5">
+    <div className="h-[46px] w-full items-center border-t border-white/10 bg-[#101010] p-1">
+      <div className="!mb-0.5 flex gap-1.5">
         <Button
-          className="w-[40px] h-[40px] flex-shrink-0"
+          className="h-[36px] w-[38px] flex-shrink-0 border-white/10 bg-white/5 text-white hover:bg-white/10"
           variant="outline"
           onClick={onSidebarOpenClick}
         >
@@ -31,8 +31,9 @@ export function BottomNavbar({ onSidebarOpenClick }: MenuProps) {
                 <Button
                   variant="outline"
                   className={cn(
-                    "h-10 rounded-r-none !px-3 border-1 border-edge",
-                    tab.id === currentTab && "!bg-deepest !text-foreground",
+                    "h-9 rounded-r-none border border-white/10 bg-white/5 !px-2 text-white/70 hover:bg-white/10",
+                    tab.id === currentTab &&
+                      "!border-[#f7f4ed] !bg-[#f7f4ed] !text-[#1c1c1c]",
                   )}
                   onClick={() => setCurrentTab(tab.id)}
                 >
@@ -41,7 +42,7 @@ export function BottomNavbar({ onSidebarOpenClick }: MenuProps) {
                 </Button>
                 <Button
                   variant="outline"
-                  className="h-10 rounded-l-none !px-2 border-1 border-edge"
+                  className="h-9 rounded-l-none border border-white/10 bg-white/5 !px-2 text-white/70 hover:bg-white/10"
                   onClick={() => removeTab(tab.id)}
                 >
                   <X className="h-4 w-4" />

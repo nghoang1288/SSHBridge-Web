@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "SSH SUNUCU YÖNETİCİSİ",
     "description": "Güvenli, güçlü ve sezgisel SSH bağlantı yönetimi",
-    "welcomeBack": "TERMIX'e tekrar hoş geldiniz.",
-    "createAccount": "TERMIX hesabınızı oluşturun",
+    "welcomeBack": "SSHBridge'e tekrar hoş geldiniz.",
+    "createAccount": "SSHBridge hesabınızı oluşturun",
     "continueExternal": "Harici sağlayıcıyla devam edin",
     "loginTitle": "SSHBridge'e giriş yapın",
     "registerTitle": "Hesap oluşturmak",

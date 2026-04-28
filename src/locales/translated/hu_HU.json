@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "SSH SZERVERKEZELŐ",
     "description": "Biztonságos, hatékony és intuitív SSH-kapcsolatkezelés",
-    "welcomeBack": "Üdvözlünk ismét a TERMIX-nél",
-    "createAccount": "Hozd létre a TERMIX fiókodat",
+    "welcomeBack": "Üdvözlünk ismét a SSHBridge-nél",
+    "createAccount": "Hozd létre a SSHBridge fiókodat",
     "continueExternal": "Folytatás külső szolgáltatóval",
     "loginTitle": "Bejelentkezés a SSHBridgebe",
     "registerTitle": "Fiók létrehozása",

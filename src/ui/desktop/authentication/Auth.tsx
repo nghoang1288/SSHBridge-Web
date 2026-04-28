@@ -15,7 +15,13 @@ import {
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/ui/desktop/user/LanguageSwitcher.tsx";
 import { toast } from "sonner";
-import { Sun, Moon, Monitor } from "lucide-react";
+import {
+  Sun,
+  Moon,
+  Monitor,
+  Server,
+  Terminal as TerminalIcon,
+} from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import {
   registerUser,
@@ -80,16 +86,6 @@ export function Auth({
 }: AuthProps) {
   const { t } = useTranslation();
   const { theme, setTheme } = useTheme();
-
-  const isDarkMode =
-    theme === "dark" ||
-    theme === "dracula" ||
-    theme === "gentlemansChoice" ||
-    theme === "midnightEspresso" ||
-    theme === "catppuccinMocha" ||
-    (theme === "system" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches);
-  const lineColor = isDarkMode ? "#151517" : "#f9f9f9";
 
   const isInElectronWebView = () => {
     if ((window as ExtendedWindow).IS_ELECTRON_WEBVIEW) {
@@ -829,12 +825,19 @@ export function Auth({
   if (showServerConfig === null && !isInElectronWebView()) {
     return (
       <div
-        className={`w-[420px] max-w-full p-6 flex flex-col bg-canvas border-2 border-edge rounded-md overflow-y-auto thin-scrollbar my-2 animate-in fade-in zoom-in-95 duration-300 ${className || ""}`}
-        style={{ maxHeight: "calc(100vh - 1rem)" }}
+        className={`sshbridge-loading-screen fixed inset-0 flex items-center justify-center ${className || ""}`}
         {...props}
       >
-        <div className="flex items-center justify-center h-32">
-          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        <div className="sshbridge-loader-card w-[320px] max-w-full rounded-xl p-6">
+          <div className="mb-4 flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary font-mono text-xs font-semibold text-primary-foreground">
+              SB
+            </div>
+            <div className="text-sm font-semibold text-foreground">
+              Preparing login
+            </div>
+          </div>
+          <div className="sshbridge-loader-bar" />
         </div>
       </div>
     );
@@ -843,7 +846,7 @@ export function Auth({
   if (showServerConfig && !isInElectronWebView()) {
     return (
       <div
-        className={`w-[420px] max-w-full p-6 flex flex-col bg-canvas border-2 border-edge rounded-md overflow-y-auto thin-scrollbar my-2 animate-in fade-in zoom-in-95 duration-300 ${className || ""}`}
+        className={`sshbridge-auth-card w-[420px] max-w-full p-6 flex flex-col rounded-xl overflow-y-auto thin-scrollbar my-2 animate-in fade-in zoom-in-95 duration-300 ${className || ""}`}
         style={{ maxHeight: "calc(100vh - 1rem)" }}
         {...props}
       >
@@ -876,28 +879,14 @@ export function Auth({
   ) {
     return (
       <div
-        className={`fixed inset-0 flex items-center justify-center ${className || ""}`}
-        style={{
-          background: "var(--bg-elevated)",
-          backgroundImage: `repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 35px,
-            ${lineColor} 35px,
-            ${lineColor} 37px
-          )`,
-        }}
+        className={`sshbridge-loading-screen fixed inset-0 flex items-center justify-center ${className || ""}`}
         {...props}
       >
-        <div className="w-[420px] max-w-full p-8 flex flex-col backdrop-blur-sm bg-card/50 rounded-2xl shadow-xl border-2 border-edge overflow-y-auto thin-scrollbar my-2 animate-in fade-in zoom-in-95 duration-300">
-          <div className="flex items-center justify-center h-32">
-            <div className="text-center">
-              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-muted-foreground">
-                {t("common.checkingAuthentication")}
-              </p>
-            </div>
+        <div className="sshbridge-loader-card w-[340px] max-w-full rounded-xl p-6">
+          <div className="mb-4 text-sm font-semibold text-foreground">
+            {t("common.checkingAuthentication")}
           </div>
+          <div className="sshbridge-loader-bar" />
         </div>
       </div>
     );
@@ -925,28 +914,14 @@ export function Auth({
   if (dbHealthChecking && !dbConnectionFailed) {
     return (
       <div
-        className={`fixed inset-0 flex items-center justify-center ${className || ""}`}
-        style={{
-          background: "var(--bg-elevated)",
-          backgroundImage: `repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 35px,
-            ${lineColor} 35px,
-            ${lineColor} 37px
-          )`,
-        }}
+        className={`sshbridge-loading-screen fixed inset-0 flex items-center justify-center ${className || ""}`}
         {...props}
       >
-        <div className="w-[420px] max-w-full p-8 flex flex-col backdrop-blur-sm bg-card/50 rounded-2xl shadow-xl border-2 border-edge overflow-y-auto thin-scrollbar my-2 animate-in fade-in zoom-in-95 duration-300">
-          <div className="flex items-center justify-center h-32">
-            <div className="text-center">
-              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-muted-foreground">
-                {t("common.checkingDatabase")}
-              </p>
-            </div>
+        <div className="sshbridge-loader-card w-[340px] max-w-full rounded-xl p-6">
+          <div className="mb-4 text-sm font-semibold text-foreground">
+            {t("common.checkingDatabase")}
           </div>
+          <div className="sshbridge-loader-bar" />
         </div>
       </div>
     );
@@ -955,21 +930,11 @@ export function Auth({
   if (dbConnectionFailed) {
     return (
       <div
-        className={`fixed inset-0 flex items-center justify-center ${className || ""}`}
-        style={{
-          background: "var(--bg-elevated)",
-          backgroundImage: `repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 35px,
-            ${lineColor} 35px,
-            ${lineColor} 37px
-          )`,
-        }}
+        className={`sshbridge-auth-stage fixed inset-0 flex items-center justify-center ${className || ""}`}
         {...props}
       >
         <div
-          className="w-[420px] max-w-full p-8 flex flex-col backdrop-blur-sm bg-card/50 rounded-2xl shadow-xl border-2 border-edge overflow-y-auto thin-scrollbar my-2 animate-in fade-in zoom-in-95 duration-300"
+          className="sshbridge-auth-card w-[420px] max-w-full p-8 flex flex-col rounded-xl overflow-y-auto thin-scrollbar my-2 animate-in fade-in zoom-in-95 duration-300"
           style={{ maxHeight: "calc(100vh - 1rem)" }}
         >
           <div className="mb-6 text-center">
@@ -1048,41 +1013,80 @@ export function Auth({
 
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center ${className || ""}`}
+      className={`sshbridge-auth-stage fixed inset-0 flex items-center justify-center ${className || ""}`}
       {...props}
     >
-      <div className="w-full h-full flex flex-col md:flex-row">
-        <div
-          className="hidden md:flex md:w-2/5 items-center justify-center relative border-r-2 border-edge"
-          style={{
-            background: "var(--bg-elevated)",
-            backgroundImage: `repeating-linear-gradient(
-              45deg,
-              transparent,
-              transparent 35px,
-              ${lineColor} 35px,
-              ${lineColor} 37px
-            )`,
-          }}
-        >
-          <div className="relative text-center px-8">
-            <div
-              className="text-7xl font-bold tracking-wider mb-4 text-foreground"
-              style={{
-                fontFamily:
-                  "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
-              }}
-            >
-              {t("common.appName").toUpperCase()}
+      <div className="flex h-full w-full flex-col p-4 md:flex-row md:p-6">
+        <div className="sshbridge-auth-hero hidden rounded-xl border border-edge-panel md:flex md:w-[44%] items-center justify-center relative">
+          <div className="relative w-full max-w-[520px] px-8">
+            <div className="mb-8 flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary font-mono text-sm font-semibold text-primary-foreground">
+                SB
+              </div>
+              <div>
+                <div className="text-2xl font-semibold text-foreground">
+                  {t("common.appName")}
+                </div>
+                <div className="text-sm text-foreground-subtle">
+                  Terminal-first server access
+                </div>
+              </div>
             </div>
-            <div className="text-lg text-muted-foreground tracking-widest font-light">
-              {t("auth.tagline")}
+
+            <div className="sshbridge-mini-terminal overflow-hidden rounded-lg border border-black/20 p-4 font-mono">
+              <div className="mb-4 flex items-center justify-between text-xs text-white/55">
+                <span>quick session</span>
+                <span>auto reconnect on</span>
+              </div>
+              <div className="space-y-2 text-sm text-white/78">
+                <div>
+                  <span className="text-emerald-300">$</span> connect production
+                </div>
+                <div className="text-white/42">
+                  loading keys... attaching terminal...
+                </div>
+                <div className="text-emerald-300">connected in 812ms</div>
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-3 gap-2">
+              {[
+                ["2 taps", "connect"],
+                ["keys", "remembered"],
+                ["tabs", "ready"],
+              ].map(([value, label]) => (
+                <div
+                  key={label}
+                  className="rounded-md border border-edge bg-surface px-3 py-2"
+                >
+                  <div className="text-sm font-semibold text-foreground">
+                    {value}
+                  </div>
+                  <div className="mt-1 text-[11px] text-foreground-subtle">
+                    {label}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="flex-1 flex p-6 md:p-12 bg-background overflow-y-auto thin-scrollbar">
-          <div className="m-auto w-full max-w-md backdrop-blur-sm bg-card/50 rounded-2xl p-8 shadow-xl border-2 border-edge animate-in fade-in slide-in-from-bottom-4 duration-500 flex flex-col">
+        <div className="thin-scrollbar flex flex-1 overflow-y-auto p-2 md:p-8">
+          <div className="sshbridge-auth-card m-auto flex w-full max-w-[430px] flex-col rounded-xl p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="mb-6 flex items-start justify-between gap-4">
+              <div>
+                <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-foreground-subtle">
+                  <TerminalIcon className="h-3.5 w-3.5" />
+                  Command deck
+                </div>
+                <h1 className="text-2xl font-semibold leading-tight text-foreground">
+                  Sign in to SSHBridge
+                </h1>
+              </div>
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-edge bg-surface">
+                <Server className="h-5 w-5" />
+              </div>
+            </div>
             {isInElectronWebView() && !webviewAuthSuccess && (
               <Alert className="mb-4 border-blue-500 bg-blue-500/10">
                 <Monitor className="h-4 w-4" />

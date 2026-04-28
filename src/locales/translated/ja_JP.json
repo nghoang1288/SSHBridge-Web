@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "SSHサーバー管理",
     "description": "安全でパワフルで直感的なSSH接続管理",
-    "welcomeBack": "TERMIXへようこそ",
-    "createAccount": "TERMIXアカウントを作成する",
+    "welcomeBack": "SSHBridgeへようこそ",
+    "createAccount": "SSHBridgeアカウントを作成する",
     "continueExternal": "外部プロバイダで続ける",
     "loginTitle": "SSHBridgeにログイン",
     "registerTitle": "アカウントを作成",

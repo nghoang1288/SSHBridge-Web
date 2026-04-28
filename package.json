@@ -2,7 +2,7 @@
   "name": "sshbridge",
   "private": true,
   "version": "2.1.0",
-  "description": "A web-based server management platform with SSH terminal, tunneling, and file editing capabilities",
+  "description": "Terminal-first self-hosted server workspace for SSH, files, tunnels, stats, and remote access.",
   "author": "nghoang1288",
   "main": "electron/main.cjs",
   "type": "module",

@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "ΔΙΑΧΕΙΡΙΣΗ SSH ΔΙΑΧΕΙΡΙΣΗΣ ΔΙΑΚΟΠΗΣ",
     "description": "Ασφαλής, ισχυρή, και διαισθητική διαχείριση σύνδεσης SSH",
-    "welcomeBack": "Καλώς ήρθατε πίσω στο TERMIX",
-    "createAccount": "Δημιουργήστε τον λογαριασμό σας TERMIX",
+    "welcomeBack": "Καλώς ήρθατε πίσω στο SSHBridge",
+    "createAccount": "Δημιουργήστε τον λογαριασμό σας SSHBridge",
     "continueExternal": "Συνέχεια με εξωτερικό πάροχο",
     "loginTitle": "Συνδεθείτε στο SSHBridge",
     "registerTitle": "Δημιουργία Λογαριασμού",

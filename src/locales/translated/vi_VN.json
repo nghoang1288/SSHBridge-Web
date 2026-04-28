@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "QUẢN LÝ MÁY CHỦ SSH",
     "description": "Quản lý kết nối SSH an toàn, mạnh mẽ và trực quan",
-    "welcomeBack": "Chào mừng trở lại với TERMIX",
-    "createAccount": "Tạo tài khoản TERMIX của bạn",
+    "welcomeBack": "Chào mừng trở lại với SSHBridge",
+    "createAccount": "Tạo tài khoản SSHBridge của bạn",
     "continueExternal": "Tiếp tục với nhà cung cấp bên ngoài",
     "loginTitle": "Đăng nhập vào SSHBridge",
     "registerTitle": "Tạo tài khoản",

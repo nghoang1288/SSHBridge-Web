@@ -19,6 +19,7 @@ export function Host({ host, onHostConnect }: HostProps): React.ReactElement {
   const title = host.name?.trim()
     ? host.name
     : `${host.username}@${host.ip}:${host.port}`;
+  const endpoint = `${host.username}@${host.ip}:${host.port}`;
 
   const statsConfig = useMemo(() => {
     try {
@@ -78,7 +79,18 @@ export function Host({ host, onHostConnect }: HostProps): React.ReactElement {
   };
 
   return (
-    <div>
+    <div
+      role="button"
+      tabIndex={0}
+      className="rounded-md px-2 py-2 outline-none transition-colors active:bg-surface-hover focus-visible:ring-2 focus-visible:ring-ring"
+      onClick={handleTerminalClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          handleTerminalClick();
+        }
+      }}
+    >
       <div className="flex items-center gap-2">
         {shouldShowStatus && (
           <Status
@@ -88,15 +100,21 @@ export function Host({ host, onHostConnect }: HostProps): React.ReactElement {
             <StatusIndicator />
           </Status>
         )}
-        <p className="font-semibold flex-1 min-w-0 break-words text-sm">
-          {host.name || host.ip}
-        </p>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-semibold text-foreground">
+            {host.name || host.ip}
+          </p>
+          <p className="truncate text-xs text-foreground-subtle">{endpoint}</p>
+        </div>
         <ButtonGroup className="flex-shrink-0">
           {host.enableTerminal && (
             <Button
               variant="outline"
-              className="!px-2 border-1 w-[60px] border-edge"
-              onClick={handleTerminalClick}
+              className="h-9 w-[54px] border border-edge bg-button !px-2 hover:bg-hover"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleTerminalClick();
+              }}
             >
               <Terminal />
             </Button>
@@ -104,13 +122,13 @@ export function Host({ host, onHostConnect }: HostProps): React.ReactElement {
         </ButtonGroup>
       </div>
       {hasTags && (
-        <div className="flex flex-wrap items-center gap-2 mt-1">
+        <div className="mt-1.5 flex flex-wrap items-center gap-1.5 pl-5">
           {tags.map((tag: string) => (
             <div
               key={tag}
-              className="bg-canvas border-1 border-edge pl-2 pr-2 rounded-[10px]"
+              className="rounded-sm border border-edge-panel bg-surface px-1.5"
             >
-              <p className="text-sm">{tag}</p>
+              <p className="text-xs text-foreground-secondary">{tag}</p>
             </div>
           ))}
         </div>

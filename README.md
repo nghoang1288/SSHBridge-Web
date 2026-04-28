@@ -1,96 +1,81 @@
-# SSHBridge
+# SSHBridge Web
 
 <p align="center">
-🇺🇸 English · <a href="readme/README-CN.md">🇨🇳 中文</a> · <a href="readme/README-JA.md">🇯🇵 日本語</a> · <a href="readme/README-KO.md">🇰🇷 한국어</a> · <a href="readme/README-FR.md">🇫🇷 Français</a> · <a href="readme/README-DE.md">🇩🇪 Deutsch</a> · <a href="readme/README-ES.md">🇪🇸 Español</a> · <a href="readme/README-PT.md">🇧🇷 Português</a> · <a href="readme/README-RU.md">🇷🇺 Русский</a> · <a href="readme/README-AR.md">🇸🇦 العربية</a> · <a href="readme/README-HI.md">🇮🇳 हिन्दी</a> · <a href="readme/README-TR.md">🇹🇷 Türkçe</a> · <a href="readme/README-VI.md">🇻🇳 Tiếng Việt</a> · <a href="readme/README-IT.md">🇮🇹 Italiano</a>
+  <img src="./public/icon.png" width="112" alt="SSHBridge icon" />
 </p>
 
-![GitHub Repo stars](https://img.shields.io/github/stars/nghoang1288/SSHBridge-Web?style=flat&label=Stars)
-![GitHub forks](https://img.shields.io/github/forks/nghoang1288/SSHBridge-Web?style=flat&label=Forks)
-![GitHub Release](https://img.shields.io/github/v/release/nghoang1288/SSHBridge-Web?style=flat&label=Release)
-<a href="https://discord.gg/jVQGdvHDrf"><img alt="Discord" src="https://img.shields.io/discord/1347374268253470720"></a>
+![Release](https://img.shields.io/github/v/release/nghoang1288/SSHBridge-Web?style=flat&label=release)
+![Vite](https://img.shields.io/badge/Vite-React-1c1c1c?style=flat)
+![Docker](https://img.shields.io/badge/Docker-ready-22c55e?style=flat)
+![License](https://img.shields.io/badge/license-Apache--2.0-blue?style=flat)
+
+SSHBridge Web is a self-hosted server workspace built around a fast SSH
+terminal. It keeps saved servers, tabs, files, tunnels, stats, and remote access
+tools in one browser-based command deck.
+
+The current UI is terminal-first: open the app, pick a server, and get back to
+work with minimal friction.
 
 <p align="center">
-  <img src="./repo-images/RepoOfTheDay.png" alt="Repo of the Day Achievement" style="width: 300px; height: auto;">
-  <br>
-  <small style="color: #666;">Achieved on September 1st, 2025</small>
+  <img src="./repo-images/sshbridge-web-launchpad.png" width="760" alt="SSHBridge launchpad" />
 </p>
 
-<br />
+## Core Experience
+
+- **Server launchpad**: search, filter, and open saved servers quickly.
+- **Terminal workspace**: browser-style tabs, split sessions, xterm.js,
+  command autocomplete, snippets, history, copy/paste, and persistent session
+  recovery.
+- **Fast status feedback**: status badges refresh quickly, with manual refresh
+  and lightweight retry behavior.
+- **File manager**: browse, edit, upload, download, rename, move, and delete
+  files over SSH.
+- **Tunnels**: create and manage local and remote SSH port forwards.
+- **Remote desktop**: RDP, VNC, and Telnet through Guacamole when enabled.
+- **Server stats**: CPU, memory, disk, network, uptime, firewall, and port
+  monitor views for Linux hosts.
+- **Admin controls**: local users, roles, sharing, OIDC, TOTP, sessions, and
+  database security.
+- **Mobile web layout**: compact navigation, terminal controls, and keyboard
+  helpers for smaller screens.
+- **Desktop builds**: Electron packaging for Windows, macOS, and Linux.
+
 <p align="center">
-  <a href="https://github.com/nghoang1288/SSHBridge-Web">
-    <img alt="SSHBridge Banner" src=./repo-images/HeaderImage.png style="width: auto; height: auto;">  </a>
+  <img src="./repo-images/sshbridge-web-terminal.png" width="370" alt="SSHBridge terminal" />
+  <img src="./repo-images/sshbridge-web-mobile.png" width="370" alt="SSHBridge mobile web terminal" />
 </p>
 
-# Overview
+## Quick Start
 
-<p align="center">
-  <a href="https://github.com/nghoang1288/SSHBridge-Web">
-    <img alt="SSHBridge Banner" src=./public/icon.svg style="width: 250px; height: 250px;">  </a>
-</p>
+Prerequisites:
 
-SSHBridge is an open-source, forever-free, self-hosted all-in-one server management platform. It provides a multi-platform
-solution for managing your servers and infrastructure through a single, intuitive interface. SSHBridge offers SSH terminal
-access, remote desktop control (RDP, VNC, Telnet), SSH tunneling capabilities, remote SSH file management, and many other tools. SSHBridge is the perfect
-free and self-hosted alternative to Termius available for all platforms.
+- Node.js 20 or newer
+- npm
+- Docker, if you want the containerized deployment
 
-# Features
+Install dependencies:
 
-- **SSH Terminal Access** - Full-featured terminal with split-screen support (up to 4 panels) with a browser-like tab system. Includes support for customizing the terminal including common terminal themes, fonts, and other components.
-- **Remote Desktop Access** - RDP, VNC, and Telnet support over the browser with complete customization and split screening
-- **SSH Tunnel Management** - Create and manage SSH tunnels with automatic reconnection and health monitoring and support for -l or -r connections
-- **Remote File Manager** - Manage files directly on remote servers with support for viewing and editing code, images, audio, and video. Upload, download, rename, delete, and move files seamlessly with sudo support.
-- **Docker Management** - Start, stop, pause, remove containers. View container stats. Control container using docker exec terminal. It was not made to replace Portainer or Dockge but rather to simply manage your containers compared to creating them.
-- **SSH Host Manager** - Save, organize, and manage your SSH connections with tags and folders, and easily save reusable login info while being able to automate the deployment of SSH keys
-- **Server Stats** - View CPU, memory, and disk usage along with network, uptime, system information, firewall, port monitor, on most Linux based servers
-- **Dashboard** - View server information at a glance on your dashboard
-- **RBAC** - Create roles and share hosts across users/roles
-- **User Authentication** - Secure user management with admin controls and OIDC (with access control) and 2FA (TOTP) support. View active user sessions across all platforms and revoke permissions. Link your OIDC/Local accounts together.
-- **Database Encryption** - Backend stored as encrypted SQLite database files. View [docs](https://docs.termix.site/security) for more.
-- **Data Export/Import** - Export and import SSH hosts, credentials, and file manager data
-- **Automatic SSL Setup** - Built-in SSL certificate generation and management with HTTPS redirects
-- **Modern UI** - Clean desktop/mobile-friendly interface built with React, Tailwind CSS, and Shadcn. Choose between many different UI themes including light, dark, Dracula, etc. Use URL routes to open any connection in full-screen.
-- **Languages** - Built-in support ~30 languages (managed by [Crowdin](https://docs.termix.site/translations))
-- **Platform Support** - Available as a web app, desktop application (Windows, Linux, and macOS, can be run standalone without the SSHBridge backend), PWA, and dedicated mobile/tablet app for iOS and Android.
-- **SSH Tools** - Create reusable command snippets that execute with a single click. Run one command simultaneously across multiple open terminals.
-- **Command History** - Auto-complete and view previously ran SSH commands
-- **Quick Connect** - Connect to a server without having to save the connection data
-- **Command Palette** - Double tap left shift to quickly access SSH connections with your keyboard
-- **SSH Feature Rich** - Supports jump hosts, Warpgate, TOTP based connections, SOCKS5, host key verification, password autofill, [OPKSSH](https://github.com/openpubkey/opkssh), tmux, port knocking, etc.
-- **Network Graph** - Customize your Dashboard to visualize your homelab based off your SSH connections with status support
-- **Persistent Tabs** - SSH sessions and tabs stay open across devices/refreshes if enabled in user profile
+```sh
+npm install
+```
 
-# Planned Features
+Run the frontend:
 
-See [Projects](https://github.com/nghoang1288/SSHBridge-Web) for all planned features. If you are looking to contribute, see [Contributing](https://github.com/nghoang1288/SSHBridge-Web/blob/main/CONTRIBUTING.md).
+```sh
+npm run dev
+```
 
-# Installation
+Run the backend in another terminal:
 
-Supported Devices:
+```sh
+npm run dev:backend
+```
 
-- Website (any modern browser on any platform like Chrome, Safari, and Firefox) (includes PWA support)
-- Windows (x64/ia32)
-  - Portable
-  - MSI Installer
-  - Chocolatey Package Manager
-- Linux (x64/ia32)
-  - Portable
-  - AUR
-  - AppImage
-  - Deb
-  - Flatpak
-- macOS (x64/ia32 on v12.0+)
-  - Apple App Store
-  - DMG
-  - Homebrew
-- iOS/iPadOS (v15.1+)
-  - Apple App Store
-  - IPA
-- Android (v7.0+)
-  - Google Play Store
-  - APK
+Open the Vite app at the URL printed by the dev server.
 
-Visit the SSHBridge [Docs](https://docs.termix.site/install) for more information on how to install SSHBridge on all platforms. Otherwise, view
-a sample Docker Compose file here (you can omit guacd and the network if you don't plan on using remote desktop features):
+## Docker
+
+A minimal Docker Compose setup:
 
 ```yaml
 services:
@@ -106,101 +91,60 @@ services:
       PORT: "8080"
     depends_on:
       - guacd
-    networks:
-      - sshbridge-net
 
   guacd:
     image: guacamole/guacd:1.6.0
     container_name: guacd
     restart: unless-stopped
-    ports:
-      - "4822:4822"
-    networks:
-      - sshbridge-net
 
 volumes:
   sshbridge-data:
-    driver: local
-
-networks:
-  sshbridge-net:
-    driver: bridge
 ```
 
-# Sponsors
+If you do not use RDP/VNC/Telnet, you can omit `guacd`.
 
-<p align="left">
-  <a href="https://www.digitalocean.com/">
-    <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" height="50" alt="DigitalOcean">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://crowdin.com/">
-    <img src="https://support.crowdin.com/assets/logos/core-logo/svg/crowdin-core-logo-cDark.svg" height="50" alt="Crowdin">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://www.blacksmith.sh/">
-    <img src="https://cdn.prod.website-files.com/681bfb0c9a4601bc6e288ec4/683ca9e2c5186757092611b8_e8cb22127df4da0811c4120a523722d2_logo-backsmith-wordmark-light.svg" height="50" alt="Blacksmith">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://www.cloudflare.com/">
-    <img src="https://sirv.sirv.com/website/screenshots/cloudflare/cloudflare-logo.png?w=300" height="50" alt="Crowdflare">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://tailscale.com/">
-    <img src="https://drive.google.com/uc?export=view&id=1lIxkJuX6M23bW-2FElhT0rQieTrzaVSL" height="50" alt="TailScale">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://akamai.com/">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Akamai_logo.svg" height="50" alt="Akamai">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://aws.amazon.com/">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/960px-Amazon_Web_Services_Logo.svg.png" height="50" alt="AWS">
-  </a>
-</p>
+## Production Build
 
-# Support
+Build the web app and backend TypeScript:
 
-If you need help or want to request a feature with SSHBridge, visit the [Issues](https://github.com/nghoang1288/SSHBridge-Web/issues) page, log in, and press `New Issue`.
-Please be as detailed as possible in your issue, preferably written in English. You can also join the [Discord](https://discord.gg/jVQGdvHDrf) server and visit the support
-channel, however, response times may be longer.
+```sh
+npm run build
+```
 
-# Screenshots
+Type-check only:
 
-[![YouTube](./repo-images/YouTube.jpg)](https://www.youtube.com/@TermixSSH/videos)
+```sh
+npm run type-check
+```
 
-<p align="center">
-  <img src="./repo-images/Image 1.png" width="400" alt="SSHBridge Demo 1"/>
-  <img src="./repo-images/Image 2.png" width="400" alt="SSHBridge Demo 2"/>
-</p>
+Lint:
 
-<p align="center">
-  <img src="./repo-images/Image 3.png" width="400" alt="SSHBridge Demo 3"/>
-  <img src="./repo-images/Image 4.png" width="400" alt="SSHBridge Demo 4"/>
-</p>
+```sh
+npm run lint
+```
 
-<p align="center">
-  <img src="./repo-images/Image 5.png" width="400" alt="SSHBridge Demo 5"/>
-  <img src="./repo-images/Image 6.png" width="400" alt="SSHBridge Demo 6"/>
-</p>
+## Repository Layout
 
-<p align="center">
-  <img src="./repo-images/Image 7.png" width="400" alt="SSHBridge Demo 7"/>
-  <img src="./repo-images/Image 8.png" width="400" alt="SSHBridge Demo 8"/>
-</p>
+- `src/backend`: API, database, SSH, stats, tunnels, Guacamole, and auth.
+- `src/ui/desktop`: desktop web workspace.
+- `src/ui/mobile`: mobile web workspace.
+- `src/ui/desktop/apps/features/terminal`: xterm.js terminal experience.
+- `docker`: Docker and nginx deployment configuration.
+- `public`: PWA, favicon, and app icon assets.
 
-<p align="center">
-  <img src="./repo-images/Image 9.png" width="400" alt="SSHBridge Demo 9"/>
-  <img src="./repo-images/Image 10.png" width="400" alt="SSHBridge Demo 10"/>
-</p>
+## Security Notes
 
-<p align="center">
-  <img src="./repo-images/Image 11.png" width="400" alt="SSHBridge Demo 11"/>
-  <img src="./repo-images/Image 12.png" width="400" alt="SSHBridge Demo 12"/>
-</p>
+- Use HTTPS in production, especially when using password-based SSH login.
+- Keep database files and backups private.
+- Rotate SSH credentials if a server, browser profile, or backup is exposed.
+- Report vulnerabilities through
+  [GitHub Security Advisories](https://github.com/nghoang1288/SSHBridge-Web/security/advisories).
 
-Some videos and images may be out of date or may not perfectly showcase features.
+## Support
 
-# License
+Use [GitHub Issues](https://github.com/nghoang1288/SSHBridge-Web/issues) for
+bugs and feature requests.
 
-Distributed under the Apache License Version 2.0. See LICENSE for more information.
+## License
+
+Distributed under the Apache License Version 2.0. See [LICENSE](./LICENSE).

@@ -2111,8 +2111,8 @@
   "auth": {
     "tagline": "SSH 伺服器管理員",
     "description": "安全、強大且直覺的 SSH 連線管理",
-    "welcomeBack": "歡迎回到 TERMIX",
-    "createAccount": "建立您的 TERMIX 帳戶",
+    "welcomeBack": "歡迎回到 SSHBridge",
+    "createAccount": "建立您的 SSHBridge 帳戶",
     "continueExternal": "繼續與外部供應商合作",
     "loginTitle": "登入 SSHBridge",
     "registerTitle": "建立帳戶",

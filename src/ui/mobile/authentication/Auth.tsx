@@ -661,8 +661,12 @@ export function Auth({
   if (isReactNativeWebView() && mobileAuthSuccess) {
     return (
       <div
-        className={`w-full max-w-md flex flex-col bg-canvas overflow-y-auto thin-scrollbar my-2 ${className || ""}`}
-        style={{ maxHeight: "calc(100vh - 1rem)" }}
+        className={`sshbridge-auth-card my-2 flex w-full max-w-[calc(100vw-2rem)] flex-col overflow-y-auto rounded-xl p-4 thin-scrollbar ${className || ""}`}
+        style={{
+          maxHeight: "calc(100vh - 1rem)",
+          width: "calc(100vw - 3rem)",
+          maxWidth: "430px",
+        }}
         {...props}
       >
         <div className="flex flex-col items-center justify-center min-h-[400px] gap-4 px-4">
@@ -696,10 +700,27 @@ export function Auth({
 
   return (
     <div
-      className={`w-full max-w-md flex flex-col bg-canvas overflow-y-auto thin-scrollbar my-2 ${className || ""}`}
-      style={{ maxHeight: "calc(100vh - 1rem)" }}
+      className={`sshbridge-auth-card my-2 flex w-full max-w-[calc(100vw-2rem)] flex-col overflow-y-auto rounded-xl p-4 thin-scrollbar ${className || ""}`}
+      style={{
+        maxHeight: "calc(100vh - 1rem)",
+        width: "calc(100vw - 3rem)",
+        maxWidth: "430px",
+      }}
       {...props}
     >
+      <div className="mb-5 flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary font-mono text-sm font-semibold text-primary-foreground">
+          SB
+        </div>
+        <div>
+          <div className="text-base font-semibold text-foreground">
+            SSHBridge
+          </div>
+          <div className="text-xs text-foreground-subtle">
+            Mobile command deck
+          </div>
+        </div>
+      </div>
       {isReactNativeWebView() && !mobileAuthSuccess && (
         <Alert className="mb-4 border-blue-500 bg-blue-500/10">
           <Smartphone className="h-4 w-4" />
@@ -789,7 +810,10 @@ export function Auth({
             variant="outline"
             className="w-full h-11 text-base font-semibold"
             onClick={() =>
-              window.open("https://docs.termix.site/install", "_blank")
+              window.open(
+                "https://github.com/nghoang1288/SSHBridge-Mobile",
+                "_blank",
+              )
             }
           >
             {t("mobile.viewMobileAppDocs")}

@@ -651,9 +651,11 @@ export function AppView({
   }
   const terminalBackgroundColor = containerThemeColors.background;
 
-  const topMarginPx = isTopbarOpen ? 74 : 26;
-  const leftMarginPx = sidebarState === "collapsed" ? 26 : 8;
-  const bottomMarginPx = 8;
+  const topMarginPx = isTopbarOpen ? 82 : 26;
+  const terminalTopMarginPx = isTopbarOpen ? 74 : 10;
+  const leftMarginPx = isTerminal ? 0 : sidebarState === "collapsed" ? 26 : 8;
+  const bottomMarginPx = isTerminal ? 0 : 8;
+  const effectiveTopMarginPx = isTerminal ? terminalTopMarginPx : topMarginPx;
 
   let containerBackground = "var(--color-canvas)";
   if ((isFileManager || isTunnel || isDocker) && !isSplitScreen) {
@@ -665,16 +667,22 @@ export function AppView({
   return (
     <div
       ref={containerRef}
-      className="border-2 border-edge rounded-lg overflow-hidden overflow-x-hidden relative"
+      className={`overflow-hidden overflow-x-hidden relative ${
+        isTerminal
+          ? "border-t border-edge-panel rounded-none"
+          : "border-2 border-edge rounded-lg"
+      }`}
       style={{
         background: containerBackground,
         marginLeft: leftMarginPx,
         marginRight: rightSidebarOpen
           ? `calc(var(--right-sidebar-width, ${rightSidebarWidth}px) + 8px)`
-          : 17,
-        marginTop: topMarginPx,
+          : isTerminal
+            ? 0
+            : 17,
+        marginTop: effectiveTopMarginPx,
         marginBottom: bottomMarginPx,
-        height: `calc(100vh - ${topMarginPx + bottomMarginPx}px)`,
+        height: `calc(100vh - ${effectiveTopMarginPx + bottomMarginPx}px)`,
         transition:
           "margin-left 200ms linear, margin-right 200ms linear, margin-top 200ms linear",
       }}

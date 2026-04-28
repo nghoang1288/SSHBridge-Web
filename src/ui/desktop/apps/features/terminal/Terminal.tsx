@@ -59,6 +59,7 @@ import {
 import { ConnectionLog } from "@/ui/desktop/navigation/connection-log/ConnectionLog.tsx";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface HostConfig {
   id?: number;
@@ -1894,7 +1895,7 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
       return buildCommandAutocompleteSuggestions(currentCommand, {
         history: autocompleteHistory.current,
         snippets: autocompleteSnippets.current,
-        limit: 8,
+        limit: window.innerWidth < 768 ? 3 : 8,
       });
     }
 
@@ -2618,9 +2619,37 @@ const TerminalInner = forwardRef<TerminalHandle, SSHTerminalProps>(
     }, [terminal, isVisible, splitScreen, isConnecting]);
 
     const hasConnectionError = !!connectionError;
+    const terminalStateLabel = hasConnectionError
+      ? t("terminal.disconnected", "Disconnected")
+      : isConnecting
+        ? isReconnectingRef.current
+          ? t("terminal.reconnecting", "Reconnecting...")
+          : t("terminal.connecting", "Connecting...")
+        : isConnected
+          ? t("terminal.connected", "Connected")
+          : t("terminal.idle", "Idle");
 
     return (
-      <div className="h-full w-full relative" style={{ backgroundColor }}>
+      <div
+        className="sshbridge-terminal-shell h-full w-full relative overflow-hidden"
+        style={{ backgroundColor }}
+      >
+        <div className="sshbridge-terminal-status pointer-events-none absolute right-3 top-3 z-[9] hidden items-center gap-2 rounded-md px-2.5 py-1.5 text-xs text-white/80 md:flex">
+          <span
+            className={cn(
+              "h-2 w-2 rounded-full",
+              isConnected && !hasConnectionError
+                ? "bg-emerald-400"
+                : isConnecting
+                  ? "bg-amber-300"
+                  : "bg-rose-400",
+            )}
+          />
+          <span className="font-mono">{terminalStateLabel}</span>
+          <span className="max-w-[180px] truncate text-white/45">
+            {hostConfig.name || hostConfig.ip}
+          </span>
+        </div>
         <div
           ref={xtermRef}
           className="h-full w-full"
