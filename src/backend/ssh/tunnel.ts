@@ -196,6 +196,20 @@ function validateTunnelConfig(
   );
 }
 
+function isEndpointCredentialMaterialMissing(
+  tunnelConfig: TunnelConfig,
+): boolean {
+  if (tunnelConfig.endpointAuthMethod === "password") {
+    return !tunnelConfig.endpointPassword;
+  }
+
+  if (tunnelConfig.endpointAuthMethod === "key") {
+    return !tunnelConfig.endpointSSHKey;
+  }
+
+  return false;
+}
+
 async function cleanupTunnelResources(
   tunnelName: string,
   forceCleanup = false,
@@ -637,46 +651,6 @@ async function connectSSHTunnel(
     authMethod: tunnelConfig.endpointAuthMethod,
   };
 
-  if (
-    resolvedEndpointCredentials.authMethod === "password" &&
-    !resolvedEndpointCredentials.password
-  ) {
-    const errorMessage = `Cannot connect tunnel '${tunnelName}': endpoint host requires password authentication but no plaintext password available. Enable autostart for endpoint host or configure credentials in tunnel connection.`;
-    tunnelLogger.error(errorMessage, undefined, {
-      operation: "tunnel_endpoint_password_unavailable",
-      tunnelName,
-      endpointHost: `${tunnelConfig.endpointUsername}@${tunnelConfig.endpointIP}:${tunnelConfig.endpointPort}`,
-      endpointAuthMethod: resolvedEndpointCredentials.authMethod,
-    });
-    broadcastTunnelStatus(tunnelName, {
-      connected: false,
-      status: CONNECTION_STATES.FAILED,
-      reason: errorMessage,
-    });
-    tunnelConnecting.delete(tunnelName);
-    return;
-  }
-
-  if (
-    resolvedEndpointCredentials.authMethod === "key" &&
-    !resolvedEndpointCredentials.sshKey
-  ) {
-    const errorMessage = `Cannot connect tunnel '${tunnelName}': endpoint host requires key authentication but no plaintext key available. Enable autostart for endpoint host or configure credentials in tunnel connection.`;
-    tunnelLogger.error(errorMessage, undefined, {
-      operation: "tunnel_endpoint_key_unavailable",
-      tunnelName,
-      endpointHost: `${tunnelConfig.endpointUsername}@${tunnelConfig.endpointIP}:${tunnelConfig.endpointPort}`,
-      endpointAuthMethod: resolvedEndpointCredentials.authMethod,
-    });
-    broadcastTunnelStatus(tunnelName, {
-      connected: false,
-      status: CONNECTION_STATES.FAILED,
-      reason: errorMessage,
-    });
-    tunnelConnecting.delete(tunnelName);
-    return;
-  }
-
   if (tunnelConfig.endpointCredentialId && tunnelConfig.endpointUserId) {
     try {
       const userDataKey = DataCrypto.getUserDataKey(
@@ -721,6 +695,46 @@ async function connectSSHTunnel(
       credentialId: tunnelConfig.endpointCredentialId,
       hasUserId: !!tunnelConfig.endpointUserId,
     });
+  }
+
+  if (
+    resolvedEndpointCredentials.authMethod === "password" &&
+    !resolvedEndpointCredentials.password
+  ) {
+    const errorMessage = `Cannot connect tunnel '${tunnelName}': endpoint host requires password authentication but no plaintext password available. Enable autostart for endpoint host or configure credentials in tunnel connection.`;
+    tunnelLogger.error(errorMessage, undefined, {
+      operation: "tunnel_endpoint_password_unavailable",
+      tunnelName,
+      endpointHost: `${tunnelConfig.endpointUsername}@${tunnelConfig.endpointIP}:${tunnelConfig.endpointPort}`,
+      endpointAuthMethod: resolvedEndpointCredentials.authMethod,
+    });
+    broadcastTunnelStatus(tunnelName, {
+      connected: false,
+      status: CONNECTION_STATES.FAILED,
+      reason: errorMessage,
+    });
+    tunnelConnecting.delete(tunnelName);
+    return;
+  }
+
+  if (
+    resolvedEndpointCredentials.authMethod === "key" &&
+    !resolvedEndpointCredentials.sshKey
+  ) {
+    const errorMessage = `Cannot connect tunnel '${tunnelName}': endpoint host requires key authentication but no plaintext key available. Enable autostart for endpoint host or configure credentials in tunnel connection.`;
+    tunnelLogger.error(errorMessage, undefined, {
+      operation: "tunnel_endpoint_key_unavailable",
+      tunnelName,
+      endpointHost: `${tunnelConfig.endpointUsername}@${tunnelConfig.endpointIP}:${tunnelConfig.endpointPort}`,
+      endpointAuthMethod: resolvedEndpointCredentials.authMethod,
+    });
+    broadcastTunnelStatus(tunnelName, {
+      connected: false,
+      status: CONNECTION_STATES.FAILED,
+      reason: errorMessage,
+    });
+    tunnelConnecting.delete(tunnelName);
+    return;
   }
 
   const conn = new Client();
@@ -1680,7 +1694,11 @@ app.post(
           }
         }
 
-        if (!tunnelConfig.endpointIP || !tunnelConfig.endpointUsername) {
+        if (
+          !tunnelConfig.endpointIP ||
+          !tunnelConfig.endpointUsername ||
+          isEndpointCredentialMaterialMissing(tunnelConfig)
+        ) {
           try {
             const systemCrypto = SystemCrypto.getInstance();
             const internalAuthToken = await systemCrypto.getInternalAuthToken();
