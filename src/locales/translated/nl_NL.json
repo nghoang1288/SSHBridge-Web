@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Waarschuwing sluiten mislukt"
   },
   "serverConfig": {
-    "title": "Server Configuratie",
-    "description": "Configureer de SSHBridge-server-URL om verbinding te maken met uw backend-services",
-    "serverUrl": "Server URL",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Voer een server-URL in",
     "testConnectionFirst": "Test eerst de verbinding",
     "connectionSuccess": "Verbinding succesvol!",
@@ -384,16 +384,16 @@
     "saveFailed": "Configuratie opslaan mislukt",
     "saveError": "Fout bij opslaan configuratie",
     "saving": "Opslaan...",
-    "saveConfig": "Configuratie opslaan",
-    "helpText": "Voer de URL in waar uw SSHBridge server draait (bijv. http://localhost:30001 of https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Waarschuwing",
     "notValidatedWarning": "URL niet gevalideerd - zorg ervoor dat het juist is",
-    "changeServer": "Server wijzigen",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "De server-URL moet beginnen met http:// of https://",
-    "useEmbedded": "Lokale server gebruiken",
-    "embeddedDesc": "Voer SSHBridge uit met de ingebouwde lokale server (geen externe server nodig)",
-    "embeddedConnecting": "Verbinden met lokale server...",
-    "embeddedNotReady": "Lokale server is nog niet klaar. Wacht even en probeer het opnieuw."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Versie controle fout",

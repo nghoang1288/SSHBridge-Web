@@ -370,9 +370,9 @@
     "failedToDismissAlert": "アラートを解除できませんでした"
   },
   "serverConfig": {
-    "title": "サーバーの設定",
-    "description": "バックエンドサービスに接続するSSHBridgeサーバーのURLを設定する",
-    "serverUrl": "サーバー URL",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "サーバーの URL を入力してください",
     "testConnectionFirst": "最初に接続をテストしてください",
     "connectionSuccess": "接続に成功しました ！",
@@ -384,16 +384,16 @@
     "saveFailed": "設定の保存に失敗しました",
     "saveError": "設定の保存中にエラーが発生しました",
     "saving": "保存中...",
-    "saveConfig": "設定を保存",
-    "helpText": "SSHBridgeサーバーが稼働しているURLを入力してください（例：http://localhost:30001、https://your-server.com）",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "警告",
     "notValidatedWarning": "URLが検証されていません - 正しいことを確認してください",
-    "changeServer": "サーバーの変更",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "サーバーのURLはhttp://またはhttps://で始まる必要があります",
-    "useEmbedded": "ローカルサーバーを使用",
-    "embeddedDesc": "内蔵のローカルサーバー(リモートサーバーは必要ありません)でSSHBridgeを実行",
-    "embeddedConnecting": "ローカルサーバーに接続中...",
-    "embeddedNotReady": "ローカルサーバーの準備ができていません。しばらく待ってからもう一度やり直してください。"
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "バージョンチェックエラー",

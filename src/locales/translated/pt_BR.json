@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Falha ao descartar alerta"
   },
   "serverConfig": {
-    "title": "Configuração Servidor",
-    "description": "Configure o URL do servidor do SSHBridge para conectar aos seus serviços de backend",
-    "serverUrl": "URL do servidor",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Por favor, insira uma URL de servidor",
     "testConnectionFirst": "Por favor, teste a conexão primeiro",
     "connectionSuccess": "Conexão bem-sucedida!",
@@ -384,16 +384,16 @@
     "saveFailed": "Falha ao salvar a configuração",
     "saveError": "Erro ao salvar configuração",
     "saving": "Salvando...",
-    "saveConfig": "Salvar configuração",
-    "helpText": "Digite a URL onde o servidor do seu SSHBridge está executando (por exemplo, http://localhost:30001 ou https://seu-servidor.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "ATENÇÃO",
     "notValidatedWarning": "URL não validada - certifique-se de que está correta",
-    "changeServer": "Alterar Servidor",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "O URL do servidor deve começar com http:// ou https://",
-    "useEmbedded": "Usar servidor local",
-    "embeddedDesc": "Executar SSHBridge com o servidor local embutido (não é necessário um servidor remoto)",
-    "embeddedConnecting": "Conectando ao servidor local...",
-    "embeddedNotReady": "O servidor local ainda não está pronto. Por favor, aguarde um momento e tente novamente."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Erro de verificação de versão",

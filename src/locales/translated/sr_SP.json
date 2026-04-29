@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Одбацивање упозорења није успело"
   },
   "serverConfig": {
-    "title": "Конфигурација сервера",
-    "description": "Конфигуришите URL адресу SSHBridge сервера да бисте се повезали са вашим бекенд сервисима",
-    "serverUrl": "URL сервера",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Молимо вас да унесете URL адресу сервера",
     "testConnectionFirst": "Молимо вас да прво тестирате везу",
     "connectionSuccess": "Веза је успешна!",
@@ -384,16 +384,16 @@
     "saveFailed": "Чување конфигурације није успело",
     "saveError": "Грешка при чувању конфигурације",
     "saving": "Чување...",
-    "saveConfig": "Сачувај конфигурацију",
-    "helpText": "Унесите URL адресу на којој ради ваш SSHBridge сервер (нпр. http://localhost:30001 или https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Упозорење",
     "notValidatedWarning": "URL није валидиран - проверите да ли је исправан",
-    "changeServer": "Промени сервер",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "URL сервера мора да почиње са http:// или https://",
-    "useEmbedded": "Користи локални сервер",
-    "embeddedDesc": "Покрените SSHBridge са уграђеним локалним сервером (није потребан удаљени сервер)",
-    "embeddedConnecting": "Повезивање са локалним сервером...",
-    "embeddedNotReady": "Локални сервер још није спреман. Молимо сачекајте тренутак и покушајте поново."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Грешка при провери верзије",

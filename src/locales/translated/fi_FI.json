@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Hälytys epäonnistui"
   },
   "serverConfig": {
-    "title": "Palvelimen Asetukset",
-    "description": "Määritä SSHBridge-palvelimen URL-osoite yhdistääksesi taustaosan palveluihin",
-    "serverUrl": "Palvelimen URL",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Syötä palvelimen URL-osoite",
     "testConnectionFirst": "Testaa yhteys ensin",
     "connectionSuccess": "Yhteys onnistui!",
@@ -384,16 +384,16 @@
     "saveFailed": "Konfiguraation tallennus epäonnistui",
     "saveError": "Virhe tallennettaessa määritystä",
     "saving": "Tallennetaan...",
-    "saveConfig": "Tallenna Asetukset",
-    "helpText": "Syötä URL, jossa SSHBridge-palvelin on käynnissä (esim. http://localhost:30001 tai https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Varoitus",
     "notValidatedWarning": "URL-osoitetta ei ole vahvistettu - varmista, että se on oikein",
-    "changeServer": "Vaihda Palvelinta",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Palvelimen URL-osoitteen on alettava http:// tai http://",
-    "useEmbedded": "Käytä Paikallista Palvelinta",
-    "embeddedDesc": "Suorita SSHBridge sisäänrakennetulla paikallisella palvelimella (etäpalvelinta ei tarvita)",
-    "embeddedConnecting": "Yhdistetään paikalliseen palvelimeen...",
-    "embeddedNotReady": "Paikallinen palvelin ei ole vielä valmis. Odota hetki ja yritä uudelleen."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Version Tarkistus Virhe",

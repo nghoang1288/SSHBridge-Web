@@ -1006,7 +1006,9 @@ function handleApiError(error: unknown, operation: string): never {
           errorContext,
         );
         throw new ApiError(
-          "No server configured. Please configure a SSHBridge server first.",
+          isElectron()
+            ? "Workspace is starting. Please wait a moment and try again."
+            : "No server configured. Please configure a SSHBridge server first.",
           0,
           "NO_SERVER_CONFIGURED",
         );

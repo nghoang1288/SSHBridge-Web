@@ -370,9 +370,9 @@
     "failedToDismissAlert": "فشل في تجاهل التنبيه"
   },
   "serverConfig": {
-    "title": "تكوين الخادم",
-    "description": "تكوين عنوان URL للخادم SSHBridge للاتصال بخدمات الخلفية",
-    "serverUrl": "رابط الخادم",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "الرجاء إدخال رابط الخادم",
     "testConnectionFirst": "يرجى اختبار الاتصال أولاً",
     "connectionSuccess": "تم الاتصال بنجاح!",
@@ -384,16 +384,16 @@
     "saveFailed": "فشل في حفظ التكوين",
     "saveError": "خطأ في حفظ الإعدادات",
     "saving": "حفظ...",
-    "saveConfig": "حفظ الإعدادات",
-    "helpText": "أدخل عنوان URL حيث يعمل خادم SSHBridge الخاص بك (على سبيل المثال: http://localhost:30001 أو https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "تحذير",
     "notValidatedWarning": "لم يتم التحقق من صحة الرابط - تأكد من صحته",
-    "changeServer": "تغيير الخادم",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "عنوان URL للخادم يجب أن يبدأ مع http:// أو https://",
-    "useEmbedded": "استخدام الخادم المحلي",
-    "embeddedDesc": "تشغيل ترميكس مع الخادم المحلي المدمج (لا حاجة للخادم البعيد)",
-    "embeddedConnecting": "جاري الاتصال بالخادم المحلي...",
-    "embeddedNotReady": "الخادم المحلي غير جاهز بعد. الرجاء الانتظار لحظة وحاول مرة أخرى."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "خطأ في التحقق من الإصدار",

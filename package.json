@@ -1,7 +1,7 @@
 {
   "name": "sshbridge",
   "private": true,
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Terminal-first self-hosted server workspace for SSH, files, tunnels, stats, and remote access.",
   "author": "nghoang1288",
   "main": "electron/main.cjs",

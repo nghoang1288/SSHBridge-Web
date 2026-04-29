@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Det gick inte att avfärda varningen"
   },
   "serverConfig": {
-    "title": "Serverns konfiguration",
-    "description": "Konfigurera SSHBridge server-URL för att ansluta till dina backend-tjänster",
-    "serverUrl": "Server URL",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Ange en server-URL",
     "testConnectionFirst": "Testa anslutningen först",
     "connectionSuccess": "Anslutningen lyckades!",
@@ -384,16 +384,16 @@
     "saveFailed": "Det gick inte att spara konfigurationen",
     "saveError": "Fel vid sparande av konfiguration",
     "saving": "Sparar...",
-    "saveConfig": "Spara konfiguration",
-    "helpText": "Ange den URL där din SSHBridge server körs (t.ex., http://localhost:30001 eller https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Varning",
     "notValidatedWarning": "URL ej validerad - se till att den är korrekt",
-    "changeServer": "Ändra server",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Server-URL måste börja med http:// eller https://",
-    "useEmbedded": "Använd lokal server",
-    "embeddedDesc": "Kör SSHBridge med den inbyggda lokala servern (ingen fjärrserver behövs)",
-    "embeddedConnecting": "Ansluter till lokal server...",
-    "embeddedNotReady": "Lokal server är inte redo än. Vänligen vänta en stund och försök igen."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Fel vid versionskontroll",

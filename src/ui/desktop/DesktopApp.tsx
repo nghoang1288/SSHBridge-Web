@@ -216,27 +216,41 @@ function AppContent({
       isCheckingAuth.current = true;
       setAuthLoading(true);
 
-      const enterOfflineMode = async () => {
+      const wait = (ms: number) =>
+        new Promise((resolve) => setTimeout(resolve, ms));
+
+      const enterStandaloneMode = async () => {
         if (!isElectron()) {
           return null;
         }
 
-        const [config, status] = await Promise.all([
-          getServerConfig().catch(() => null),
-          getEmbeddedServerStatus().catch(() => null),
-        ]);
+        for (let attempt = 0; attempt < 30; attempt += 1) {
+          const [config, status] = await Promise.all([
+            getServerConfig().catch(() => null),
+            getEmbeddedServerStatus().catch(() => null),
+          ]);
 
-        if (config?.serverUrl || !status?.embedded || !status.running) {
-          return null;
+          if (config?.serverUrl) {
+            return null;
+          }
+
+          if (status?.embedded && status.running) {
+            try {
+              setEmbeddedMode(true);
+              const offlineRes = await loginOfflineUser();
+              if (offlineRes.success) {
+                return getUserInfo();
+              }
+            } catch {
+              // The packaged app can render before the bundled services finish
+              // booting. Keep waiting instead of showing a server setup screen.
+            }
+          }
+
+          await wait(1000);
         }
 
-        setEmbeddedMode(true);
-        const offlineRes = await loginOfflineUser();
-        if (!offlineRes.success) {
-          return null;
-        }
-
-        return getUserInfo();
+        return null;
       };
 
       try {
@@ -244,11 +258,11 @@ function AppContent({
         try {
           meRes = await getUserInfo();
         } catch (err) {
-          const offlineMeRes = await enterOfflineMode();
-          if (!offlineMeRes) {
+          const standaloneMeRes = await enterStandaloneMode();
+          if (!standaloneMeRes) {
             throw err;
           }
-          meRes = offlineMeRes;
+          meRes = standaloneMeRes;
         }
 
         if (typeof meRes === "string" || !meRes.username) {

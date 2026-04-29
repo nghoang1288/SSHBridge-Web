@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Nie udało się odrzucić alertu"
   },
   "serverConfig": {
-    "title": "Konfiguracja serwera",
-    "description": "Skonfiguruj adres URL serwera SSHBridge, aby połączyć się z usługami backend",
-    "serverUrl": "Adres URL serwera",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Wprowadź adres URL serwera",
     "testConnectionFirst": "Proszę najpierw przetestować połączenie",
     "connectionSuccess": "Połączenie udane!",
@@ -384,16 +384,16 @@
     "saveFailed": "Nie udało się zapisać konfiguracji",
     "saveError": "Błąd podczas zapisywania konfiguracji",
     "saving": "Zapisywanie...",
-    "saveConfig": "Zapisz konfigurację",
-    "helpText": "Wprowadź adres URL, w którym działa Twój serwer SSHBridge (np. http://localhost:30001 lub https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Ostrzeżenie",
     "notValidatedWarning": "Adres URL nie został zweryfikowany - upewnij się, że jest poprawny",
-    "changeServer": "Zmień serwer",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Adres URL serwera musi zaczynać się od http:// lub https://",
-    "useEmbedded": "Użyj serwera lokalnego",
-    "embeddedDesc": "Uruchom SSHBridge z wbudowanym serwerem lokalnym (nie jest wymagany zdalny serwer)",
-    "embeddedConnecting": "Łączenie z serwerem lokalnym...",
-    "embeddedNotReady": "Serwer lokalny nie jest jeszcze gotowy. Poczekaj chwilę i spróbuj ponownie."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Błąd sprawdzania wersji",

@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Mislykkedes at afvise advarsel"
   },
   "serverConfig": {
-    "title": "Server Konfiguration",
-    "description": "Konfigurer SSHBridge-serverens URL til at oprette forbindelse til dine backend-tjenester",
-    "serverUrl": "Server URL",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Indtast venligst en server URL",
     "testConnectionFirst": "Test venligst forbindelsen først",
     "connectionSuccess": "Forbindelsen lykkedes!",
@@ -384,16 +384,16 @@
     "saveFailed": "Konfigurationen kunne ikke gemmes",
     "saveError": "Fejl under lagring af konfiguration",
     "saving": "Gemmer...",
-    "saveConfig": "Gem Konfiguration",
-    "helpText": "Angiv URL'en hvor din SSHBridge-server kører (f.eks. http://localhost:30001 eller https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Advarsel",
     "notValidatedWarning": "URL ikke valideret - sørg for at det er korrekt",
-    "changeServer": "Skift Server",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Server URL skal starte med http:// eller https://",
-    "useEmbedded": "Brug Lokal Server",
-    "embeddedDesc": "Kør SSHBridge med den indbyggede lokale server (ingen fjernserver er nødvendig)",
-    "embeddedConnecting": "Forbinder til lokal server...",
-    "embeddedNotReady": "Lokal server er ikke klar endnu. Vent et øjeblik og prøv igen."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Fejl Ved Versionskontrol",

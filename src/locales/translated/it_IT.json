@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Impossibile annullare l'avviso"
   },
   "serverConfig": {
-    "title": "Configurazione Del Server",
-    "description": "Configura l'URL del server SSHBridge per connettersi ai tuoi servizi di backend",
-    "serverUrl": "Url Del Server",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Inserisci un URL del server",
     "testConnectionFirst": "Per favore prova prima la connessione",
     "connectionSuccess": "Connessione riuscita!",
@@ -384,16 +384,16 @@
     "saveFailed": "Impossibile salvare la configurazione",
     "saveError": "Errore nel salvataggio della configurazione",
     "saving": "Salvataggio...",
-    "saveConfig": "Salva Configurazione",
-    "helpText": "Inserisci l'URL in cui è in esecuzione il tuo server SSHBridge (ad esempio, http://localhost:30001 o https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Attenzione",
     "notValidatedWarning": "URL non convalidato - assicurarsi che sia corretto",
-    "changeServer": "Cambia Server",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "L'URL del server deve iniziare con http:// o ↓ ://",
-    "useEmbedded": "Usa Server Locale",
-    "embeddedDesc": "Esegue SSHBridge con il server locale integrato (nessun server remoto necessario)",
-    "embeddedConnecting": "Connessione al server locale...",
-    "embeddedNotReady": "Il server locale non è ancora pronto. Attendere un attimo e riprovare."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Errore Controllo Versione",

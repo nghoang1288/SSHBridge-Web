@@ -370,9 +370,9 @@
     "failedToDismissAlert": "נכשלה סגירת ההתראה"
   },
   "serverConfig": {
-    "title": "תצורת שרת",
-    "description": "הגדר את כתובת ה-URL של שרת SSHBridge כדי להתחבר לשירותי ה-backend שלך",
-    "serverUrl": "כתובת URL של השרת",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "אנא הזן כתובת URL של שרת",
     "testConnectionFirst": "אנא בדוק את החיבור תחילה",
     "connectionSuccess": "החיבור הצליח!",
@@ -384,16 +384,16 @@
     "saveFailed": "שמירת התצורה נכשלה",
     "saveError": "שגיאה בשמירת התצורה",
     "saving": "חִסָכוֹן...",
-    "saveConfig": "שמור תצורה",
-    "helpText": "הזן את כתובת ה-URL שבה פועל שרת ה-SSHBridge שלך (לדוגמה, http://localhost:30001 או https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "אַזהָרָה",
     "notValidatedWarning": "כתובת האתר לא אומתה - ודא שהיא נכונה",
-    "changeServer": "שנה שרת",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "כתובת השרת חייבת להתחיל ב-http:// או https://",
-    "useEmbedded": "השתמש בשרת מקומי",
-    "embeddedDesc": "הפעל את SSHBridge עם השרת המקומי המובנה (אין צורך בשרת מרוחק)",
-    "embeddedConnecting": "מתחבר לשרת מקומי...",
-    "embeddedNotReady": "השרת המקומי עדיין לא מוכן. אנא המתן רגע ונסה שוב."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "שגיאת בדיקת גרסה",

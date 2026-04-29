@@ -370,9 +370,9 @@
     "failedToDismissAlert": "No s'ha pogut ignorar l'alerta"
   },
   "serverConfig": {
-    "title": "Configuració del servidor",
-    "description": "Configureu l'URL del servidor SSHBridge per connectar-vos als vostres serveis de backend",
-    "serverUrl": "URL del servidor",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Si us plau, introduïu una URL de servidor",
     "testConnectionFirst": "Si us plau, proveu primer la connexió",
     "connectionSuccess": "Connexió correcta!",
@@ -384,16 +384,16 @@
     "saveFailed": "No s'ha pogut desar la configuració",
     "saveError": "S'ha produït un error en desar la configuració",
     "saving": "Desant...",
-    "saveConfig": "Desa la configuració",
-    "helpText": "Introduïu l'URL on s'executa el vostre servidor SSHBridge (per exemple, http://localhost:30001 o https://el-vostre-servidor.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Avís",
     "notValidatedWarning": "URL no validada: assegureu-vos que sigui correcta",
-    "changeServer": "Canviar servidor",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "L'URL del servidor ha de començar per http:// o https://",
-    "useEmbedded": "Utilitza el servidor local",
-    "embeddedDesc": "Executeu SSHBridge amb el servidor local integrat (no cal cap servidor remot)",
-    "embeddedConnecting": "Connectant al servidor local...",
-    "embeddedNotReady": "El servidor local encara no està a punt. Espereu un moment i torneu-ho a intentar."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Error de comprovació de versió",

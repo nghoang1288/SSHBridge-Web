@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Nepodařilo se zrušit výstrahu"
   },
   "serverConfig": {
-    "title": "Konfigurace serveru",
-    "description": "Konfigurace URL serveru SSHBridge pro připojení k vašim službám backendu",
-    "serverUrl": "URL serveru",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Zadejte adresu URL serveru",
     "testConnectionFirst": "Nejprve prosím vyzkoušejte připojení",
     "connectionSuccess": "Připojení bylo úspěšné!",
@@ -384,16 +384,16 @@
     "saveFailed": "Nepodařilo se uložit konfiguraci",
     "saveError": "Chyba při ukládání konfigurace",
     "saving": "Ukládání...",
-    "saveConfig": "Uložit konfiguraci",
-    "helpText": "Zadejte URL, kde běží váš SSHBridge server (např. http://localhost:30001 nebo https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Varování",
     "notValidatedWarning": "URL není ověřena - ujistěte se, že je to správné",
-    "changeServer": "Změnit server",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Adresa URL serveru musí začínat http:// nebo https:////",
-    "useEmbedded": "Použít místní server",
-    "embeddedDesc": "Spustit SSHBridge s vestavěným lokálním serverem (nepotřebujete vzdálený server)",
-    "embeddedConnecting": "Připojování k lokálnímu serveru...",
-    "embeddedNotReady": "Místní server není ještě připravený. Počkejte prosím chvíli a zkuste to znovu."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Chyba kontroly verze",

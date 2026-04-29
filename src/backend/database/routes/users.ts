@@ -221,7 +221,7 @@ async function verifyOIDCToken(
 
 const router = express.Router();
 const OFFLINE_USER_ID = "local-offline-user";
-const OFFLINE_USERNAME = "Local Workspace";
+const OFFLINE_USERNAME = "This Device";
 const OFFLINE_SECRET_FILE = "offline-profile.secret";
 
 type UserRecord = typeof users.$inferSelect;
@@ -339,12 +339,13 @@ async function ensureOfflineUser(): Promise<{
   const secret = await readOrCreateOfflineSecret(hasExistingProfile);
 
   if (hasExistingProfile) {
-    if (!existing[0].isAdmin) {
+    if (!existing[0].isAdmin || existing[0].username !== OFFLINE_USERNAME) {
       await db
         .update(users)
-        .set({ isAdmin: true })
+        .set({ isAdmin: true, username: OFFLINE_USERNAME })
         .where(eq(users.id, OFFLINE_USER_ID));
       existing[0].isAdmin = true;
+      existing[0].username = OFFLINE_USERNAME;
     }
 
     await assignOfflineUserRole(OFFLINE_USER_ID);

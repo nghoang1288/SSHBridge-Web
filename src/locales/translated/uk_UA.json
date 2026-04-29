@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Не вдалося відхилити попередження"
   },
   "serverConfig": {
-    "title": "Конфігурація сервера",
-    "description": "Налаштуйте URL сервера SSHBridge для підключення до ваших сервісів backend",
-    "serverUrl": "URL-адреса сервера",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Будь ласка, введіть URL-адресу сервера",
     "testConnectionFirst": "Спочатку перевірте підключення",
     "connectionSuccess": "Підключення успішне!",
@@ -384,16 +384,16 @@
     "saveFailed": "Не вдалося зберегти конфігурацію",
     "saveError": "Помилка під час збереження налаштувань",
     "saving": "Збереження...",
-    "saveConfig": "Зберегти конфігурацію",
-    "helpText": "Введіть URL, на якому працює ваш Термікс сервер (e.g., http://localhost:30001 або https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Застереження",
     "notValidatedWarning": "URL-адреса не перевірена - переконайтеся, що вона вірна",
-    "changeServer": "Змінити сервер",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Адреса сервера має починатися з http:// або https://",
-    "useEmbedded": "Використовувати локальний сервер",
-    "embeddedDesc": "Запустити SSHBridge з вбудованим локальним сервером (немає потреби віддаленого сервера)",
-    "embeddedConnecting": "Підключення до локального сервера...",
-    "embeddedNotReady": "Локальний сервер ще не готовий. Будь ласка, зачекайте трохи і спробуйте ще раз."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Помилка перевірки версії",

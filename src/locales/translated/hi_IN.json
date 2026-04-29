@@ -370,9 +370,9 @@
     "failedToDismissAlert": "अलर्ट को खारिज करने में विफल"
   },
   "serverConfig": {
-    "title": "सर्वर कॉन्फ़िगरेशन",
-    "description": "अपने बैकएंड सेवाओं से कनेक्ट करने के लिए टर्मिक्स सर्वर यूआरएल को कॉन्फ़िगर करें।",
-    "serverUrl": "सर्वर यूआरएल",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "कृपया सर्वर URL दर्ज करें",
     "testConnectionFirst": "कृपया पहले कनेक्शन की जांच कर लें।",
     "connectionSuccess": "कनेक्शन सफल रहा!",
@@ -384,16 +384,16 @@
     "saveFailed": "कॉन्फ़िगरेशन सहेजने में विफल",
     "saveError": "कॉन्फ़िगरेशन सहेजने में त्रुटि",
     "saving": "सहेजा जा रहा है...",
-    "saveConfig": "कॉन्फ़िगरेशन सहेजें",
-    "helpText": "वह URL दर्ज करें जहां आपका टर्मिक्स सर्वर चल रहा है (उदाहरण के लिए, http://localhost:30001 या https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "चेतावनी",
     "notValidatedWarning": "यूआरएल सत्यापित नहीं हुआ है - कृपया सुनिश्चित करें कि यह सही है।",
-    "changeServer": "सर्वर बदलें",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "सर्वर URL की शुरुआत http:// या https:// से होनी चाहिए।",
-    "useEmbedded": "स्थानीय सर्वर का उपयोग करें",
-    "embeddedDesc": "SSHBridge को बिल्ट-इन लोकल सर्वर के साथ चलाएं (रिमोट सर्वर की आवश्यकता नहीं है)",
-    "embeddedConnecting": "स्थानीय सर्वर से कनेक्ट हो रहा है...",
-    "embeddedNotReady": "स्थानीय सर्वर अभी तैयार नहीं है। कृपया थोड़ी देर प्रतीक्षा करें और पुनः प्रयास करें।"
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "संस्करण जाँच त्रुटि",

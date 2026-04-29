@@ -798,21 +798,18 @@ export function Auth({
             getEmbeddedServerStatus(),
           ]);
 
-          if (
-            status?.embedded &&
-            status?.running &&
-            config &&
-            !config.serverUrl
-          ) {
+          if (status?.embedded && status?.running && !config?.serverUrl) {
             setCurrentServerUrl("");
             setShowServerConfig(false);
             return;
           }
 
           setCurrentServerUrl(config?.serverUrl || "");
-          setShowServerConfig(!config || !config.serverUrl);
+          setShowServerConfig(
+            !status?.embedded && (!config || !config.serverUrl),
+          );
         } catch {
-          setShowServerConfig(true);
+          setShowServerConfig(false);
         }
       } else {
         setShowServerConfig(false);

@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Не удалось уволить оповещение"
   },
   "serverConfig": {
-    "title": "Конфигурация сервера",
-    "description": "Настройте URL сервера SSHBridge для подключения к вашим сервисам backend",
-    "serverUrl": "URL сервера",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Пожалуйста, введите URL сервера",
     "testConnectionFirst": "Сначала проверьте подключение",
     "connectionSuccess": "Успешное подключение!",
@@ -384,16 +384,16 @@
     "saveFailed": "Не удалось сохранить настройки",
     "saveError": "Ошибка при сохранении конфигурации",
     "saving": "Сохранение...",
-    "saveConfig": "Сохранить конфигурацию",
-    "helpText": "Введите URL, на котором запущен сервер SSHBridge (например, http://localhost:30001 или https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Предупреждение",
     "notValidatedWarning": "URL не валидирован - убедитесь, что это правильно",
-    "changeServer": "Сменить сервер",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Адрес сервера должен начинаться с http:// или https://",
-    "useEmbedded": "Использовать локальный сервер",
-    "embeddedDesc": "Запустить SSHBridge со встроенным локальным сервером (удалённый сервер не требуется)",
-    "embeddedConnecting": "Подключение к локальному серверу...",
-    "embeddedNotReady": "Локальный сервер еще не готов. Пожалуйста, подождите минуту и повторите попытку."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Ошибка проверки версии",

@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Gagal menutup peringatan"
   },
   "serverConfig": {
-    "title": "Konfigurasi Server",
-    "description": "Konfigurasikan URL server SSHBridge untuk terhubung ke layanan backend Anda.",
-    "serverUrl": "URL Server",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Silakan masukkan URL server",
     "testConnectionFirst": "Silakan uji koneksi terlebih dahulu.",
     "connectionSuccess": "Koneksi berhasil!",
@@ -384,16 +384,16 @@
     "saveFailed": "Gagal menyimpan konfigurasi",
     "saveError": "Terjadi kesalahan saat menyimpan konfigurasi.",
     "saving": "Penghematan...",
-    "saveConfig": "Simpan Konfigurasi",
-    "helpText": "Masukkan URL tempat server SSHBridge Anda berjalan (misalnya, http://localhost:30001 atau https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Peringatan",
     "notValidatedWarning": "URL belum divalidasi - pastikan URL sudah benar.",
-    "changeServer": "Ubah Server",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "URL server harus diawali dengan http:// atau https://",
-    "useEmbedded": "Gunakan Server Lokal",
-    "embeddedDesc": "Jalankan SSHBridge dengan server lokal bawaan (tidak memerlukan server jarak jauh)",
-    "embeddedConnecting": "Menghubungkan ke server lokal...",
-    "embeddedNotReady": "Server lokal belum siap. Mohon tunggu sebentar dan coba lagi."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Kesalahan Pemeriksaan Versi",

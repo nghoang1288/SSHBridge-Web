@@ -370,9 +370,9 @@
     "failedToDismissAlert": "경고를 해제하지 못했습니다"
   },
   "serverConfig": {
-    "title": "서버 구성",
-    "description": "SSHBridge 서버 URL을 구성하여 백엔드 서비스에 연결하십시오",
-    "serverUrl": "서버 URL",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "서버 URL을 입력해 주세요",
     "testConnectionFirst": "먼저 연결 상태를 테스트해 주세요",
     "connectionSuccess": "연결 성공!",
@@ -384,16 +384,16 @@
     "saveFailed": "설정을 저장하는 데 실패했습니다.",
     "saveError": "설정 저장 오류",
     "saving": "저장 중...",
-    "saveConfig": "설정 저장",
-    "helpText": "SSHBridge 서버가 실행 중인 URL을 입력하십시오(예: http://localhost:30001 또는 https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "경고",
     "notValidatedWarning": "URL 유효성 검사에 실패했습니다. URL 이 올바른지 확인하세요",
-    "changeServer": "서버 변경",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "서버 URL은 http:// 또는 https://로 시작해야 합니다",
-    "useEmbedded": "로컬 서버 사용",
-    "embeddedDesc": "SSHBridge를 내장된 로컬 서버로 실행하세요(원격 서버는 필요하지 않습니다).",
-    "embeddedConnecting": "로컬 서버에 연결 중...",
-    "embeddedNotReady": "로컬 서버가 아직 준비되지 않았습니다. 잠시 기다렸다가 다시 시도해 주세요."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "버전 확인 오류",

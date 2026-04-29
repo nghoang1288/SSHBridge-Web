@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Eroare la respingerea alertei"
   },
   "serverConfig": {
-    "title": "Configurare server",
-    "description": "Configuraţi URL-ul serverului de SSHBridge pentru a vă conecta la serviciile de backend",
-    "serverUrl": "URL Server",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Te rog introdu un URL de server",
     "testConnectionFirst": "Vă rugăm să testați conexiunea mai întâi",
     "connectionSuccess": "Conexiune reușită!",
@@ -384,16 +384,16 @@
     "saveFailed": "Salvarea configurației a eșuat",
     "saveError": "Eroare la salvarea configurației",
     "saving": "Salvare...",
-    "saveConfig": "Salvați configurația",
-    "helpText": "Introduceți adresa URL unde funcționează serverul dvs. SSHBridge (de exemplu, http://localhost:30001 sau https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Avertizare",
     "notValidatedWarning": "URL-ul nu a fost validat - asigură-te că este corect",
-    "changeServer": "Schimbă Server",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "URL-ul serverului trebuie să înceapă cu http:// sau http://",
-    "useEmbedded": "Utilizare server local",
-    "embeddedDesc": "Rulează SSHBridge cu serverul local încorporat (nu este nevoie de niciun server de la distanță)",
-    "embeddedConnecting": "Conectare la serverul local...",
-    "embeddedNotReady": "Serverul local nu este încă gata. Vă rugăm să aşteptaţi un moment şi să încercaţi din nou."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Eroare la verificarea versiunii",

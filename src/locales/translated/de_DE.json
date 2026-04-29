@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Fehler beim Ausblenden der Warnung"
   },
   "serverConfig": {
-    "title": "Serverkonfiguration",
-    "description": "Konfigurieren Sie die SSHBridge-Server-URL für eine Verbindung zu Ihren Backend-Diensten",
-    "serverUrl": "Server-URL",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Bitte geben Sie eine Server-URL ein",
     "testConnectionFirst": "Bitte zuerst die Verbindung testen",
     "connectionSuccess": "Verbindung erfolgreich!",
@@ -384,16 +384,16 @@
     "saveFailed": "Fehler beim Speichern der Konfiguration",
     "saveError": "Fehler beim Speichern der Konfiguration",
     "saving": "Speichern...",
-    "saveConfig": "Konfiguration speichern",
-    "helpText": "Geben Sie die URL ein, auf der Ihr SSHBridge Server läuft (z.B. http://localhost:30001 oder https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Warnung",
     "notValidatedWarning": "URL nicht validiert - stellen Sie sicher, dass sie korrekt ist",
-    "changeServer": "Server ändern",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Server-URL muss mit http:// oder https:// beginnen",
-    "useEmbedded": "Lokalen Server verwenden",
-    "embeddedDesc": "Starte SSHBridge mit dem eingebauten lokalen Server (kein entfernter Server benötigt)",
-    "embeddedConnecting": "Verbindung zum lokalen Server...",
-    "embeddedNotReady": "Lokaler Server ist noch nicht bereit. Bitte warten Sie einen Moment und versuchen Sie es erneut."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Versionsüberprüfungsfehler",

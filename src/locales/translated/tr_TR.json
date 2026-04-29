@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Uyarıyı kapatma başarısız oldu."
   },
   "serverConfig": {
-    "title": "Sunucu Yapılandırması",
-    "description": "SSHBridge sunucu URL'sini arka uç servislerinize bağlanacak şekilde yapılandırın.",
-    "serverUrl": "Sunucu URL'si",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Lütfen bir sunucu URL'si girin.",
     "testConnectionFirst": "Lütfen önce bağlantıyı test edin.",
     "connectionSuccess": "Bağlantı başarılı!",
@@ -384,16 +384,16 @@
     "saveFailed": "Yapılandırma kaydedilemedi.",
     "saveError": "Yapılandırma kaydedilirken hata oluştu.",
     "saving": "Tasarruf...",
-    "saveConfig": "Yapılandırmayı Kaydet",
-    "helpText": "SSHBridge sunucunuzun çalıştığı URL adresini girin (örneğin, http://localhost:30001 veya https://your-server.com).",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Uyarı",
     "notValidatedWarning": "URL doğrulanmadı - lütfen doğru olduğundan emin olun.",
-    "changeServer": "Sunucuyu Değiştir",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Sunucu URL'si http:// veya https:// ile başlamalıdır.",
-    "useEmbedded": "Yerel Sunucuyu Kullanın",
-    "embeddedDesc": "SSHBridge'i yerleşik yerel sunucu ile çalıştırın (uzaktan sunucuya gerek yok).",
-    "embeddedConnecting": "Yerel sunucuya bağlanılıyor...",
-    "embeddedNotReady": "Yerel sunucu henüz hazır değil. Lütfen bir süre bekleyin ve tekrar deneyin."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Sürüm Kontrol Hatası",

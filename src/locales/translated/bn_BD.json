@@ -370,9 +370,9 @@
     "failedToDismissAlert": "সতর্কতা খারিজ করা যায়নি"
   },
   "serverConfig": {
-    "title": "সার্ভার কনফিগারেশন",
-    "description": "আপনার ব্যাকএন্ড পরিষেবার সাথে সংযোগ স্থাপনের জন্য SSHBridge সার্ভার URL কনফিগার করুন।",
-    "serverUrl": "সার্ভার ইউআরএল",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "দয়া করে একটি সার্ভার URL লিখুন।",
     "testConnectionFirst": "প্রথমে সংযোগটি পরীক্ষা করুন।",
     "connectionSuccess": "সংযোগ সফল!",
@@ -384,16 +384,16 @@
     "saveFailed": "কনফিগারেশন সংরক্ষণ করতে ব্যর্থ হয়েছে",
     "saveError": "কনফিগারেশন সংরক্ষণে ত্রুটি",
     "saving": "সংরক্ষণ করা হচ্ছে...",
-    "saveConfig": "কনফিগারেশন সংরক্ষণ করুন",
-    "helpText": "আপনার টার্মিক্স সার্ভারটি যেখানে চলছে সেই URL টি লিখুন (যেমন, http://localhost:30001 অথবা https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "সতর্কতা",
     "notValidatedWarning": "URL যাচাই করা হয়নি - নিশ্চিত করুন যে এটি সঠিক",
-    "changeServer": "সার্ভার পরিবর্তন করুন",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "সার্ভার URL টি http:// অথবা https:// দিয়ে শুরু হতে হবে",
-    "useEmbedded": "স্থানীয় সার্ভার ব্যবহার করুন",
-    "embeddedDesc": "অন্তর্নির্মিত স্থানীয় সার্ভার দিয়ে টার্মিক্স চালান (কোনও দূরবর্তী সার্ভারের প্রয়োজন নেই)",
-    "embeddedConnecting": "স্থানীয় সার্ভারের সাথে সংযোগ স্থাপন করা হচ্ছে...",
-    "embeddedNotReady": "স্থানীয় সার্ভার এখনও প্রস্তুত নয়। দয়া করে কিছুক্ষণ অপেক্ষা করুন এবং আবার চেষ্টা করুন।"
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "সংস্করণ পরীক্ষা ত্রুটি",

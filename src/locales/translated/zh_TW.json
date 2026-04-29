@@ -370,9 +370,9 @@
     "failedToDismissAlert": "未能關閉警示"
   },
   "serverConfig": {
-    "title": "伺服器配置",
-    "description": "設定 SSHBridge 伺服器 URL 以連接到您的後端服務",
-    "serverUrl": "伺服器 URL",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "請輸入伺服器網址",
     "testConnectionFirst": "請先測試連接。",
     "connectionSuccess": "連結成功！",
@@ -384,16 +384,16 @@
     "saveFailed": "配置儲存失敗",
     "saveError": "儲存配置時發生錯誤",
     "saving": "儲存...",
-    "saveConfig": "儲存配置",
-    "helpText": "輸入您的 SSHBridge 伺服器運作所在的 URL（例如，http://localhost:30001 或 https://your-server.com）",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "警告",
     "notValidatedWarning": "URL未驗證 - 請確保其正確",
-    "changeServer": "變更伺服器",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "伺服器 URL 必須以 http:// 或 https:// 開頭。",
-    "useEmbedded": "使用本地伺服器",
-    "embeddedDesc": "使用內建的本機伺服器運行SSHBridge（無需遠端伺服器）",
-    "embeddedConnecting": "正在連接本地伺服器...",
-    "embeddedNotReady": "本地伺服器尚未準備就緒，請稍等片刻後再試。"
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "版本檢查錯誤",

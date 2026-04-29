@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Error al descartar la alerta"
   },
   "serverConfig": {
-    "title": "Configuración del servidor",
-    "description": "Configure la URL del servidor SSHBridge para conectarse a sus servicios de backend",
-    "serverUrl": "URL del servidor",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Por favor, introduzca una URL del servidor",
     "testConnectionFirst": "Por favor pruebe la conexión primero",
     "connectionSuccess": "¡Conexión exitosa!",
@@ -384,16 +384,16 @@
     "saveFailed": "Error al guardar la configuración",
     "saveError": "Error al guardar la configuración",
     "saving": "Guardando...",
-    "saveConfig": "Guardar configuración",
-    "helpText": "Introduzca la URL en la que se ejecuta su servidor SSHBridge (por ejemplo, http://localhost:30001 o https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Advertencia",
     "notValidatedWarning": "URL no validada - asegúrese de que es correcta",
-    "changeServer": "Cambiar servidor",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "La URL del servidor debe comenzar con http:// o https://",
-    "useEmbedded": "Usar servidor local",
-    "embeddedDesc": "Ejecutar SSHBridge con el servidor local integrado (no se necesita un servidor remoto)",
-    "embeddedConnecting": "Conectando con el servidor local...",
-    "embeddedNotReady": "El servidor local aún no está listo. Por favor, espere un momento y vuelva a intentarlo."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Error de comprobación de versión",

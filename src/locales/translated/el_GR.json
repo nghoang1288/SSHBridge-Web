@@ -370,9 +370,9 @@
     "failedToDismissAlert": "Αποτυχία απόρριψης ειδοποίησης"
   },
   "serverConfig": {
-    "title": "Ρύθμιση Παραμέτρων Διακομιστή",
-    "description": "Ρυθμίστε τη διεύθυνση URL του διακομιστή SSHBridge για να συνδεθείτε με τις υπηρεσίες του συστήματος υποστήριξης",
-    "serverUrl": "Url Διακομιστή",
+    "title": "Workspace",
+    "description": "Use SSHBridge on this device, or connect to a hosted workspace if you manage one.",
+    "serverUrl": "Hosted workspace URL",
     "enterServerUrl": "Παρακαλώ εισάγετε μια διεύθυνση URL διακομιστή",
     "testConnectionFirst": "Παρακαλώ ελέγξτε πρώτα τη σύνδεση",
     "connectionSuccess": "Επιτυχής σύνδεση!",
@@ -384,16 +384,16 @@
     "saveFailed": "Αποτυχία αποθήκευσης των ρυθμίσεων",
     "saveError": "Σφάλμα αποθήκευσης ρυθμίσεων",
     "saving": "Αποθηκεύεται...",
-    "saveConfig": "Αποθήκευση Ρυθμίσεων",
-    "helpText": "Εισάγετε τη διεύθυνση URL όπου εκτελείται ο διακομιστής SSHBridge (π.χ., http://localhost:30001 ή https://your-server.com)",
+    "saveConfig": "Save Workspace",
+    "helpText": "Optional: enter a hosted SSHBridge URL only if you want this app to connect to another workspace.",
     "warning": "Προειδοποίηση",
     "notValidatedWarning": "Το URL δεν επικυρώθηκε - βεβαιωθείτε ότι είναι σωστό",
-    "changeServer": "Αλλαγή Διακομιστή",
+    "changeServer": "Change Workspace",
     "mustIncludeProtocol": "Η διεύθυνση URL του διακομιστή πρέπει να ξεκινά με http:// ή http://",
-    "useEmbedded": "Χρήση Τοπικού Διακομιστή",
-    "embeddedDesc": "Εκτέλεση SSHBridge με τον ενσωματωμένο τοπικό διακομιστή (δεν απαιτείται απομακρυσμένος διακομιστής)",
-    "embeddedConnecting": "Σύνδεση στον τοπικό διακομιστή...",
-    "embeddedNotReady": "Ο τοπικός διακομιστής δεν είναι έτοιμος ακόμα. Παρακαλώ περιμένετε λίγο και προσπαθήστε ξανά."
+    "useEmbedded": "Use This Device",
+    "embeddedDesc": "Store servers, keys, snippets, and settings locally on this computer.",
+    "embeddedConnecting": "Opening this workspace...",
+    "embeddedNotReady": "Workspace is still starting. Please wait a moment and try again."
   },
   "versionCheck": {
     "error": "Σφάλμα Ελέγχου Έκδοσης",
