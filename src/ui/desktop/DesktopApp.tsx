@@ -24,7 +24,15 @@ import { UserProfile } from "@/ui/desktop/user/UserProfile.tsx";
 import { Toaster } from "@/components/ui/sonner.tsx";
 import { toast } from "sonner";
 import { CommandPalette } from "@/ui/desktop/apps/command-palette/CommandPalette.tsx";
-import { getUserInfo, logoutUser, isElectron } from "@/ui/main-axios.ts";
+import {
+  getEmbeddedServerStatus,
+  getServerConfig,
+  getUserInfo,
+  isElectron,
+  loginOfflineUser,
+  logoutUser,
+  setEmbeddedMode,
+} from "@/ui/main-axios.ts";
 import { useTheme } from "@/components/theme-provider";
 import { dbHealthMonitor } from "@/lib/db-health-monitor.ts";
 import { useTranslation } from "react-i18next";
@@ -203,36 +211,69 @@ function AppContent({
   const isCheckingAuth = useRef(false);
 
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = async () => {
       if (isCheckingAuth.current) return;
       isCheckingAuth.current = true;
       setAuthLoading(true);
-      getUserInfo()
-        .then((meRes) => {
-          if (typeof meRes === "string" || !meRes.username) {
-            setIsAuthenticated(false);
-            setIsAdmin(false);
-            setUsername(null);
-          } else {
-            setIsAuthenticated(true);
-            setIsAdmin(!!meRes.is_admin);
-            setUsername(meRes.username || null);
+
+      const enterOfflineMode = async () => {
+        if (!isElectron()) {
+          return null;
+        }
+
+        const [config, status] = await Promise.all([
+          getServerConfig().catch(() => null),
+          getEmbeddedServerStatus().catch(() => null),
+        ]);
+
+        if (config?.serverUrl || !status?.embedded || !status.running) {
+          return null;
+        }
+
+        setEmbeddedMode(true);
+        const offlineRes = await loginOfflineUser();
+        if (!offlineRes.success) {
+          return null;
+        }
+
+        return getUserInfo();
+      };
+
+      try {
+        let meRes;
+        try {
+          meRes = await getUserInfo();
+        } catch (err) {
+          const offlineMeRes = await enterOfflineMode();
+          if (!offlineMeRes) {
+            throw err;
           }
-        })
-        .catch((err) => {
+          meRes = offlineMeRes;
+        }
+
+        if (typeof meRes === "string" || !meRes.username) {
           setIsAuthenticated(false);
           setIsAdmin(false);
           setUsername(null);
+        } else {
+          setIsAuthenticated(true);
+          setIsAdmin(!!meRes.is_admin);
+          setUsername(meRes.username || null);
+        }
+      } catch (err: unknown) {
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+        setUsername(null);
 
-          const errorCode = err?.response?.data?.code;
-          if (errorCode === "SESSION_EXPIRED") {
-            console.warn("Session expired - please log in again");
-          }
-        })
-        .finally(() => {
-          setAuthLoading(false);
-          isCheckingAuth.current = false;
-        });
+        const errorCode = (err as { response?: { data?: { code?: string } } })
+          ?.response?.data?.code;
+        if (errorCode === "SESSION_EXPIRED") {
+          console.warn("Session expired - please log in again");
+        }
+      } finally {
+        setAuthLoading(false);
+        isCheckingAuth.current = false;
+      }
     };
 
     checkAuth();

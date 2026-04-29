@@ -3,6 +3,8 @@ import express from "express";
 import { restartGuacServer } from "../../guacamole/guacamole-server.js";
 import { setGlobalLogLevel, getGlobalLogLevel } from "../../utils/logger.js";
 import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 import { db } from "../db/index.js";
 import {
   users,
@@ -218,6 +220,11 @@ async function verifyOIDCToken(
 }
 
 const router = express.Router();
+const OFFLINE_USER_ID = "local-offline-user";
+const OFFLINE_USERNAME = "Local Workspace";
+const OFFLINE_SECRET_FILE = "offline-profile.secret";
+
+type UserRecord = typeof users.$inferSelect;
 
 function isNonEmptyString(val: unknown): val is string {
   return typeof val === "string" && val.trim().length > 0;
@@ -225,6 +232,178 @@ function isNonEmptyString(val: unknown): val is string {
 
 const authenticateJWT = authManager.createAuthMiddleware();
 const requireAdmin = authManager.createAdminMiddleware();
+
+function normalizeRemoteAddress(value: string | undefined): string {
+  return (value || "").replace(/^::ffff:/, "").replace(/^\[|\]$/g, "");
+}
+
+function isLoopbackRequest(req: Request): boolean {
+  const candidates = [
+    req.socket.remoteAddress,
+    req.ip,
+    req.connection?.remoteAddress,
+  ].map(normalizeRemoteAddress);
+
+  return candidates.some(
+    (address) =>
+      address === "127.0.0.1" ||
+      address === "::1" ||
+      address === "0:0:0:0:0:0:0:1" ||
+      address === "localhost",
+  );
+}
+
+function isOfflineLoginAllowed(req: Request): boolean {
+  const offlineEnabled =
+    process.env.ELECTRON_EMBEDDED === "true" ||
+    process.env.ENABLE_OFFLINE_LOGIN === "true";
+
+  return offlineEnabled && isLoopbackRequest(req);
+}
+
+function getOfflineSecretPath(): string {
+  const dataDir = process.env.DATA_DIR || "./db/data";
+  const resolvedDataDir = path.resolve(dataDir);
+
+  if (!fs.existsSync(resolvedDataDir)) {
+    fs.mkdirSync(resolvedDataDir, { recursive: true });
+  }
+
+  return path.join(resolvedDataDir, OFFLINE_SECRET_FILE);
+}
+
+async function readOrCreateOfflineSecret(
+  requireExisting: boolean,
+): Promise<string> {
+  const secretPath = getOfflineSecretPath();
+
+  if (fs.existsSync(secretPath)) {
+    const existingSecret = fs.readFileSync(secretPath, "utf8").trim();
+    if (existingSecret.length >= 32) {
+      return existingSecret;
+    }
+  }
+
+  if (requireExisting) {
+    throw new Error("Offline profile secret is missing or invalid");
+  }
+
+  const secret = crypto.randomBytes(32).toString("hex");
+  fs.writeFileSync(secretPath, secret, { mode: 0o600 });
+  return secret;
+}
+
+async function assignOfflineUserRole(userId: string): Promise<void> {
+  try {
+    const adminRole = await db
+      .select({ id: roles.id })
+      .from(roles)
+      .where(eq(roles.name, "admin"))
+      .limit(1);
+
+    if (adminRole.length > 0) {
+      const existingRoles = await db
+        .select({ roleId: userRoles.roleId })
+        .from(userRoles)
+        .where(eq(userRoles.userId, userId));
+
+      if (existingRoles.some((role) => role.roleId === adminRole[0].id)) {
+        return;
+      }
+
+      await db.insert(userRoles).values({
+        userId,
+        roleId: adminRole[0].id,
+        grantedBy: userId,
+      });
+    }
+  } catch (roleError) {
+    authLogger.warn("Failed to assign offline profile admin role", {
+      operation: "offline_profile_role_assign_failed",
+      userId,
+      error: roleError,
+    });
+  }
+}
+
+async function ensureOfflineUser(): Promise<{
+  userRecord: UserRecord;
+  secret: string;
+}> {
+  const existing = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, OFFLINE_USER_ID))
+    .limit(1);
+  const hasExistingProfile = existing.length > 0;
+  const secret = await readOrCreateOfflineSecret(hasExistingProfile);
+
+  if (hasExistingProfile) {
+    if (!existing[0].isAdmin) {
+      await db
+        .update(users)
+        .set({ isAdmin: true })
+        .where(eq(users.id, OFFLINE_USER_ID));
+      existing[0].isAdmin = true;
+    }
+
+    await assignOfflineUserRole(OFFLINE_USER_ID);
+    return { userRecord: existing[0], secret };
+  }
+
+  const saltRounds = parseInt(process.env.SALT || "10", 10);
+  const passwordHash = await bcrypt.hash(secret, saltRounds);
+
+  await db.insert(users).values({
+    id: OFFLINE_USER_ID,
+    username: OFFLINE_USERNAME,
+    passwordHash,
+    isAdmin: true,
+    isOidc: false,
+    clientId: "",
+    clientSecret: "",
+    issuerUrl: "",
+    authorizationUrl: "",
+    tokenUrl: "",
+    identifierPath: "",
+    namePath: "",
+    scopes: "openid email profile",
+    totpSecret: null,
+    totpEnabled: false,
+    totpBackupCodes: null,
+  });
+
+  await assignOfflineUserRole(OFFLINE_USER_ID);
+
+  try {
+    await authManager.registerUser(OFFLINE_USER_ID, secret);
+  } catch (encryptionError) {
+    await db.delete(users).where(eq(users.id, OFFLINE_USER_ID));
+    throw encryptionError;
+  }
+
+  const created = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, OFFLINE_USER_ID))
+    .limit(1);
+
+  if (created.length === 0) {
+    throw new Error("Offline profile creation failed");
+  }
+
+  try {
+    const { saveMemoryDatabaseToFile } = await import("../db/index.js");
+    await saveMemoryDatabaseToFile();
+  } catch (saveError) {
+    authLogger.error("Failed to persist offline profile to disk", saveError, {
+      operation: "offline_profile_save_failed",
+      userId: OFFLINE_USER_ID,
+    });
+  }
+
+  return { userRecord: created[0], secret };
+}
 
 async function deleteUserAndRelatedData(userId: string): Promise<void> {
   try {
@@ -1350,6 +1529,94 @@ router.get("/oidc/callback", async (req, res) => {
 
 /**
  * @openapi
+ * /users/offline-login:
+ *   post:
+ *     summary: Local offline login
+ *     description: Creates or opens the machine-local offline profile for embedded desktop builds.
+ *     tags:
+ *       - Users
+ *     responses:
+ *       200:
+ *         description: Offline login successful.
+ *       403:
+ *         description: Offline login is unavailable in this environment.
+ *       500:
+ *         description: Offline login failed.
+ */
+router.post("/offline-login", async (req, res) => {
+  if (!isOfflineLoginAllowed(req)) {
+    return res.status(403).json({
+      error: "Offline login is only available from the local desktop app",
+    });
+  }
+
+  try {
+    const { userRecord, secret } = await ensureOfflineUser();
+    const deviceInfo = parseUserAgent(req);
+    const dataUnlocked = await authManager.authenticateUser(
+      userRecord.id,
+      secret,
+      deviceInfo.type,
+    );
+
+    if (!dataUnlocked) {
+      authLogger.error("Offline profile unlock failed", {
+        operation: "offline_profile_unlock_failed",
+        userId: userRecord.id,
+      });
+      return res.status(500).json({
+        error:
+          "Offline profile could not be unlocked. Restore the local profile secret or reset local data.",
+      });
+    }
+
+    const token = await authManager.generateJWTToken(userRecord.id, {
+      rememberMe: true,
+      deviceType: deviceInfo.type,
+      deviceInfo: deviceInfo.deviceInfo,
+    });
+
+    const payload = await authManager.verifyJWTToken(token);
+    authLogger.success("Offline profile login successful", {
+      operation: "offline_profile_login_success",
+      userId: userRecord.id,
+      sessionId: payload?.sessionId,
+    });
+
+    const response: Record<string, unknown> = {
+      success: true,
+      offline: true,
+      is_admin: !!userRecord.isAdmin,
+      username: userRecord.username,
+      userId: userRecord.id,
+      data_unlocked: dataUnlocked,
+    };
+
+    const isElectron =
+      req.headers["x-electron-app"] === "true" ||
+      req.headers["X-Electron-App"] === "true";
+
+    if (isElectron) {
+      response.token = token;
+    }
+
+    return res
+      .cookie(
+        "jwt",
+        token,
+        authManager.getSecureCookieOptions(req, 30 * 24 * 60 * 60 * 1000),
+      )
+      .json(response);
+  } catch (err) {
+    authLogger.error("Offline profile login failed", err, {
+      operation: "offline_profile_login_failed",
+    });
+    return res.status(500).json({ error: "Offline login failed" });
+  }
+});
+
+/**
+ * @openapi
  * /users/login:
  *   post:
  *     summary: User login
@@ -1695,6 +1962,7 @@ router.get("/me", authenticateJWT, async (req: Request, res: Response) => {
       is_oidc: !!user[0].isOidc,
       is_dual_auth: isDualAuth,
       totp_enabled: !!user[0].totpEnabled,
+      offline: user[0].id === OFFLINE_USER_ID,
     });
   } catch (err) {
     authLogger.error("Failed to get username", err);

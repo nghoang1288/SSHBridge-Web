@@ -124,6 +124,7 @@ interface AuthResponse {
   requires_totp?: boolean;
   temp_token?: string;
   rememberMe?: boolean;
+  offline?: boolean;
 }
 
 interface UserInfo {
@@ -133,6 +134,7 @@ interface UserInfo {
   is_admin: boolean;
   is_oidc: boolean;
   data_unlocked: boolean;
+  offline?: boolean;
   password_hash?: string;
 }
 
@@ -2738,6 +2740,8 @@ export async function loginUser(
       localStorage.setItem("jwt", response.data.token);
     }
 
+    localStorage.removeItem("sshbridge_offline_mode");
+
     const isInIframe =
       typeof window !== "undefined" && window.self !== window.top;
 
@@ -2777,6 +2781,37 @@ export async function loginUser(
   }
 }
 
+export async function loginOfflineUser(): Promise<AuthResponse> {
+  try {
+    const status = await getEmbeddedServerStatus();
+    if (status?.embedded && status.running) {
+      setEmbeddedMode(true);
+    }
+
+    const response = await authApi.post("/users/offline-login");
+    const hasToken = response.data.token;
+
+    if (isElectron() && hasToken) {
+      localStorage.setItem("jwt", response.data.token);
+      electronSettingsCache.set("jwt", response.data.token);
+    }
+
+    localStorage.setItem("sshbridge_offline_mode", "true");
+
+    return {
+      token: response.data.token || "cookie-based",
+      success: response.data.success,
+      is_admin: response.data.is_admin,
+      username: response.data.username,
+      userId: response.data.userId,
+      data_unlocked: response.data.data_unlocked,
+      offline: response.data.offline,
+    };
+  } catch (error) {
+    throw handleApiError(error, "offline login");
+  }
+}
+
 export async function logoutUser(): Promise<{
   success: boolean;
   message: string;
@@ -2788,6 +2823,7 @@ export async function logoutUser(): Promise<{
 
     if (isElectron()) {
       localStorage.removeItem("jwt");
+      localStorage.removeItem("sshbridge_offline_mode");
       electronSettingsCache.delete("jwt");
       const electronAPI = (
         window as unknown as {
@@ -2809,6 +2845,7 @@ export async function logoutUser(): Promise<{
 
     if (isElectron()) {
       localStorage.removeItem("jwt");
+      localStorage.removeItem("sshbridge_offline_mode");
       electronSettingsCache.delete("jwt");
       const electronAPI = (
         window as unknown as {
